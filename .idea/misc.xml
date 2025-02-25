@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (Cybersecurity)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (Cybersecurity)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (Threat-eye)" project-jdk-type="Python SDK" />
 </project>
