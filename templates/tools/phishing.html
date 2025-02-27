@@ -1,13 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Phishing URL detection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing URL Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0A0F23;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .card {
+            background: linear-gradient(135deg, #0A0F23, #0D1B42);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.3);
+        }
+        .form-control {
+            background: none;
+            border: 1px solid #007BFF;
+            color: white;
+            border-radius: 30px;
+            padding: 12px;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .checkbox-container input {
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background-color: #007BFF;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .result-box {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 30px;
+            background-color: #152347;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        async function checkPhishing() {
+            let input = document.getElementById("userInput").value.trim();
+            let checkbox = document.getElementById("robotCheck");
+            let resultBox = document.getElementById("result");
+
+            if (input === "") {
+                alert("Please enter a link or email.");
+                return;
+            }
+
+            if (!checkbox.checked) {
+                alert("Please confirm you are not a robot.");
+                return;
+            }
+
+            // Google Safe Browsing API key (replace with your actual key)
+            const API_KEY = "AIzaSyD61mERydRNU1VcD7IocyDwA2XzK-iomPw";
+            const url = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
+
+            const requestData = {
+                client: {
+                    clientId: "your-client-id",
+                    clientVersion: "1.0"
+                },
+                threatInfo: {
+                    threatTypes: ["MALWARE", "SOCIAL_ENGINEERING"],
+                    platformTypes: ["ANY_PLATFORM"],
+                    threatEntryTypes: ["URL"],
+                    threatEntries: [{ url: input }]
+                }
+            };
+
+            try {
+                let response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(requestData),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                let data = await response.json();
+
+                if (data.matches) {
+                    resultBox.innerText = "Suspicious";
+                    resultBox.style.color = "red";
+                } else {
+                    resultBox.innerText = "Clean";
+                    resultBox.style.color = "green";
+                }
+            } catch (error) {
+                console.error("Error checking phishing:", error);
+                resultBox.innerText = "Error checking the link";
+                resultBox.style.color = "orange";
+            }
+        }
+    </script>
 </head>
 <body>
-<h1>Hamsa</h1>
+    <div class="container">
+        <h2>Phishing URL Detector</h2>
+        <p>Detect phishing or fraudulent links via an AI-powered real-time phishing link checker</p>
+
+        <div class="card">
+            <input type="text" id="userInput" class="form-control" placeholder="Paste link / email here">
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="robotCheck">
+                <label for="robotCheck">I am not a robot</label>
+            </div>
+
+            <button class="btn btn-primary" onclick="checkPhishing()">Check</button>
+
+            <div class="result-box mt-3">Result: <span id="result">Clean / Suspicious</span></div>
+        </div>
+    </div>
 </body>
 </html>
