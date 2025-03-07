@@ -1,10 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Settings</title>
+     <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 </head>
-<body>
-<h1>Santhosh</h1>
-</body>
+<body class="bg-gray-900 text-white min-h-screen flex">
+  <!-- Sidebar -->
+  <div class="w-1/4 bg-gray-800 p-6">
+         <h2>Dashboard</h2>
+   <div class="flex flex-col items-center">
+    <img alt="Profile picture of John" class="rounded-full mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/w7OZ_Vd-TxAuQfCdJtm_gqNvBXiNwnwO6SIW2Ql6HOY.jpg" width="100"/>
+    <h2 class="text-xl">
+     John
+    </h2>
+    <p class="text-gray-400">
+     johnjohn123@gmail.com
+    </p>
+   </div>
+   <nav class="mt-10">
+    <ul>
+     <li class="mb-4">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-cog mr-2">
+       </i>
+       Settings
+      </a>
+     </li>
+     <li class="mb-4">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-tools mr-2">
+       </i>
+       Tools
+      </a>
+     </li>
+     <li class="mb-4">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-tasks mr-2">
+       </i>
+       Activities
+      </a>
+     </li>
+     <li class="mb-4">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-question-circle mr-2">
+       </i>
+       Help &amp; Support
+      </a>
+     </li>
+     <li class="mb-4">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-sign-out-alt mr-2">
+       </i>
+       Logout
+      </a>
+     </li>
+    </ul>
+   </nav>
+  </div>
+  <!-- Main Content -->
+  <div class="w-3/4 p-10">
+   <h1 class="text-3xl mb-6">
+    Settings
+   </h1>
+   <h2 class="text-xl mb-4">
+    Change password
+   </h2>
+   <form class="space-y-4">
+    <div>
+     <label class="block mb-2" for="current-password">
+      Current password
+     </label>
+     <input class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" id="current-password" type="password"/>
+    </div>
+    <div>
+     <label class="block mb-2" for="new-password">
+      New password
+     </label>
+     <input class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" id="new-password" type="password"/>
+    </div>
+    <div>
+     <label class="block mb-2" for="confirm-password">
+      Confirm password
+     </label>
+     <input class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" id="confirm-password" type="password"/>
+    </div>
+    <button class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600" type="submit">
+     Update
+    </button>
+   </form>
+  </div>
+ </body>
 </html>
