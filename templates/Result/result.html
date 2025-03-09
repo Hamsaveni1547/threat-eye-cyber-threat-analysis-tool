@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Check Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+       /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /* Professional dark gradient background */
+    background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);    color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(20, 36, 65, 0.85);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #4fc3f7;
+}
+
+p {
+    font-size: 1.25rem;
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+    border-radius: 6px;
+    background-color: #F5F5D;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+}
+
+/* Override the inline styles for colors */
+p[style*="color: green"] {
+    color: #4caf50 !important;
+}
+
+p[style*="color: red"] {
+    color: #f44336 !important;
+}
+
+p[style*="color: orange"] {
+    color: #ff9800 !important;
+}
+
+a {
+    display: inline-block;
+    background-color: #4fc3f7;
+    color: #172b4d;
+    text-decoration: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+a:hover {
+    background-color: #29b6f6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+a:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 1.8rem;
+        width: 95%;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Phishing URL Detector</h2>
+        <p style="color: {{ color }}; font-weight: bold;">{{ result }}</p>
+        <a href="/">Check Another URL</a>
+    </div>
+</body>
+</html>

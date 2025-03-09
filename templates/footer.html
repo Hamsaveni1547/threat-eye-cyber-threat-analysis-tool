@@ -3,58 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatEye - Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>ThreatEye - Cyber Threat Analysis Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1a2c42;
+            --secondary-color: #00b4d8;
+            --accent-color: #7209b7;
+            --dark-color: #121212;
+            --light-color: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         .footer {
-                    background: #09162A;
-                    padding: 40px 0;
-                }
-                .footer a {
-                    color: #007BFF;
-                    text-decoration: none;
-                }
-                .footer a:hover {
-                    text-decoration: underline;
-                }
-                </style>
+            background: var(--primary-color);
+            padding: 30px 0;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-link.active {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+
+    </style>
 </head>
 <body>
 
-        <footer class="footer text-light">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5>Quick links</h5>
-                            <ul class="list-unstyled">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Tools</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>Follow Us on</h5>
-                            <ul class="list-unstyled">
-                                <li><a href="#"><i class="bi bi-twitter"></i> Twitter</a></li>
-                                <li><a href="#"><i class="bi bi-instagram"></i> Instagram</a></li>
-                                <li><a href="#"><i class="bi bi-facebook"></i> Facebook</a></li>
-                                <li><a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>Contact Us</h5>
-                            <ul class="list-unstyled">
-                                <li><i class="bi bi-telephone"></i> +91 7483275564</li>
-                                <li><i class="bi bi-envelope"></i> hamsa3838@gmail.com</li>
-                                <li><i class="bi bi-geo-alt"></i> 500 Cybersecurity Boulevard, Tech Park, Bangalore - 560001</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <hr>
-                    <p class="text-center">&copy; 2025 ThreatEye. All rights reserved</p>
+    <!-- Stats Section -->
+    <section class="py-5 bg-dark">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h2 class="text-secondary"><i class="fas fa-shield-alt me-2"></i>10M+</h2>
+                    <p class="text-light">Threats Detected</p>
                 </div>
-            </footer>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h2 class="text-secondary"><i class="fas fa-users me-2"></i>500K+</h2>
+                    <p class="text-light">Protected Users</p>
+                </div>
+                <div class="col-md-4">
+                    <h2 class="text-secondary"><i class="fas fa-globe me-2"></i>99.9%</h2>
+                    <p class="text-light">Detection Accuracy</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="static/images/logo.png"> Threat<span>Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-white mb-4">Stay Updated</h5>
+                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
+                        <button class="btn btn-secondary" type="button">Subscribe</button>
+                    </div>
+
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

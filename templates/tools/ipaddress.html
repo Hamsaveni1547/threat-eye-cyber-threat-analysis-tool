@@ -1,10 +1,46 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IP address risk analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Address Risk Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-<h1>Hamsa</h1>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <h1 class="text-2xl font-bold mb-4">IP Address Risk Analyzer</h1>
+        <p class="mb-6">Assess IP addresses for potential risks using a real-time threat detection tool.</p>
+        <div class="bg-blue-900 p-6 rounded-lg shadow-lg mb-6">
+            <input type="text" placeholder="Enter IP Address" class="w-full p-3 rounded-lg mb-4 bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex items-center left mb-4">
+                <input type="checkbox" id="robotCheck" class="mr-2">
+                <label for="robotCheck" class="text-sm">I am not a robot</label>
+            </div>
+            <div class="flex justify-end">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Check</button>
+            </div>
+        </div>
+        <div class="mb-6">
+            <p class="text-lg font-semibold inline-block">Result:</p>
+            <div class="bg-blue-900 p-3 rounded-lg inline-block ml-2">
+                <span>Clean / Suspicious</span>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex justify-center space-x-4">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Password strength checker</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Virus detection in File</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Data breach in Email checker</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Site Down Check</button>
+            </div>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Phishing URL Detector</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">IP Address risk analysis</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Website Scanner</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Network traffic detection</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

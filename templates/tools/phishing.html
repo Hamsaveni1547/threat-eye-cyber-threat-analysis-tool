@@ -3,137 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing URL Detector</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>ThreatEye - Cyber Threat Analysis Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1a2c42;
+            --secondary-color: #00b4d8;
+            --accent-color: #7209b7;
+            --dark-color: #121212;
+            --light-color: #f8f9fa;
+        }
+
         body {
-            background-color: #0A0F23;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 30px;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
 
-        .container {
-            max-width: 600px;
-            margin: auto;
+        .hero-section {
+            padding: 80px 0;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://itbrief.com.au/uploads/story/2024/01/23/compatible_cybersecurity_trends.jpg') no-repeat center center;
+            background-size: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .card {
-            background: linear-gradient(135deg, #0A0F23, #0D1B42);
-            padding: 20px;
+
+        .url-checker {
+            background: rgba(26, 44, 66, 0.7);
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.3);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 180, 216, 0.1);
         }
-        .form-control {
-            background: none;
-            border: 1px solid #007BFF;
-            color: white;
-            border-radius: 30px;
-            padding: 12px;
+
+        .url-input {
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-color);
         }
-        .checkbox-container {
+
+        .url-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 180, 216, 0.25);
+            color: var(--light-color);
+        }
+
+        .btn-scan {
+            background: var(--secondary-color);
+            border: none;
+            height: 50px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-scan:hover {
+            background: #0090b0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .robot-check {
+            padding: 15px;
+            background: rgba(114, 9, 183, 0.1);
+            border: 1px solid rgba(114, 9, 183, 0.3);
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .robot-check:hover {
+            background: rgba(114, 9, 183, 0.2);
+        }
+
+        .robot-check.active {
+            background: rgba(114, 9, 183, 0.3);
+        }
+
+        .features-section {
+            padding: 60px 0;
+        }
+
+        .feature-card {
+            background: rgba(26, 44, 66, 0.5);
+            border-radius: 8px;
+            padding: 25px;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.2);
+            border-color: var(--secondary-color);
+        }
+
+        .feature-icon {
+            height: 60px;
+            width: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 15px 0;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
         }
-        .checkbox-container input {
-            margin-right: 10px;
+
+        .footer {
+            background: var(--primary-color);
+            padding: 30px 0;
+            border-top: 3px solid var(--secondary-color);
         }
-        .btn-primary {
-            background-color: #007BFF;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 25px;
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
+
+        .nav-link:hover {
+            color: var(--secondary-color);
         }
-        .result-box {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 30px;
-            background-color: #152347;
-            display: inline-block;
+
+        .nav-link.active {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 180, 216, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0);
+            }
         }
     </style>
-    <script>
-        async function checkPhishing() {
-            let input = document.getElementById("userInput").value.trim();
-            let checkbox = document.getElementById("robotCheck");
-            let resultBox = document.getElementById("result");
-
-            if (input === "") {
-                alert("Please enter a link or email.");
-                return;
-            }
-
-            if (!checkbox.checked) {
-                alert("Please confirm you are not a robot.");
-                return;
-            }
-
-            // Google Safe Browsing API key (replace with your actual key)
-            const API_KEY = "AIzaSyD61mERydRNU1VcD7IocyDwA2XzK-iomPw";
-            const url = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
-
-            const requestData = {
-                client: {
-                    clientId: "your-client-id",
-                    clientVersion: "1.0"
-                },
-                threatInfo: {
-                    threatTypes: ["MALWARE", "SOCIAL_ENGINEERING"],
-                    platformTypes: ["ANY_PLATFORM"],
-                    threatEntryTypes: ["URL"],
-                    threatEntries: [{ url: input }]
-                }
-            };
-
-            try {
-                let response = await fetch(url, {
-                    method: "POST",
-                    body: JSON.stringify(requestData),
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                let data = await response.json();
-
-                if (data.matches) {
-                    resultBox.innerText = "Suspicious";
-                    resultBox.style.color = "red";
-                } else {
-                    resultBox.innerText = "Clean";
-                    resultBox.style.color = "green";
-                }
-            } catch (error) {
-                console.error("Error checking phishing:", error);
-                resultBox.innerText = "Error checking the link";
-                resultBox.style.color = "orange";
-            }
-        }
-    </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Phishing URL Detector</h2>
-        <p>Detect phishing or fraudulent links via an AI-powered real-time phishing link checker</p>
 
-        <div class="card">
-            <input type="text" id="userInput" class="form-control" placeholder="Paste link / email here">
+    <!-- Hero Section with URL Checker -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="display-4 fw-bold mb-3">Cybersecurity Threat Analysis Platform</h1>
+                    <p class="lead mb-4">Detect and analyze potential threats with our advanced AI-powered scanning system. Stay one step ahead of cybercriminals.</p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-outline-light px-4 py-2">Learn More</button>
+                        <button class="btn btn-secondary px-4 py-2">View Demo</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="url-checker pulse">
+                        <h3 class="fw-bold mb-4 text-center">Check URL for Threats</h3>
+                        <form action="/check" method="post">
+                            <div class="input-group mb-4">
+                                <input type="url" name="url" class="form-control url-input" placeholder="Enter URL to scan (e.g., https://example.com)" required>
+                                <button type="submit" class="btn btn-scan px-4"><i class="fas fa-search me-2"></i>Scan</button>
+                            </div>
 
-            <div class="checkbox-container">
-                <input type="checkbox" id="robotCheck">
-                <label for="robotCheck">I am not a robot</label>
+                            <!-- Not a Robot Verification -->
+                            <div class="robot-check" id="robotCheck">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="notRobot" name="not_robot" required>
+                                    <label class="form-check-label" for="notRobot">
+                                        <i class="fas fa-shield-alt me-2"></i> I'm not a robot
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <p class="small text-muted">Our advanced AI will analyze the URL for malware, phishing attempts, and other threats.</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <button class="btn btn-primary" onclick="checkPhishing()">Check</button>
-
-            <div class="result-box mt-3">Result: <span id="result">Clean / Suspicious</span></div>
         </div>
-    </div>
+    </section>
+
+    <!-- Feature Section - Cyber Security Applications -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Cybersecurity Applications</h2>
+            <div class="row g-4">
+                <!-- Malware Detection -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Malware Detection</h3>
+                        <p>Identify and analyze malicious software, viruses, worms, and trojans using advanced heuristic scanning.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">Launch Scanner</button>
+                    </div>
+                </div>
+
+                <!-- Phishing Analysis -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Phishing Analysis</h3>
+                        <p>Detect fraudulent attempts to obtain sensitive information through deceptive websites and emails.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">Check Email</button>
+                    </div>
+                </div>
+
+                <!-- Network Security -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Network Security</h3>
+                        <p>Analyze network traffic for suspicious activities and potential intrusion attempts using real-time monitoring.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">Monitor Network</button>
+                    </div>
+                </div>
+
+                <!-- Vulnerability Scanner -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Vulnerability Scanner</h3>
+                        <p>Identify security weaknesses in systems and applications before they can be exploited by attackers.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">Scan System</button>
+                    </div>
+                </div>
+
+                <!-- Data Encryption -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Data Encryption</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">Encrypt Files</button>
+                    </div>
+                </div>
+
+                <!-- Threat Intelligence -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Threat Intelligence</h3>
+                        <p>Stay ahead of emerging threats with real-time intelligence feeds and comprehensive threat databases.</p>
+                        <button class="btn btn-sm btn-outline-info mt-3">View Threats</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap and other scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple interaction for robot check
+        document.getElementById('robotCheck').addEventListener('click', function() {
+            this.classList.toggle('active');
+            const checkbox = document.getElementById('notRobot');
+            checkbox.checked = !checkbox.checked;
+        });
+    </script>
 </body>
 </html>
