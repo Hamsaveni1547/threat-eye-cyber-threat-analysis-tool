@@ -6,8 +6,9 @@ app = Flask(__name__)
 # Google Safe Browsing API Key (Replace with your actual API key)
 API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
 
+
 @app.route('/')
-def index():
+def phishing():
     """Render the main page with the URL input form."""
     return render_template('tools/phishing.html')
 
