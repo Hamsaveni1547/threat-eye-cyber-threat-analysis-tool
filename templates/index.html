@@ -12,19 +12,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #1a2c42;
-            --secondary-color: #00b4d8;
-            --accent-color: #7209b7;
-            --dark-color: #121212;
-            --light-color: #f8f9fa;
-        }
-
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
 
         .footer {
             background: var(--primary-color);
@@ -47,35 +34,6 @@
         }
 
 
-        :root {
-            --primary-color: #0a192f;
-            --secondary-color: #112240;
-            --accent-color: #4361ee;
-            --accent-hover: #3a56d4;
-            --text-primary: #e6f1ff;
-            --text-secondary: #8892b0;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --transition: all 0.3s ease;
-            --box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
-            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
-        }
-
-        body {
-            background-color: var(--primary-color);
-            color: var(--text-primary);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
         /* Header/Navigation */
         .navbar {
             position: fixed;
@@ -108,13 +66,14 @@
         }
 
         .logo-image {
-            width: 40px;  /* Adjust as needed */
-            height: auto;
+            width: 50px;  /* Adjust as needed */
+            height: 50px;
             margin-right: 8px;
         }
 
         .logo span {
             color: var(--accent-color);
+            margin-left: 2px;
         }
 
         .logo-shield {
@@ -806,7 +765,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="logo mb-4"><img src="static/images/logo.png"> Threat<span>Eye</span></h4>
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                        <p class="gap" style="padding:5px"></p>Threat<span>Eye</span></h4>
                     <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
                     <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
                     <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
