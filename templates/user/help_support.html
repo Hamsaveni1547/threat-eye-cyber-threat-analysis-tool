@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support | Cyber Threat Analysis Platform</title>
+    <style>
+        :root {
+            --primary-color: #0a192f;
+            --secondary-color: #112240;
+            --accent-color: #64ffda;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --danger-color: #e63946;
+            --warning-color: #ffb703;
+            --success-color: #2ec4b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .help-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--text-secondary);
+            color: var(--accent-color);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+        }
+
+        .sidebar a.active {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 0.7rem;
+        }
+
+        .content {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .content h1 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            font-size: 2.25rem;
+        }
+
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--text-secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+        }
+
+        .content p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 1.5rem;
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+            font-size: 1.25rem;
+        }
+
+        .card-title h3 {
+            margin: 0;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background-color: var(--primary-color);
+            border: 1px solid var(--text-secondary);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(137, 146, 176, 0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            display: none;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .show-answer .faq-answer {
+            display: block;
+        }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .contact-card a:hover {
+            background-color: rgba(100, 255, 218, 0.2);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: rgba(46, 196, 182, 0.1);
+            color: var(--success-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-indicator .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            position: relative;
+        }
+
+        .code-block pre {
+            color: var(--text-primary);
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(100, 255, 218, 0.2);
+        }
+
+        .api-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            margin-right: 0.75rem;
+        }
+
+        .api-method.get {
+            background-color: rgba(46, 196, 182, 0.1);
+            color: var(--success-color);
+        }
+
+        .api-method.post {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+        }
+
+        .api-method.delete {
+            background-color: rgba(230, 57, 70, 0.1);
+            color: var(--danger-color);
+        }
+
+        @media (max-width: 768px) {
+            .help-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i><img src="/static/images/logo.png" style="width:40px">
+                <span>ThreatEye</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Threats</a></li>
+                    <li><a href="/templates/user/threat_intelligence.html">Analytics</a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#" class="active">Help</a></li>
+                </ul>
+            </nav>
+            <div class="status-indicator">
+                <span class="dot"></span>
+                <span>Systems Operational</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="help-container">
+            <aside class="sidebar">
+                <h3>Help Topics</h3>
+                <ul>
+                    <li><a href="#getting-started" class="active">Getting Started</a></li>
+                    <li><a href="#threat-identification">Threat Identification</a></li>
+                    <li><a href="#analysis-tools">Analysis Tools</a></li>
+                    <li><a href="#reporting">Reporting Features</a></li>
+                    <li><a href="#api-documentation">API Documentation</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#advanced-features">Advanced Features</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact-support">Contact Support</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search help documentation...">
+                </div>
+
+                <h1>Help & Support Documentation</h1>
+                <p>Welcome to the CyberSentry Threat Analysis Platform support portal. Here you'll find comprehensive guides and documentation to help you get the most out of our platform. From setup to advanced features, explore how our threat intelligence tools can enhance your security operations.</p>
+
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-info-circle"></i>
+                        <h3>Platform Updates</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>We've recently updated our threat intelligence engine to version 3.2.1. This update includes improvements to our machine learning algorithms for detecting emerging threats and enhanced visualization tools for threat analysis.</p>
+                    </div>
+                </div>
+
+                <section id="getting-started">
+                    <h2>Getting Started</h2>
+                    <p>This section provides an overview of the CyberSentry platform and guides you through the initial setup process.</p>
+
+                    <h3>Platform Overview</h3>
+                    <p>CyberSentry is an advanced threat analysis platform designed to help security professionals identify, analyze, and respond to cyber threats efficiently. The platform combines real-time threat intelligence, machine learning, and expert analysis to provide comprehensive security insights.</p>
+
+                    <h3>System Requirements</h3>
+                    <ul>
+                        <li>Modern web browser (Chrome 80+, Firefox 75+, Edge 85+, Safari 14+)</li>
+                        <li>Internet connection with minimum 10 Mbps download speed</li>
+                        <li>4GB RAM minimum (8GB recommended)</li>
+                        <li>Screen resolution of 1366x768 or higher</li>
+                    </ul>
+
+                    <h3>Account Setup</h3>
+                    <ol>
+                        <li>Navigate to the login page and click "Create Account"</li>
+                        <li>Enter your organization details and contact information</li>
+                        <li>Select your subscription plan or enter your license key</li>
+                        <li>Set up multi-factor authentication (strongly recommended)</li>
+                        <li>Configure your notification preferences</li>
+                    </ol>
+
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <pre>
+# Example API Authentication
+curl -X POST https://api.cybersentry.com/v1/auth \
+  -H "Content-Type: application/json" \
+  -d '{"api_key": "YOUR_API_KEY", "organization_id": "YOUR_ORG_ID"}'</pre>
+                    </div>
+                </section>
+
+                <section id="threat-identification">
+                    <h2>Threat Identification</h2>
+                    <p>Learn how to use the platform to identify and categorize potential security threats.</p>
+
+                    <h3>Threat Dashboard</h3>
+                    <p>The threat dashboard provides a real-time overview of your security landscape. Here, you can monitor active threats, vulnerabilities, and ongoing attacks targeting your infrastructure.</p>
+
+                    <h3>Threat Intelligence Sources</h3>
+                    <p>CyberSentry aggregates threat data from multiple sources, including:</p>
+                    <ul>
+                        <li><span class="tag">OSINT</span> Open-source intelligence feeds</li>
+                        <li><span class="tag">PREMIUM</span> Proprietary threat intelligence</li>
+                        <li><span class="tag">COMMUNITY</span> Shared intelligence from partner organizations</li>
+                        <li><span class="tag">INTERNAL</span> Your organization's historical threat data</li>
+                    </ul>
+
+                    <h3>Threat Classification</h3>
+                    <p>The platform uses the MITRE ATT&CK framework to classify threats, providing a standardized approach to understanding attack techniques and methodologies.</p>
+                </section>
+
+                <section id="analysis-tools">
+                    <h2>Analysis Tools</h2>
+                    <p>Explore the suite of tools available for in-depth threat analysis and investigation.</p>
+
+                    <h3>Network Traffic Analysis</h3>
+                    <p>Analyze network traffic patterns to identify suspicious activities, data exfiltration attempts, and command-and-control communications.</p>
+
+                    <h3>Malware Analysis</h3>
+                    <p>Upload suspicious files for static and dynamic analysis. The platform provides detailed reports on file behavior, identifying potential malware and their capabilities.</p>
+
+                    <h3>Threat Hunting</h3>
+                    <p>Use advanced search capabilities to proactively hunt for threats in your environment based on indicators of compromise (IoCs) or unusual behaviors.</p>
+
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <pre>
+# Example Threat Hunting Query
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event_type": "network_connection" } },
+        { "match": { "destination_country": "suspicious_region" } }
+      ],
+      "filter": [
+        { "range": { "timestamp": { "gte": "now-24h" } } }
+      ]
+    }
+  }
+}</pre>
+                    </div>
+                </section>
+
+                <section id="reporting">
+                    <h2>Reporting Features</h2>
+                    <p>Generate comprehensive reports and visualizations to communicate threat intelligence effectively.</p>
+
+                    <h3>Executive Reports</h3>
+                    <p>Create high-level summaries of security posture and threat landscape for executive stakeholders. These reports focus on risk assessment and strategic recommendations.</p>
+
+                    <h3>Technical Reports</h3>
+                    <p>Generate detailed technical reports for security teams with in-depth analysis, IoCs, and tactical response recommendations.</p>
+
+                    <h3>Custom Dashboards</h3>
+                    <p>Build custom dashboards to visualize specific aspects of your security environment, focusing on metrics that matter most to your organization.</p>
+                </section>
+
+                <section id="api-documentation">
+                    <h2>API Documentation</h2>
+                    <p>Integrate CyberSentry with your existing security infrastructure using our comprehensive API.</p>
+
+                    <h3>Authentication</h3>
+                    <p>All API requests require authentication using your API key and organization ID.</p>
+
+                    <h3>Available Endpoints</h3>
+                    <div class="card">
+                        <div class="card-title">
+                            <span class="api-method get">GET</span>
+                            <h3>/api/v1/threats</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Retrieve a list of active threats affecting your organization.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <span class="api-method post">POST</span>
+                            <h3>/api/v1/analysis/file</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Submit a file for malware analysis.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <span class="api-method get">GET</span>
+                            <h3>/api/v1/intelligence/iocs</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Retrieve current indicators of compromise from our threat intelligence database.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="troubleshooting">
+                    <h2>Troubleshooting</h2>
+                    <p>Find solutions to common issues and technical problems.</p>
+
+                    <h3>Connection Issues</h3>
+                    <p>If you're experiencing connection problems, check your network settings and ensure that your firewall allows connections to our service endpoints.</p>
+
+                    <h3>Performance Optimization</h3>
+                    <p>For optimal performance, we recommend clearing your browser cache regularly and ensuring your system meets the recommended requirements.</p>
+
+                    <h3>Error Codes</h3>
+                    <ul>
+                        <li><strong>Error 1001:</strong> Authentication failure. Check your API credentials.</li>
+                        <li><strong>Error 1002:</strong> Rate limit exceeded. Reduce the frequency of your API calls.</li>
+                        <li><strong>Error 1003:</strong> Resource not found. Verify the endpoint URL.</li>
+                        <li><strong>Error 1004:</strong> Insufficient permissions. Contact your administrator.</li>
+                    </ul>
+                </section>
+
+                <section id="advanced-features">
+                    <h2>Advanced Features</h2>
+                    <p>Explore advanced capabilities for sophisticated threat analysis and security operations.</p>
+
+                    <h3>Automated Response</h3>
+                    <p>Configure automated responses to specific threat patterns, integrating with your security orchestration and response (SOAR) platform.</p>
+
+                    <h3>Threat Intelligence Sharing</h3>
+                    <p>Participate in the CyberSentry community by sharing anonymized threat intelligence with other organizations to strengthen collective defense.</p>
+
+                    <h3>Machine Learning Models</h3>
+                    <p>Leverage our advanced machine learning models to detect anomalies and predict potential threats before they materialize.</p>
+                </section>
+
+                <section id="faq">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How frequently is the threat intelligence database updated?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our threat intelligence database is updated in real-time with feeds from multiple sources. Critical threats are propagated immediately, while routine updates occur every 15 minutes.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I integrate CyberSentry with my existing SIEM solution?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, CyberSentry offers integration with major SIEM platforms including Splunk, IBM QRadar, and Microsoft Sentinel. You can use our API or pre-built connectors available in your SIEM marketplace.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How does the scoring system for threat severity work?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our threat severity scoring uses a combination of the CVSS (Common Vulnerability Scoring System) and our proprietary impact assessment algorithm. The score ranges from 1-10, with 10 being the most severe. Factors considered include exploit availability, potential impact, and relevance to your specific environment.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What data retention policies are in place?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>By default, threat data is retained for 13 months to allow for year-over-year comparison. Log data is retained for 90 days. Enterprise customers can customize retention periods based on their compliance requirements.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact-support">
+                    <h2>Contact Support</h2>
+                    <p>Need additional help? Our support team is available to assist you with any questions or issues.</p>
+
+                    <div class="contact-options">
+                        <div class="contact-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email Support</h3>
+                            <p>Get a response within 24 hours</p>
+                            <a href="threateye25@gmail.com">threateye25@gmail.com</a>
+                        </div>
+
+                        <div class="contact-card">
+                            <i class="fas fa-phone-alt"></i>
+                            <h3>Phone Support</h3>
+                            <p>Available 24/7 for urgent issues</p>
+                            <a href="tel:+7483275564">+7483275564</a>
+                        </div>
+
+                        <div class="contact-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>Live Chat</h3>
+                            <p>Connect with a support agent instantly</p>
+                            <a href="#">Start Chat</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle FAQ answers
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('show-answer');
+
+                const icon = question.querySelector('i');
+                if (faqItem.classList.contains('show-answer')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                } else {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                }
+            });
+        });
+
+        // Copy code functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.nextElementSibling;
+                const codeText = codeBlock.textContent;
+
+                navigator.clipboard.writeText(codeText).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

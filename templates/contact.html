@@ -335,34 +335,6 @@
             opacity: 0.7;
         }
 
-        footer {
-            background-color: var(--secondary);
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        footer p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .footer-links {
-            margin-top: 10px;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
         /* Responsiveness */
         @media (max-width: 768px) {
             .contact-wrapper {
@@ -411,12 +383,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    CyberShield
-                </a>
+                <a href="#" class="logo"><img src="/static/images/logo.png" style="width:40px">ThreatEye</a>
                 <div class="nav-links">
                     <a href="#">Home</a>
                     <a href="#">Services</a>
@@ -571,17 +538,6 @@
             </div>
         </div>
     </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 CyberShield Threat Analysis. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Sitemap</a>
-            </div>
-        </div>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

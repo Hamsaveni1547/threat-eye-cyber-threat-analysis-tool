@@ -3,655 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Threat Analysis Dashboard</title>
+    <title>Logout - Cyber Threat Analysis</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --success-color: #2ecc71;
-            --text-color: #333;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --dark-bg: #1e272e;
+            --card-bg: #2d3436;
+            --light-text: #f1f2f6;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .logo {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 1.5rem;
+            justify-content: center;
         }
 
-        .logo i {
-            font-size: 1.8rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .stat-card h3 {
-            font-size: 0.9rem;
-            color: #777;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .stat-card .trend {
-            display: flex;
-            align-items: center;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .trend.up {
-            color: var(--success-color);
-        }
-
-        .trend.down {
-            color: var(--danger-color);
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .charts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .threat-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .threat-table th, .threat-table td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .threat-table th {
-            background-color: #f5f7fa;
-            font-weight: 600;
-        }
-
-        .threat-table tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .severity {
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .severity.critical {
-            background-color: #fde8e8;
-            color: var(--danger-color);
-        }
-
-        .severity.high {
-            background-color: #fef3e8;
-            color: var(--warning-color);
-        }
-
-        .severity.medium {
-            background-color: #e6f4fe;
-            color: var(--secondary-color);
-        }
-
-        .severity.low {
-            background-color: #e6f9ed;
-            color: var(--success-color);
-        }
-
-        .chart-container {
-            height: 300px;
-            width: 100%;
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
+        .logout-card {
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logout-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logout-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
         }
 
         .btn-primary {
-            background-color: var(--secondary-color);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
         }
 
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid #ddd;
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
-        .btn-outline:hover {
-            background-color: #f5f5f5;
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
         }
 
-        .date-range {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
         }
 
-        .date-input {
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .dark-mode .logout-card {
+            background-color: var(--card-bg);
+            color: var(--light-text);
         }
 
-        .threat-map {
-            height: 400px;
-            background-color: #f1f1f1;
-            border-radius: 8px;
-            overflow: hidden;
+        .dark-mode .card-body {
+            background-color: var(--card-bg);
         }
 
-        @media (max-width: 768px) {
-            .charts-container {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            nav {
-                display: none;
-            }
+        .dark-mode .btn-outline-secondary {
+            border-color: #adb5bd;
+            color: #adb5bd;
         }
+
+        .dark-mode .btn-outline-secondary:hover {
+            background-color: #adb5bd;
+            color: var(--dark-bg);
+        }
+        .container{
+            width: 40%; /* or any fixed width */
+            margin: auto;
+        }
+
     </style>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <i class="fas fa-shield-alt"></i>
-            <span>ThreatSense</span>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Dashboard</a></li>
-                <li><a href="#">Incidents</a></li>
-                <li><a href="#">Threats</a></li>
-                <li><a href="#">Intelligence</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="container py-5" style="align:center">
+        <div class="logout-card card">
+            <div class="logout-header">
+                <div class="logout-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2>Logout Confirmation</h2>
+            </div>
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <p class="lead">Are you sure you want to logout from your Cyber Threat Analysis dashboard?</p>
+                    <p class="mb-0">You will need to log in again to access your security tools and reports.</p>
+                </div>
 
-    <div class="container">
-        <div class="dashboard-header">
-            <h1>Threat Intelligence Dashboard</h1>
-            <div class="controls">
-                <div class="date-range">
-                    <input type="date" class="date-input" id="start-date">
-                    <span>to</span>
-                    <input type="date" class="date-input" id="end-date">
-                </div>
-                <button class="btn btn-primary" id="refresh-btn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-                <button class="btn btn-outline" id="export-btn">
-                    <i class="fas fa-download"></i> Export
-                </button>
-            </div>
-        </div>
-
-        <div class="stats-container">
-            <div class="stat-card">
-                <h3>TOTAL ALERTS</h3>
-                <div class="stat-value">1,243</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i> 12% from last week
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/templates/user/logout_confirm.html.html" class="btn btn-primary">
+                        <i class="fas fa-sign-out-alt me-2"></i>Confirm Logout
+                    </a>
+                    <a href="dashboard3.html" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Return to Dashboard
+                    </a>
                 </div>
             </div>
-            <div class="stat-card">
-                <h3>CRITICAL THREATS</h3>
-                <div class="stat-value">27</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i> 8% from last week
+            <div class="card-footer p-3 text-center">
+                <small class="text-muted">
+                    <i class="fas fa-lock me-1"></i>Your security is our priority
+                </small>
+                <div class="mt-2">
+                    <button id="darkModeToggle" class="btn btn-sm btn-outline-dark">
+                        <i class="fas fa-moon"></i> Dark Mode
+                    </button>
                 </div>
             </div>
-            <div class="stat-card">
-                <h3>MITIGATED</h3>
-                <div class="stat-value">892</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i> 5% from last week
-                </div>
-            </div>
-            <div class="stat-card">
-                <h3>AVERAGE RESPONSE TIME</h3>
-                <div class="stat-value">42m</div>
-                <div class="trend down">
-                    <i class="fas fa-arrow-down"></i> 15% from last week
-                </div>
-            </div>
-        </div>
-
-        <div class="charts-container">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Threat Activity Timeline</h2>
-                </div>
-                <div class="chart-container" id="timeline-chart"></div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Attack Types Distribution</h2>
-                </div>
-                <div class="chart-container" id="attack-types-chart"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Global Threat Map</h2>
-            </div>
-            <div class="threat-map" id="threat-map"></div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Recent Threat Detections</h2>
-            </div>
-            <table class="threat-table">
-                <thead>
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Threat Type</th>
-                        <th>Source IP</th>
-                        <th>Target</th>
-                        <th>Severity</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="threats-tbody">
-                    <!-- Table rows will be populated by JavaScript -->
-                </tbody>
-            </table>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialize date inputs
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const oneWeekAgo = new Date(today);
-            oneWeekAgo.setDate(today.getDate() - 7);
-
-            document.getElementById('start-date').valueAsDate = oneWeekAgo;
-            document.getElementById('end-date').valueAsDate = today;
-
-            // Initialize charts
-            initCharts();
-
-            // Load mock data
-            loadMockData();
-
-            // Add event listeners
-            document.getElementById('refresh-btn').addEventListener('click', refreshData);
-            document.getElementById('export-btn').addEventListener('click', exportData);
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                this.classList.remove('btn-outline-dark');
+                this.classList.add('btn-outline-light');
+                this.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                this.classList.remove('btn-outline-light');
+                this.classList.add('btn-outline-dark');
+                this.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
         });
-
-        // Mock data for threats
-        const mockThreats = [
-            {
-                timestamp: '2025-03-13T09:23:45',
-                type: 'Suspicious Login',
-                sourceIP: '203.45.67.89',
-                target: 'Authentication Server',
-                severity: 'high',
-                status: 'Investigating'
-            },
-            {
-                timestamp: '2025-03-13T08:15:22',
-                type: 'Malware Detected',
-                sourceIP: '45.89.126.12',
-                target: 'Workstation WS-235',
-                severity: 'critical',
-                status: 'Mitigated'
-            },
-            {
-                timestamp: '2025-03-13T07:42:18',
-                type: 'Port Scanning',
-                sourceIP: '118.45.23.67',
-                target: 'Firewall',
-                severity: 'medium',
-                status: 'Mitigated'
-            },
-            {
-                timestamp: '2025-03-13T06:30:55',
-                type: 'DDoS Attempt',
-                sourceIP: 'Multiple',
-                target: 'Web Application',
-                severity: 'critical',
-                status: 'Active'
-            },
-            {
-                timestamp: '2025-03-12T23:15:08',
-                type: 'Data Exfiltration',
-                sourceIP: '192.168.1.135',
-                target: 'Database Server',
-                severity: 'critical',
-                status: 'Mitigated'
-            },
-            {
-                timestamp: '2025-03-12T22:03:42',
-                type: 'Unauthorized Access',
-                sourceIP: '45.67.23.11',
-                target: 'Admin Panel',
-                severity: 'high',
-                status: 'Mitigated'
-            },
-            {
-                timestamp: '2025-03-12T19:58:17',
-                type: 'Password Brute Force',
-                sourceIP: '78.34.56.23',
-                target: 'Email Server',
-                severity: 'medium',
-                status: 'Investigating'
-            },
-            {
-                timestamp: '2025-03-12T15:42:39',
-                type: 'Phishing Email',
-                sourceIP: 'phish@maliciousdomain.com',
-                target: 'HR Department',
-                severity: 'low',
-                status: 'Mitigated'
-            }
-        ];
-
-        // Load mock data into the table
-        function loadMockData() {
-            const tbody = document.getElementById('threats-tbody');
-            tbody.innerHTML = '';
-
-            mockThreats.forEach(threat => {
-                const row = document.createElement('tr');
-
-                // Format timestamp
-                const date = new Date(threat.timestamp);
-                const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td>${threat.type}</td>
-                    <td>${threat.sourceIP}</td>
-                    <td>${threat.target}</td>
-                    <td><span class="severity ${threat.severity}">${threat.severity.charAt(0).toUpperCase() + threat.severity.slice(1)}</span></td>
-                    <td>${threat.status}</td>
-                    <td>
-                        <button class="btn btn-outline" onclick="viewThreatDetails('${threat.timestamp}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                `;
-
-                tbody.appendChild(row);
-            });
-        }
-
-        // Initialize charts with sample data
-        function initCharts() {
-            // Timeline chart
-            const timelineCtx = document.createElement('canvas');
-            document.getElementById('timeline-chart').appendChild(timelineCtx);
-
-            const timelineData = {
-                labels: ['Mar 6', 'Mar 7', 'Mar 8', 'Mar 9', 'Mar 10', 'Mar 11', 'Mar 12', 'Mar 13'],
-                datasets: [{
-                    label: 'Critical',
-                    data: [3, 5, 2, 4, 6, 8, 11, 9],
-                    backgroundColor: '#e74c3c',
-                    borderColor: '#e74c3c',
-                    tension: 0.2
-                }, {
-                    label: 'High',
-                    data: [8, 12, 15, 10, 14, 18, 21, 16],
-                    backgroundColor: '#f39c12',
-                    borderColor: '#f39c12',
-                    tension: 0.2
-                }, {
-                    label: 'Medium',
-                    data: [20, 25, 18, 22, 30, 27, 35, 32],
-                    backgroundColor: '#3498db',
-                    borderColor: '#3498db',
-                    tension: 0.2
-                }, {
-                    label: 'Low',
-                    data: [40, 35, 42, 38, 45, 50, 53, 48],
-                    backgroundColor: '#2ecc71',
-                    borderColor: '#2ecc71',
-                    tension: 0.2
-                }]
-            };
-
-            new Chart(timelineCtx, {
-                type: 'line',
-                data: timelineData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Number of Threats'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Attack types chart
-            const attackTypesCtx = document.createElement('canvas');
-            document.getElementById('attack-types-chart').appendChild(attackTypesCtx);
-
-            const attackTypesData = {
-                labels: ['Malware', 'Phishing', 'DDoS', 'Unauthorized Access', 'Brute Force', 'Data Exfiltration', 'Port Scanning'],
-                datasets: [{
-                    data: [25, 18, 12, 15, 10, 8, 12],
-                    backgroundColor: [
-                        '#e74c3c',
-                        '#f39c12',
-                        '#3498db',
-                        '#2ecc71',
-                        '#9b59b6',
-                        '#1abc9c',
-                        '#34495e'
-                    ]
-                }]
-            };
-
-            new Chart(attackTypesCtx, {
-                type: 'pie',
-                data: attackTypesData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right'
-                        }
-                    }
-                }
-            });
-
-            // Create a placeholder for the threat map
-            const threatMap = document.getElementById('threat-map');
-            threatMap.innerHTML = '<div style="height: 100%; display: flex; justify-content: center; align-items: center; background-color: #f1f1f1; color: #777;">World map with threat source locations would render here</div>';
-        }
-
-        // Refresh data - simulates fetch from backend
-        function refreshData() {
-            const refreshBtn = document.getElementById('refresh-btn');
-            const icon = refreshBtn.querySelector('i');
-
-            // Add spinning animation
-            icon.classList.add('fa-spin');
-
-            // Simulate API call delay
-            setTimeout(() => {
-                // Generate some random new data
-                mockThreats.unshift({
-                    timestamp: new Date().toISOString(),
-                    type: ['Suspicious Login', 'Malware Detected', 'Port Scanning', 'DDoS Attempt'][Math.floor(Math.random() * 4)],
-                    sourceIP: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-                    target: ['Authentication Server', 'Workstation', 'Firewall', 'Web Application', 'Database Server'][Math.floor(Math.random() * 5)],
-                    severity: ['low', 'medium', 'high', 'critical'][Math.floor(Math.random() * 4)],
-                    status: 'New'
-                });
-
-                // Remove the oldest entry
-                if (mockThreats.length > 8) {
-                    mockThreats.pop();
-                }
-
-                // Reload data
-                loadMockData();
-
-                // Update chart
-                initCharts();
-
-                // Remove spinning animation
-                icon.classList.remove('fa-spin');
-
-                // Show success message
-                alert('Dashboard refreshed with latest threat data');
-            }, 1500);
-        }
-
-        // Export data functionality
-        function exportData() {
-            alert('Exporting threat data as CSV...');
-            // In a real implementation, this would generate a CSV file for download
-        }
-
-        // View threat details
-        function viewThreatDetails(timestamp) {
-            const threat = mockThreats.find(t => t.timestamp === timestamp);
-            if (threat) {
-                alert(`Viewing details for ${threat.type} threat from ${threat.sourceIP}`);
-                // In a real implementation, this would open a modal with detailed information
-            }
-        }
     </script>
 </body>
 </html>

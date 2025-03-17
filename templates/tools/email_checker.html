@@ -2,9 +2,303 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Email checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVerify - Email Security Scanner</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a192f;
+            color: #e6f1ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .bg-cyber {
+            background-color: #112240;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-cyber {
+            background: linear-gradient(90deg, #64ffda 0%, #0a81ab 100%);
+            border: none;
+            color: #0a192f;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cyber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.4);
+            background: linear-gradient(90deg, #64ffda 0%, #0a81ab 70%);
+        }
+
+        .form-control, .form-check-input {
+            background-color: #172a45;
+            border: 1px solid #303C55;
+            color: #e6f1ff;
+        }
+
+        .form-control:focus {
+            background-color: #1d3557;
+            border-color: #64ffda;
+            box-shadow: 0 0 0 0.25rem rgba(100, 255, 218, 0.25);
+            color: #e6f1ff;
+        }
+
+        .cyber-heading {
+            background: linear-gradient(90deg, #64ffda, #0a81ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #64ffda, #0a81ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .header-area {
+            background: url('/api/placeholder/1200/350') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            z-index: 1;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .header-area::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(10, 25, 47, 0.85);
+            z-index: -1;
+        }
+
+        .security-feature {
+            border-left: 3px solid #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .security-feature:hover {
+            background-color: #172a45;
+            transform: translateX(5px);
+        }
+
+        .light-text {
+            color: #8892b0;
+        }
+
+        .captcha-box {
+            background-color: #172a45;
+            border-radius: 8px;
+            border: 1px solid #303C55;
+        }
+    </style>
 </head>
 <body>
-<h1>Gagana</h1>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <!-- Header Area -->
+        <div class="header-area mb-5 p-5 d-flex align-items-center">
+            <div class="row w-100">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold mb-4">Email Security <span class="cyber-heading">Verification</span></h1>
+                    <p class="lead mb-4 light-text">
+                        Verify the security of your email address against breaches, phishing attempts, and malicious patterns with our advanced scanning technology.
+                    </p>
+                    <a href="#email-scanner" class="btn btn-cyber btn-lg px-4 py-2">
+                        <i class="fas fa-shield-alt me-2"></i> Scan Now
+                    </a>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block text-center">
+                    <img src="/api/placeholder/400/320" alt="Email Security" class="img-fluid rounded-circle" style="max-height: 300px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Scanner Form -->
+        <div id="email-scanner" class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="card bg-cyber text-light p-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4 cyber-heading">Email Security Scanner</h2>
+                        <form action="/check_email" method="POST">
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Enter Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-dark border-0">
+                                        <i class="fas fa-envelope text-info"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="example@domain.com" required>
+                                </div>
+                                <div class="form-text light-text">We'll scan this email for security vulnerabilities and breaches.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Verification</label>
+                                <div class="captcha-box p-3 mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notRobot" name="notRobot" required>
+                                            <label class="form-check-label" for="notRobot">
+                                                I'm not a robot
+                                            </label>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <i class="fas fa-robot fa-2x text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-cyber btn-lg px-5 py-2">
+                                    <i class="fas fa-search-shield me-2"></i> Verify Email Security
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Features -->
+        <div class="row mb-5">
+            <div class="col-12 text-center mb-4">
+                <h2 class="cyber-heading">Advanced Security Features</h2>
+                <p class="light-text">Our email verification system checks for multiple security issues</p>
+            </div>
+
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card bg-cyber h-100 security-feature p-3">
+                    <div class="card-body text-center">
+                        <i class="fas fa-database-slash feature-icon mb-3"></i>
+                        <h5 class="card-title">Breach Detection</h5>
+                        <p class="card-text light-text">Check if your email has been compromised in known data breaches.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card bg-cyber h-100 security-feature p-3">
+                    <div class="card-body text-center">
+                        <i class="fas fa-fish-fins feature-icon mb-3"></i>
+                        <h5 class="card-title">Phishing Analysis</h5>
+                        <p class="card-text light-text">Detect if email is associated with phishing campaigns or scams.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card bg-cyber h-100 security-feature p-3">
+                    <div class="card-body text-center">
+                        <i class="fas fa-fingerprint feature-icon mb-3"></i>
+                        <h5 class="card-title">Identity Protection</h5>
+                        <p class="card-text light-text">Verify email authenticity and protect against impersonation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card bg-cyber h-100 security-feature p-3">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shield-virus feature-icon mb-3"></i>
+                        <h5 class="card-title">Malware Check</h5>
+                        <p class="card-text light-text">Scan for email patterns associated with malware distribution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div id="tools" class="row mb-5">
+            <div class="col-12 text-center mb-4">
+                <h2 class="cyber-heading">Cybersecurity Toolkit</h2>
+                <p class="light-text">Comprehensive set of tools to protect your digital assets</p>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card bg-cyber h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-password feature-icon"></i>
+                        </div>
+                        <h5 class="card-title">Password Analyzer</h5>
+                        <p class="card-text light-text">Check password strength and find vulnerabilities in your credentials.</p>
+                        <a href="#" class="btn btn-cyber mt-2">
+                            <i class="fas fa-lock me-2"></i> Analyze Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card bg-cyber h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-wifi feature-icon"></i>
+                        </div>
+                        <h5 class="card-title">Network Scanner</h5>
+                        <p class="card-text light-text">Detect vulnerabilities in your network and connected devices.</p>
+                        <a href="#" class="btn btn-cyber mt-2">
+                            <i class="fas fa-network-wired me-2"></i> Scan Network
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card bg-cyber h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-file-shield feature-icon"></i>
+                        </div>
+                        <h5 class="card-title">File Scanner</h5>
+                        <p class="card-text light-text">Check files for malware, viruses and hidden threats.</p>
+                        <a href="#" class="btn btn-cyber mt-2">
+                            <i class="fas fa-virus-slash me-2"></i> Scan Files
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card bg-cyber h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-browser feature-icon"></i>
+                        </div>
+                        <h5 class="card-title">URL Analyzer</h5>
+                        <p class="card-text light-text">Check if a website is safe before visiting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

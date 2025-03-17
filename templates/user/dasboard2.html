@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Shield - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a3af1;
+            --secondary-color: #1e1e3f;
+            --accent-color: #00d4ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar .brand {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .brand i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .content-wrapper {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2a2ae0;
+            border-color: #2a2ae0;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        /* Content pages */
+        .content-page {
+            display: none;
+        }
+
+        .content-page.active {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar .brand span, .sidebar .nav-link span {
+                display: none;
+            }
+
+            .sidebar .brand i, .sidebar .nav-link i {
+                margin-right: 0;
+            }
+
+            .content-wrapper {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+
+        /* Badges and status indicators */
+        .badge-pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #28a745;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        .badge-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #28a745;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .avatar-upload {
+            position: relative;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .avatar-upload img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+        }
+
+        .avatar-edit {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            background-color: var(--primary-color);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .avatar-edit:hover {
+            background-color: #2a2ae0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="brand">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>CyberShield</span>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="activities">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Activities</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="tools">
+                            <i class="fas fa-tools"></i>
+                            <span>Security Tools</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="support">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-auto">
+                        <a class="nav-link" href="#" data-page="logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 col-xl-10 content-wrapper">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="content-page active">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Dashboard</h1>
+                        <div class="user-profile">
+                            <img src="/api/placeholder/40/40" alt="User Profile">
+                            <div>
+                                <div class="fw-bold">John Doe</div>
+                                <small>Security Analyst</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content -->
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Security Score</h5>
+                                            <h2 class="mb-0">85%</h2>
+                                        </div>
+                                        <div class="fs-1 text-primary">
+                                            <i class="fas fa-shield-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-3" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Vulnerabilities</h5>
+                                            <h2 class="mb-0">3</h2>
+                                        </div>
+                                        <div class="fs-1 text-warning">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </div>
+                                    </div>
+                                    <p class="card-text mt-3">
+                                        <span class="text-danger">1 critical</span>,
+                                        <span class="text-warning">2 medium</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Monitored Devices</h5>
+                                            <h2 class="mb-0">8</h2>
+                                        </div>
+                                        <div class="fs-1 text-primary">
+                                            <i class="fas fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <p class="card-text mt-3">
+                                        <span class="badge-pulse"></span>
+                                        <span>All devices secure</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Threat Blocks</h5>
+                                            <h2 class="mb-0">247</h2>
+                                        </div>
+                                        <div class="fs-1 text-success">
+                                            <i class="fas fa-ban"></i>
+                                        </div>
+                                    </div>
+                                    <p class="card-text mt-3">
+                                        <span class="text-success">+12% from last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Chart -->
+                    <div class="row">
+                        <div class="col-lg-8 mb-4">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Security Activity</h5>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-2">Weekly</button>
+                                        <button class="btn btn-sm btn-primary">Monthly</button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 300px; background-color: rgba(58, 58, 241, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <p class="mb-0">Activity Chart Placeholder</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Recent Alerts</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-transparent border-bottom border-light">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h6 class="mb-1">Suspicious Login Attempt</h6>
+                                                    <small>IP: 192.168.1.45</small>
+                                                </div>
+                                                <span class="badge bg-danger">Critical</span>
+                                            </div>
+                                            <small class="text-muted">2 hours ago</small>
+                                        </li>
+                                        <li class="list-group-item bg-transparent border-bottom border-light">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h6 class="mb-1">Malware Detected</h6>
+                                                    <small>Device: Laptop-JD001</small>
+                                                </div>
+                                                <span class="badge bg-warning">Medium</span>
+                                            </div>
+                                            <small class="text-muted">Yesterday</small>
+                                        </li>
+                                        <li class="list-group-item bg-transparent border-bottom border-light">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h6 class="mb-1">Software Update Available</h6>
+                                                    <small>Device: Desktop-JD002</small>
+                                                </div>
+                                                <span class="badge bg-info">Low</span>
+                                            </div>
+                                            <small class="text-muted">2 days ago</small>
+                                        </li>
+                                        <li class="list-group-item bg-transparent">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h6 class="mb-1">Firewall Rule Updated</h6>
+                                                    <small>By: System Admin</small>
+                                                </div>
+                                                <span class="badge bg-success">Info</span>
+                                            </div>
+                                            <small class="text-muted">3 days ago</small>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All Alerts</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Recommendations -->
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Security Recommendations</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3 fs-4 text-warning">
+                                                    <i class="fas fa-exclamation-circle"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Update Password Policy</h6>
+                                                    <p class="mb-0 small">Current password policy does not meet industry standards.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3 fs-4 text-danger">
+                                                    <i class="fas fa-lock"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Enable Two-Factor Authentication</h6>
+                                                    <p class="mb-0 small">Add an extra layer of security to your account.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3 fs-4 text-info">
+                                                    <i class="fas fa-refresh"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Run System Scan</h6>
+                                                    <p class="mb-0 small">Last scan was performed 7 days ago.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3 fs-4 text-primary">
+                                                    <i class="fas fa-shield-alt"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Review Access Permissions</h6>
+                                                    <p class="mb-0 small">Ensure appropriate access levels for all users.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settings" class="content-page">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Account Settings</h1>
+                        <div class="d-flex align-items-center">
+                            <span class="badge-pulse"></span>
+                            <span>System Status: Secure</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Profile Settings -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Profile Settings</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="text-center mb-4">
+                                            <div class="avatar-upload">
+                                                <img src="/api/placeholder/150/150" alt="Profile Picture" class="img-fluid">
+                                                <div class="avatar-edit">
+                                                    <i class="fas fa-camera"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="fullName" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="fullName" value="John Doe">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="email" value="john.doe@example.com">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="company" class="form-label">Company</label>
+                                            <input type="text" class="form-control" id="company" value="Cyber Solutions Inc.">
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Save Profile</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Security Settings</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="currentPassword" class="form-label">Current Password</label>
+                                            <input type="password" class="form-control" id="currentPassword">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="newPassword" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="newPassword">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirmPassword">
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
+                                                <label class="form-check-label" for="twoFactorAuth">Enable Two-Factor Authentication</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Update Security Settings</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other settings sections... -->
+                    </div>
+                </div>
+
+                <!-- Activities Page -->
+                <div id="activities" class="content-page">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Activities</h1>
+                        <div class="user-profile">
+                            <img src="/api/placeholder/40/40" alt="User Profile">
+                            <div>
+                                <div class="fw-bold">John Doe</div>
+                                <small>Security Analyst</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Activity Log</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Activities content goes here...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Tools Page -->
+                <div id="tools" class="content-page">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Security Tools</h1>
+                        <div class="user-profile">
+                            <img src="/api/placeholder/40/40" alt="User Profile">
+                            <div>
+                                <div class="fw-bold">John Doe</div>
+                                <small>Security Analyst</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Security Tools</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Security tools content goes here...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Page -->
+                <div id="support" class="content-page">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Help & Support</h1>
+                        <div class="user-profile">
+                            <img src="/api/placeholder/40/40" alt="User Profile">
+                            <div>
+                                <div class="fw-bold">John Doe</div>
+                                <small>Security Analyst</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Support</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Support content goes here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Responsive sidebar toggle functionality
+            const handleResize = () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.add('collapsed');
+                } else {
+                    document.querySelector('.sidebar').classList.remove('collapsed');
+                }
+            };
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+
+            // Handle page navigation
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Get the target page
+                    const targetPage = this.getAttribute('data-page');
+
+                    // Remove active class from all links and add to current
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Hide all pages and show target page
+                    contentPages.forEach(page => page.classList.remove('active'));
+                    document.getElementById(targetPage).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

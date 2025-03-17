@@ -1,0 +1,624 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>ThreatSense - Logged Out</title>-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #2c3e50;-->
+<!--            &#45;&#45;secondary-color: #3498db;-->
+<!--            &#45;&#45;danger-color: #e74c3c;-->
+<!--            &#45;&#45;warning-color: #f39c12;-->
+<!--            &#45;&#45;success-color: #2ecc71;-->
+<!--            &#45;&#45;text-color: #333;-->
+<!--            &#45;&#45;bg-color: #f5f7fa;-->
+<!--            &#45;&#45;card-bg: #ffffff;-->
+<!--        }-->
+
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background-color: var(&#45;&#45;bg-color);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            line-height: 1.6;-->
+<!--            height: 100vh;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background-image: linear-gradient(135deg, rgba(44, 62, 80, 0.05) 0%, rgba(52, 152, 219, 0.05) 100%);-->
+<!--        }-->
+
+<!--        .logout-container {-->
+<!--            background-color: var(&#45;&#45;card-bg);-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);-->
+<!--            width: 100%;-->
+<!--            max-width: 450px;-->
+<!--            text-align: center;-->
+<!--            padding: 3rem 2rem;-->
+<!--            position: relative;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .logo {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            gap: 10px;-->
+<!--            font-weight: bold;-->
+<!--            font-size: 1.8rem;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .logo i {-->
+<!--            font-size: 2.2rem;-->
+<!--        }-->
+
+<!--        .success-icon {-->
+<!--            width: 80px;-->
+<!--            height: 80px;-->
+<!--            background-color: #e8f7ef;-->
+<!--            border-radius: 50%;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            margin: 0 auto 1.5rem;-->
+<!--        }-->
+
+<!--        .success-icon i {-->
+<!--            color: var(&#45;&#45;success-color);-->
+<!--            font-size: 2.5rem;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            font-size: 1.8rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--        }-->
+
+<!--        p {-->
+<!--            color: #666;-->
+<!--            margin-bottom: 2rem;-->
+<!--            font-size: 1.1rem;-->
+<!--        }-->
+
+<!--        .security-notice {-->
+<!--            background-color: #f8f9fa;-->
+<!--            border-radius: 6px;-->
+<!--            padding: 1rem;-->
+<!--            margin-bottom: 2rem;-->
+<!--            text-align: left;-->
+<!--            border-left: 4px solid var(&#45;&#45;warning-color);-->
+<!--        }-->
+
+<!--        .security-notice h3 {-->
+<!--            color: var(&#45;&#45;warning-color);-->
+<!--            font-size: 1rem;-->
+<!--            margin-bottom: 0.5rem;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 6px;-->
+<!--        }-->
+
+<!--        .security-notice p {-->
+<!--            color: #666;-->
+<!--            font-size: 0.9rem;-->
+<!--            margin-bottom: 0;-->
+<!--        }-->
+
+<!--        .btn {-->
+<!--            padding: 0.8rem 2rem;-->
+<!--            border: none;-->
+<!--            border-radius: 6px;-->
+<!--            cursor: pointer;-->
+<!--            font-weight: 500;-->
+<!--            transition: all 0.3s ease;-->
+<!--            font-size: 1rem;-->
+<!--            text-decoration: none;-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #2980b9;-->
+<!--            transform: translateY(-2px);-->
+<!--            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);-->
+<!--        }-->
+
+<!--        .btn-outline {-->
+<!--            background-color: transparent;-->
+<!--            border: 1px solid #ddd;-->
+<!--            color: #666;-->
+<!--            margin-top: 1rem;-->
+<!--        }-->
+
+<!--        .btn-outline:hover {-->
+<!--            background-color: #f5f5f5;-->
+<!--        }-->
+
+<!--        .session-details {-->
+<!--            margin-top: 2rem;-->
+<!--            font-size: 0.85rem;-->
+<!--            color: #888;-->
+<!--        }-->
+
+<!--        .animation-container {-->
+<!--            position: absolute;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 6px;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .animation-bar {-->
+<!--            height: 100%;-->
+<!--            width: 100%;-->
+<!--            background: linear-gradient(to right, var(&#45;&#45;secondary-color), var(&#45;&#45;success-color));-->
+<!--            animation: slideOut 1.5s ease-in-out;-->
+<!--        }-->
+
+<!--        @keyframes slideOut {-->
+<!--            0% { transform: translateX(-100%); }-->
+<!--            100% { transform: translateX(0); }-->
+<!--        }-->
+
+<!--        .cyber-pattern {-->
+<!--            position: absolute;-->
+<!--            bottom: 0;-->
+<!--            right: 0;-->
+<!--            width: 150px;-->
+<!--            height: 150px;-->
+<!--            opacity: 0.05;-->
+<!--            background-image: radial-gradient(circle, var(&#45;&#45;primary-color) 2px, transparent 2px);-->
+<!--            background-size: 15px 15px;-->
+<!--            pointer-events: none;-->
+<!--        }-->
+<!--    </style>-->
+<!--    &lt;!&ndash; Font Awesome for icons &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="logout-container">-->
+<!--        <div class="animation-container">-->
+<!--            <div class="animation-bar"></div>-->
+<!--        </div>-->
+
+<!--        <div class="logo">-->
+<!--            <i class="fas fa-shield-alt"></i>-->
+<!--            <span>ThreatSense</span>-->
+<!--        </div>-->
+
+<!--        <div class="success-icon">-->
+<!--            <i class="fas fa-check"></i>-->
+<!--        </div>-->
+
+<!--        <h1>Secure Logout Successful</h1>-->
+<!--        <p>You have been securely logged out of the Cyber Threat Analysis System.</p>-->
+
+<!--        <div class="security-notice">-->
+<!--            <h3><i class="fas fa-lock"></i> Security Reminder</h3>-->
+<!--            <p>For optimal security, please close this browser window and clear your browser cache if you're on a shared or public computer.</p>-->
+<!--        </div>-->
+
+<!--        <a href="login.html" class="btn btn-primary">Return to Login</a>-->
+<!--        <a href="https://support.yourcompany.com" class="btn btn-outline">Report an Issue</a>-->
+
+<!--        <div class="session-details">-->
+<!--            <p>Session ID: <span id="session-id">SID20250313-85429</span></p>-->
+<!--            <p>Last active: <span id="last-active">March 13, 2025 at 15:42:09 UTC</span></p>-->
+<!--        </div>-->
+
+<!--        <div class="cyber-pattern"></div>-->
+<!--    </div>-->
+
+<!--    <script>-->
+<!--        // Update the time dynamically-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            // Generate a random session ID-->
+<!--            const generateSessionId = () => {-->
+<!--                const date = new Date();-->
+<!--                const randomNum = Math.floor(Math.random() * 100000);-->
+<!--                return `SID${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}-${randomNum}`;-->
+<!--            };-->
+
+<!--            // Update session ID-->
+<!--            document.getElementById('session-id').textContent = generateSessionId();-->
+
+<!--            // Update last active time-->
+<!--            const now = new Date();-->
+<!--            const options = {-->
+<!--                year: 'numeric',-->
+<!--                month: 'long',-->
+<!--                day: 'numeric',-->
+<!--                hour: '2-digit',-->
+<!--                minute: '2-digit',-->
+<!--                second: '2-digit',-->
+<!--                timeZoneName: 'short'-->
+<!--            };-->
+<!--            document.getElementById('last-active').textContent = now.toLocaleString('en-US', options);-->
+
+<!--            // Add click event for login button-->
+<!--            document.querySelector('.btn-primary').addEventListener('click', function(e) {-->
+<!--                e.preventDefault();-->
+<!--                window.location.href = 'login.html';-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out | Cyber Threat Analysis</title>
+    <style>
+        :root {
+            --primary-color: #05386B;
+            --secondary-color: #0F4C81;
+            --accent-color: #5CDB95;
+            --text-color: #333;
+            --light-text: #EDF5E1;
+            --background: #121212;
+            --card-bg: #1E1E1E;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--light-text);
+            background-color: var(--background);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23103a5e' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logout-container {
+            max-width: 500px;
+            width: 90%;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(92, 219, 149, 0.2);
+            text-align: center;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--light-text);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo::before {
+            content: "⚡";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .logout-icon {
+            font-size: 5em;
+            color: var(--accent-color);
+            margin: 20px 0;
+        }
+
+        .message {
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+
+        .security-message {
+            background-color: rgba(5, 56, 107, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border: 1px solid rgba(92, 219, 149, 0.2);
+            font-size: 0.9em;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #4dbb7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .secondary-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-color);
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            border: 1px solid var(--accent-color);
+            cursor: pointer;
+        }
+
+        .secondary-button:hover {
+            background-color: rgba(92, 219, 149, 0.1);
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .countdown {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--light-text);
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background-color: rgba(92, 219, 149, 0.1);
+            color: var(--accent-color);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            border: 1px solid rgba(92, 219, 149, 0.3);
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid var(--accent-color);
+        }
+
+        .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+
+        .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+
+        .check-icon::before, .check-icon::after {
+            content: '';
+            height: 100px;
+            position: absolute;
+            background: var(--card-bg);
+            transform: rotate(-45deg);
+        }
+
+        .icon-line {
+            height: 5px;
+            background-color: var(--accent-color);
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+
+        .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+
+        .icon-circle {
+            top: -4px;
+            left: -4px;
+            z-index: 10;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            box-sizing: content-box;
+            border: 4px solid rgba(92, 219, 149, 0.5);
+        }
+
+        .icon-fix {
+            top: 8px;
+            width: 5px;
+            left: 26px;
+            z-index: 1;
+            height: 85px;
+            position: absolute;
+            transform: rotate(-45deg);
+            background-color: var(--card-bg);
+        }
+
+        @keyframes rotate-circle {
+            0% {
+                transform: rotate(-45deg);
+            }
+            5% {
+                transform: rotate(-45deg);
+            }
+            12% {
+                transform: rotate(-405deg);
+            }
+            100% {
+                transform: rotate(-405deg);
+            }
+        }
+
+        @keyframes icon-line-tip {
+            0% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+            54% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+            70% {
+                width: 50px;
+                left: -8px;
+                top: 37px;
+            }
+            84% {
+                width: 17px;
+                left: 21px;
+                top: 48px;
+            }
+            100% {
+                width: 25px;
+                left: 14px;
+                top: 46px;
+            }
+        }
+
+        @keyframes icon-line-long {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            65% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            84% {
+                width: 55px;
+                right: 0px;
+                top: 35px;
+            }
+            100% {
+                width: 47px;
+                right: 8px;
+                top: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <header>
+            <div class="logo">ThreatEye</div>
+            <h1>Logged Out</h1>
+        </header>
+
+        <div class="content">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+
+            <div class="message">
+                <p>You have been successfully logged out of your account.</p>
+                <p>Thank you for using the Cyber Threat Analysis Project.</p>
+            </div>
+
+            <div class="security-message">
+                <p>For your security, we recommend closing your browser window, especially if you're using a shared or public computer.</p>
+            </div>
+
+            <div class="buttons">
+                <a href="login.html" class="button">Log In Again</a>
+                <br>
+                <a href="index.html" class="secondary-button">Return to Homepage

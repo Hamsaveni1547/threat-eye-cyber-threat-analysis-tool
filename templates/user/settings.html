@@ -2,9 +2,415 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Shield - Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a3af1;
+            --secondary-color: #1e1e3f;
+            --accent-color: #00d4ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .brand {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .content-wrapper {
+            margin-left: 5%;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2a2ae0;
+            border-color: #2a2ae0;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .avatar-upload {
+            position: relative;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .avatar-upload img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+        }
+
+        .avatar-edit {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            background-color: var(--primary-color);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .avatar-edit:hover {
+            background-color: #2a2ae0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+
+
+            .content-wrapper {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+
+        /* Badges and status indicators */
+        .badge-pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #28a745;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        .badge-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #28a745;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Santhosh</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-9 col-xl-10 content-wrapper">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Account Settings</h1>
+                    <div class="d-flex align-items-center">
+                        <span class="badge-pulse"></span>
+                        <span>System Status: Secure</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Profile Settings -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Profile Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="text-center mb-4">
+                                        <div class="avatar-upload">
+                                            <img src="/api/placeholder/150/150" alt="Profile Picture" class="img-fluid">
+                                            <div class="avatar-edit">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName" value="John Doe">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" value="john.doe@example.com">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="company" class="form-label">Company</label>
+                                        <input type="text" class="form-control" id="company" value="Cyber Solutions Inc.">
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Security Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="currentPassword" class="form-label">Current Password</label>
+                                        <input type="password" class="form-control" id="currentPassword">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="newPassword" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
+                                            <label class="form-check-label" for="twoFactorAuth">Enable Two-Factor Authentication</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">Update Security Settings</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- API Access -->
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">API Access</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="apiKey" class="form-label">API Key</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="apiKey" value="sk_live_51HGzBkKxM5aTGk8qT" readonly>
+                                        <button class="btn btn-outline-primary" type="button">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-outline-primary">Generate New API Key</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Notification Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="emailAlerts" checked>
+                                        <label class="form-check-label" for="emailAlerts">Email Alerts</label>
+                                    </div>
+                                    <small class="text-muted">Receive email notifications for security threats and scan results</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="smsAlerts" checked>
+                                        <label class="form-check-label" for="smsAlerts">SMS Alerts</label>
+                                    </div>
+                                    <small class="text-muted">Receive text messages for critical security incidents</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="weeklyReport" checked>
+                                        <label class="form-check-label" for="weeklyReport">Weekly Security Report</label>
+                                    </div>
+                                    <small class="text-muted">Receive a summary of all security activities every week</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="dataBreachAlerts" checked>
+                                        <label class="form-check-label" for="dataBreachAlerts">Data Breach Alerts</label>
+                                    </div>
+                                    <small class="text-muted">Get notified when your email appears in a data breach</small>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-primary">Save Notification Preferences</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Privacy Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Data Retention</label>
+                                    <select class="form-select">
+                                        <option>30 days</option>
+                                        <option>60 days</option>
+                                        <option selected>90 days</option>
+                                        <option>180 days</option>
+                                        <option>1 year</option>
+                                    </select>
+                                    <small class="text-muted">How long we keep your scan data and activity logs</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="anonymousAnalytics" checked>
+                                        <label class="form-check-label" for="anonymousAnalytics">Anonymous Analytics Sharing</label>
+                                    </div>
+                                    <small class="text-muted">Help improve our threat detection by sharing anonymous data</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="marketingEmails">
+                                        <label class="form-check-label" for="marketingEmails">Marketing Communications</label>
+                                    </div>
+                                    <small class="text-muted">Receive updates about new features and offers</small>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-primary">Save Privacy Settings</button>
+                                    <button type="button" class="btn btn-outline-danger">Delete Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Responsive sidebar toggle functionality
+            const handleResize = () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.add('collapsed');
+                } else {
+                    document.querySelector('.sidebar').classList.remove('collapsed');
+                }
+            };
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+        });
+    </script>
 </body>
 </html>

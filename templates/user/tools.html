@@ -1,0 +1,1608 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Cyber Shield - Security Tools</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #3a3af1;-->
+<!--            &#45;&#45;secondary-color: #1e1e3f;-->
+<!--            &#45;&#45;accent-color: #00d4ff;-->
+<!--            &#45;&#45;dark-bg: #121212;-->
+<!--            &#45;&#45;card-bg: #1e1e2f;-->
+<!--            &#45;&#45;text-color: #e0e0e0;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background-color: var(&#45;&#45;dark-bg);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--        }-->
+
+<!--        .sidebar {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            height: 100vh;-->
+<!--            position: fixed;-->
+<!--            padding-top: 1.5rem;-->
+<!--            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .sidebar .nav-link {-->
+<!--            color: #a0a0a0;-->
+<!--            border-radius: 5px;-->
+<!--            margin: 0.25rem 0;-->
+<!--            padding: 0.75rem 1rem;-->
+<!--            transition: all 0.3s;-->
+<!--        }-->
+
+<!--        .sidebar .nav-link:hover {-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            background-color: rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .sidebar .nav-link.active {-->
+<!--            color: #ffffff;-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .sidebar .nav-link i {-->
+<!--            margin-right: 0.5rem;-->
+<!--            width: 1.5rem;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .brand {-->
+<!--            color: var(&#45;&#45;accent-color);-->
+<!--            font-size: 1.5rem;-->
+<!--            font-weight: bold;-->
+<!--            padding: 0.5rem 1rem;-->
+<!--            margin-bottom: 2rem;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .brand i {-->
+<!--            margin-right: 0.5rem;-->
+<!--            font-size: 1.8rem;-->
+<!--        }-->
+
+<!--        .content-wrapper {-->
+<!--            margin-left: 250px;-->
+<!--            padding: 2rem;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background-color: var(&#45;&#45;card-bg);-->
+<!--            border: none;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            overflow: hidden;-->
+<!--            transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        .card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8;-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .card-header {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--            padding: 1rem;-->
+<!--        }-->
+
+<!--        .form-control, .form-select {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            border: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--        }-->
+
+<!--        .form-control:focus, .form-select:focus {-->
+<!--            background-color: rgba(255, 255, 255, 0.1);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #2a2ae0;-->
+<!--            border-color: #2a2ae0;-->
+<!--        }-->
+
+<!--        .btn-outline-primary {-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .btn-outline-primary:hover {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Tool card styles */-->
+<!--        .tool-card {-->
+<!--            height: 100%;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .tool-card .card-header {-->
+<!--            padding: 1.5rem;-->
+<!--        }-->
+
+<!--        .tool-icon {-->
+<!--            width: 50px;-->
+<!--            height: 50px;-->
+<!--            border-radius: 10px;-->
+<!--            background: linear-gradient(135deg, var(&#45;&#45;primary-color) 0%, var(&#45;&#45;accent-color) 100%);-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            color: white;-->
+<!--            font-size: 1.5rem;-->
+<!--            margin-right: 1rem;-->
+<!--        }-->
+
+<!--        .tool-card .card-body {-->
+<!--            flex: 1;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .tool-card .card-footer {-->
+<!--            background-color: rgba(255, 255, 255, 0.02);-->
+<!--            border-top: 1px solid rgba(255, 255, 255, 0.05);-->
+<!--            padding: 1rem;-->
+<!--        }-->
+
+<!--        .tool-stats {-->
+<!--            display: flex;-->
+<!--            gap: 1rem;-->
+<!--            margin-top: 1rem;-->
+<!--        }-->
+
+<!--        .tool-stat {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            border-radius: 5px;-->
+<!--            padding: 0.5rem;-->
+<!--            flex: 1;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .tool-stat h6 {-->
+<!--            margin: 0;-->
+<!--            font-size: 1rem;-->
+<!--        }-->
+
+<!--        .tool-stat p {-->
+<!--            margin: 0;-->
+<!--            color: #a0a0a0;-->
+<!--            font-size: 0.75rem;-->
+<!--        }-->
+
+<!--        .tool-result {-->
+<!--            background-color: rgba(255, 255, 255, 0.03);-->
+<!--            border-radius: 5px;-->
+<!--            padding: 1rem;-->
+<!--            margin-top: 1rem;-->
+<!--        }-->
+
+<!--        .result-indicator {-->
+<!--            width: 10px;-->
+<!--            height: 10px;-->
+<!--            border-radius: 50%;-->
+<!--            margin-right: 0.5rem;-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        .indicator-safe {-->
+<!--            background-color: #28a745;-->
+<!--        }-->
+
+<!--        .indicator-warning {-->
+<!--            background-color: #ffc107;-->
+<!--        }-->
+
+<!--        .indicator-danger {-->
+<!--            background-color: #dc3545;-->
+<!--        }-->
+
+<!--        .tool-tabs {-->
+<!--            margin-bottom: 1rem;-->
+<!--        }-->
+
+<!--        .tool-tabs .nav-link {-->
+<!--            color: #a0a0a0;-->
+<!--            border: none;-->
+<!--            padding: 0.75rem 1rem;-->
+<!--            border-radius: 5px;-->
+<!--            margin-right: 0.5rem;-->
+<!--        }-->
+
+<!--        .tool-tabs .nav-link.active {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .tool-tabs .nav-link:hover:not(.active) {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--        }-->
+
+<!--        .progress {-->
+<!--            height: 8px;-->
+<!--            background-color: rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .progress-bar {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        /* Responsive adjustments */-->
+<!--        @media (max-width: 992px) {-->
+<!--            .sidebar {-->
+<!--                width: 70px;-->
+<!--                overflow: visible;-->
+<!--                z-index: 999;-->
+<!--            }-->
+
+<!--            .sidebar .brand {-->
+<!--                padding: 0.5rem 0;-->
+<!--                justify-content: center;-->
+<!--            }-->
+
+<!--            .sidebar .brand span {-->
+<!--                display: none;-->
+<!--            }-->
+
+<!--            .sidebar .brand i {-->
+<!--                margin-right: 0;-->
+<!--            }-->
+
+<!--            .sidebar .nav-link span {-->
+<!--                display: none;-->
+<!--            }-->
+
+<!--            .sidebar .nav-link i {-->
+<!--                margin-right: 0;-->
+<!--                font-size: 1.2rem;-->
+<!--            }-->
+
+<!--            .content-wrapper {-->
+<!--                margin-left: 70px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .content-wrapper {-->
+<!--                margin-left: 0;-->
+<!--                padding: 1rem;-->
+<!--            }-->
+
+<!--            .sidebar {-->
+<!--                width: 100%;-->
+<!--                height: auto;-->
+<!--                position: relative;-->
+<!--                padding-top: 0;-->
+<!--            }-->
+
+<!--            .sidebar .nav {-->
+<!--                display: flex;-->
+<!--                flex-direction: row;-->
+<!--                justify-content: space-around;-->
+<!--                overflow-x: auto;-->
+<!--            }-->
+
+<!--            .sidebar .brand {-->
+<!--                display: none;-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Password strength meter */-->
+<!--        .password-strength-meter {-->
+<!--            height: 5px;-->
+<!--            background-color: rgba(255, 255, 255, 0.1);-->
+<!--            margin-top: 0.5rem;-->
+<!--            border-radius: 2px;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .password-strength-meter div {-->
+<!--            height: 100%;-->
+<!--            border-radius: 2px;-->
+<!--            transition: width 0.3s ease;-->
+<!--        }-->
+
+<!--        .strength-weak {-->
+<!--            background-color: #dc3545;-->
+<!--            width: 25%;-->
+<!--        }-->
+
+<!--        .strength-medium {-->
+<!--            background-color: #ffc107;-->
+<!--            width: 50%;-->
+<!--        }-->
+
+<!--        .strength-strong {-->
+<!--            background-color: #28a745;-->
+<!--            width: 100%;-->
+<!--        }-->
+
+<!--        /* File upload styles */-->
+<!--        .file-drop-zone {-->
+<!--            border: 2px dashed rgba(255, 255, 255, 0.1);-->
+<!--            border-radius: 10px;-->
+<!--            padding: 2rem;-->
+<!--            text-align: center;-->
+<!--            cursor: pointer;-->
+<!--            transition: all 0.3s;-->
+<!--        }-->
+
+<!--        .file-drop-zone:hover {-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--            background-color: rgba(58, 58, 241, 0.05);-->
+<!--        }-->
+
+<!--        .file-drop-zone i {-->
+<!--            font-size: 3rem;-->
+<!--            color: #a0a0a0;-->
+<!--            margin-bottom: 1rem;-->
+<!--            display: block;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container-fluid">-->
+<!--        <div class="row">-->
+<!--            &lt;!&ndash; Sidebar &ndash;&gt;-->
+<!--            <div class="col-lg-3 col-xl-2 sidebar">-->
+<!--                <div class="brand">-->
+<!--                    <i class="fas fa-shield-alt"></i>-->
+<!--                    <span>Cyber Shield</span>-->
+<!--                </div>-->
+<!--                <ul class="nav flex-column">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/dashboard">-->
+<!--                            <i class="fas fa-tachometer-alt"></i>-->
+<!--                            <span>Dashboard</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/user/settings">-->
+<!--                            <i class="fas fa-cog"></i>-->
+<!--                            <span>Settings</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/user/activities">-->
+<!--                            <i class="fas fa-chart-line"></i>-->
+<!--                            <span>Activities</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link active" href="/user/tools">-->
+<!--                            <i class="fas fa-tools"></i>-->
+<!--                            <span>Tools</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item mt-auto">-->
+<!--                        <a class="nav-link text-danger" href="/logout">-->
+<!--                            <i class="fas fa-sign-out-alt"></i>-->
+<!--                            <span>Logout</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Main Content &ndash;&gt;-->
+<!--            <div class="col-lg-9 col-xl-10 content-wrapper">-->
+<!--                <div class="d-flex justify-content-between align-items-center mb-4">-->
+<!--                    <h1>Security Tools</h1>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                        <span class="badge bg-success me-2">Pro Plan</span>-->
+<!--                        <span class="badge bg-primary">8 Tools Available</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Tools Navigation &ndash;&gt;-->
+<!--                <ul class="nav nav-tabs tool-tabs mb-4" id="toolTabs" role="tablist">-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link active" id="all-tools-tab" data-bs-toggle="tab" data-bs-target="#all-tools" type="button" role="tab">-->
+<!--                            All Tools-->
+<!--                        </button>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tool" type="button" role="tab">-->
+<!--                            Password Checker-->
+<!--                        </button>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link" id="virus-tab" data-bs-toggle="tab" data-bs-target="#virus-tool" type="button" role="tab">-->
+<!--                            Virus Detection-->
+<!--                        </button>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link" id="breach-tab" data-bs-toggle="tab" data-bs-target="#breach-tool" type="button" role="tab">-->
+<!--                            Data Breach-->
+<!--                        </button>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link" id="more-tab" data-bs-toggle="tab" data-bs-target="#more-tools" type="button" role="tab">-->
+<!--                            More Tools-->
+<!--                        </button>-->
+<!--                    </li>-->
+<!--                </ul>-->
+
+<!--                &lt;!&ndash; Tab Content &ndash;&gt;-->
+<!--                <div class="tab-content" id="toolTabsContent">-->
+<!--                    &lt;!&ndash; All Tools Tab &ndash;&gt;-->
+<!--                    <div class="tab-pane fade show active" id="all-tools" role="tabpanel">-->
+<!--                        <div class="row">-->
+<!--                            &lt;!&ndash; Tool 1: Password Strength Checker &ndash;&gt;-->
+<!--                            <div class="col-md-6 col-lg-4 mb-4">-->
+<!--                                <div class="card tool-card">-->
+<!--                                    <div class="card-header">-->
+<!--                                        <div class="d-flex align-items-center">-->
+<!--                                            <div class="tool-icon">-->
+<!--                                                <i class="fas fa-lock"></i>-->
+<!--                                            </div>-->
+<!--                                            <div>-->
+<!--                                                <h5 class="mb-0">Password Strength</h5>-->
+<!--                                                <small class="text-muted">Check password security</small>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <p>Analyze your password strength and get recommendations for improvement.</p>-->
+<!--                                        <div class="tool-stats">-->
+<!--                                            <div class="tool-stat">-->
+<!--                                                <h6>132</h6>-->
+<!--                                                <p>Checks Today</p>-->
+<!--                                            </div>-->
+<!--                                            <div class="tool-stat">-->
+<!--                                                <h6>68%</h6>-->
+<!--                                                <p>Weak Passwords</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-footer">-->
+<!--                                        <a href="#password-tool" class="btn btn-primary w-100" data-bs-toggle="tab" data-bs-target="#password-tool">-->
+<!--                                            Use Tool-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Tool 2: Virus Detection &ndash;&gt;-->
+<!--                            <div class="col-md-6 col-lg-4 mb-4">-->
+<!--                                <div class="card tool-card">-->
+<!--                                    <div class="card-header">-->
+<!--                                        <div class="d-flex align-items-center">-->
+<!--                                            <div class="tool-icon">-->
+<!--                                                <i class="fas fa-virus-slash"></i>-->
+<!--                                            </div>-->
+<!--                                            <div>-->
+<!--                                                <h5 class="mb-0">Virus Detection</h5>-->
+<!--                                                <small class="text-muted">Scan files for threats</small>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <p>Upload files to scan for viruses, malware, and other threats.</p>-->
+<!--                                        <div class="tool-stats">-->
+<!--                                            <div class="tool-stat">-->
+<!--                                                <h6>87</h6>-->
+<!--                                                <p>Scans Today</p>-->
+<!--                                            </div>-->
+<!--                                            <div class="tool-stat">-->
+<!--                                                <h6>12</h6>-->
+<!--                                                <p>Threats Found</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-footer">-->
+<!--                                        <a href="#virus-tool" class="btn btn-primary w-100" data-bs-toggle="tab" data-bs-target="#virus-tool">-->
+<!--                                            Use Tool-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Tool 3: Data Breach Checker &ndash;&gt;-->
+<!--                            <div class="col-md-6 col-lg-4 mb-4">-->
+<!--                                <div class="card tool-card">-->
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Security Tools - Cyber Threat Analysis</title>-->
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    &lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #4e54c8;-->
+<!--            &#45;&#45;secondary-color: #8f94fb;-->
+<!--            &#45;&#45;danger-color: #ff4757;-->
+<!--            &#45;&#45;success-color: #2ed573;-->
+<!--            &#45;&#45;warning-color: #ffa502;-->
+<!--            &#45;&#45;dark-bg: #1e272e;-->
+<!--            &#45;&#45;card-bg: #2d3436;-->
+<!--            &#45;&#45;light-text: #f1f2f6;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background-color: #f8f9fa;-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--        }-->
+
+<!--        .tool-card {-->
+<!--            border: none;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);-->
+<!--            transition: transform 0.3s ease, box-shadow 0.3s ease;-->
+<!--            overflow: hidden;-->
+<!--            height: 100%;-->
+<!--        }-->
+
+<!--        .tool-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);-->
+<!--        }-->
+
+<!--        .tool-icon {-->
+<!--            font-size: 2.5rem;-->
+<!--            margin-bottom: 1rem;-->
+<!--        }-->
+
+<!--        .tool-header {-->
+<!--            background: linear-gradient(135deg, var(&#45;&#45;primary-color), var(&#45;&#45;secondary-color));-->
+<!--            color: white;-->
+<!--            padding: 1.5rem;-->
+<!--            text-align: center;-->
+<!--            border-top-left-radius: 10px;-->
+<!--            border-top-right-radius: 10px;-->
+<!--        }-->
+
+<!--        .tool-body {-->
+<!--            padding: 1.5rem;-->
+<!--            background-color: white;-->
+<!--        }-->
+
+<!--        .btn-tool {-->
+<!--            background: linear-gradient(135deg, var(&#45;&#45;primary-color), var(&#45;&#45;secondary-color));-->
+<!--            border: none;-->
+<!--            color: white;-->
+<!--            font-weight: 600;-->
+<!--            padding: 0.5rem 1.5rem;-->
+<!--            border-radius: 50px;-->
+<!--            transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        .btn-tool:hover {-->
+<!--            transform: scale(1.05);-->
+<!--            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);-->
+<!--        }-->
+
+<!--        .dark-mode {-->
+<!--            background-color: var(&#45;&#45;dark-bg);-->
+<!--            color: var(&#45;&#45;light-text);-->
+<!--        }-->
+
+<!--        .dark-mode .tool-card {-->
+<!--            background-color: var(&#45;&#45;card-bg);-->
+<!--            color: var(&#45;&#45;light-text);-->
+<!--        }-->
+
+<!--        .dark-mode .tool-body {-->
+<!--            background-color: var(&#45;&#45;card-bg);-->
+<!--        }-->
+
+<!--        /* Tool-specific colors */-->
+<!--        .password-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #3498db, #2980b9);-->
+<!--        }-->
+
+<!--        .virus-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #e74c3c, #c0392b);-->
+<!--        }-->
+
+<!--        .breach-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #9b59b6, #8e44ad);-->
+<!--        }-->
+
+<!--        .downcheck-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #f1c40f, #f39c12);-->
+<!--        }-->
+
+<!--        .phishing-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #1abc9c, #16a085);-->
+<!--        }-->
+
+<!--        .ip-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #d35400, #e67e22);-->
+<!--        }-->
+
+<!--        .website-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #27ae60, #2ecc71);-->
+<!--        }-->
+
+<!--        .network-tool .tool-header {-->
+<!--            background: linear-gradient(135deg, #7f8c8d, #95a5a6);-->
+<!--        }-->
+
+<!--        /* Responsive styles */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .tool-card {-->
+<!--                margin-bottom: 1.5rem;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container py-4">-->
+<!--        <div class="d-flex justify-content-between align-items-center mb-4">-->
+<!--            <h1 class="mb-0">Security Tools</h1>-->
+<!--            <div>-->
+<!--                <button id="darkModeToggle" class="btn btn-sm btn-outline-dark">-->
+<!--                    <i class="fas fa-moon"></i> Dark Mode-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="row g-4">-->
+<!--            &lt;!&ndash; Password Strength Checker &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card password-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-key"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Password Strength Checker</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Check how strong your passwords are against common attack patterns.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter password">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="checkPassword()">Analyze Password</button>-->
+<!--                        </div>-->
+<!--                        <div class="mt-3">-->
+<!--                            <div class="progress" style="height: 10px;">-->
+<!--                                <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--                            </div>-->
+<!--                            <p id="passwordFeedback" class="mt-2 small"></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Virus Detection &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card virus-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-virus"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Virus Detection</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Scan files for potential viruses and malware.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input class="form-control" type="file" id="fileInput">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="scanFile()">Scan File</button>-->
+<!--                        </div>-->
+<!--                        <div id="scanResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Data Breach Checker &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card breach-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-user-shield"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Data Breach Checker</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Check if your email has been involved in known data breaches.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="email" class="form-control" id="emailInput" placeholder="Enter email">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="checkBreaches()">Check Email</button>-->
+<!--                        </div>-->
+<!--                        <div id="breachResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Site Down Checker &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card downcheck-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-globe-americas"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Site Down Checker</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Check if a website is currently down or experiencing issues.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="url" class="form-control" id="siteInput" placeholder="Enter website URL">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="checkSiteStatus()">Check Status</button>-->
+<!--                        </div>-->
+<!--                        <div id="siteResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Phishing URL Detection &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card phishing-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-fishing-hook"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Phishing URL Detection</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Analyze URLs for potential phishing indicators.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="url" class="form-control" id="urlInput" placeholder="Enter URL to check">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="checkPhishingURL()">Analyze URL</button>-->
+<!--                        </div>-->
+<!--                        <div id="phishingResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; IP Address Risk Analyzer &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card ip-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-network-wired"></i>-->
+<!--                        </div>-->
+<!--                        <h5>IP Risk Analyzer</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Check if an IP address is suspicious or has been reported.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="text" class="form-control" id="ipInput" placeholder="Enter IP address">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="analyzeIP()">Analyze IP</button>-->
+<!--                        </div>-->
+<!--                        <div id="ipResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Website Scanner &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card website-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-search"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Website Scanner</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Scan websites for vulnerabilities and security issues.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <input type="url" class="form-control" id="websiteInput" placeholder="Enter website URL">-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="scanWebsite()">Scan Website</button>-->
+<!--                        </div>-->
+<!--                        <div id="websiteResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Network Traffic Detection &ndash;&gt;-->
+<!--            <div class="col-md-6 col-lg-3">-->
+<!--                <div class="tool-card network-tool">-->
+<!--                    <div class="tool-header">-->
+<!--                        <div class="tool-icon">-->
+<!--                            <i class="fas fa-wifi"></i>-->
+<!--                        </div>-->
+<!--                        <h5>Network Traffic Detection</h5>-->
+<!--                    </div>-->
+<!--                    <div class="tool-body">-->
+<!--                        <p>Analyze network traffic for suspicious activities.</p>-->
+<!--                        <div class="mb-3">-->
+<!--                            <select class="form-select" id="networkInterface">-->
+<!--                                <option selected>Select network interface</option>-->
+<!--                                <option value="eth0">Ethernet</option>-->
+<!--                                <option value="wlan0">WiFi</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="d-grid">-->
+<!--                            <button class="btn btn-tool" onclick="analyzeNetwork()">Start Analysis</button>-->
+<!--                        </div>-->
+<!--                        <div id="networkResult" class="mt-3 small"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Bootstrap Bundle with Popper &ndash;&gt;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--    <script>-->
+<!--        // Dark mode toggle-->
+<!--        const darkModeToggle = document.getElementById('darkModeToggle');-->
+<!--        darkModeToggle.addEventListener('click', function() {-->
+<!--            document.body.classList.toggle('dark-mode');-->
+<!--            const icon = this.querySelector('i');-->
+<!--            if (document.body.classList.contains('dark-mode')) {-->
+<!--                icon.classList.remove('fa-moon');-->
+<!--                icon.classList.add('fa-sun');-->
+<!--                this.classList.remove('btn-outline-dark');-->
+<!--                this.classList.add('btn-outline-light');-->
+<!--                this.innerHTML = '<i class="fas fa-sun"></i> Light Mode';-->
+<!--            } else {-->
+<!--                icon.classList.remove('fa-sun');-->
+<!--                icon.classList.add('fa-moon');-->
+<!--                this.classList.remove('btn-outline-light');-->
+<!--                this.classList.add('btn-outline-dark');-->
+<!--                this.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';-->
+<!--            }-->
+<!--        });-->
+
+<!--        // Password Strength Checker-->
+<!--        function checkPassword() {-->
+<!--            const password = document.getElementById('passwordInput').value;-->
+<!--            const strengthBar = document.getElementById('passwordStrength');-->
+<!--            const feedback = document.getElementById('passwordFeedback');-->
+
+<!--            if (!password) {-->
+<!--                feedback.innerHTML = 'Please enter a password';-->
+<!--                strengthBar.style.width = '0%';-->
+<!--                strengthBar.className = 'progress-bar';-->
+<!--                return;-->
+<!--            }-->
+
+<!--            // Simple password strength algorithm-->
+<!--            let strength = 0-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Tools - Cyber Threat Analysis</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a3af1;
+            --secondary-color: #1e1e3f;
+            --accent-color: #00d4ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: #191970;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .tool-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .tool-body {
+            padding: 1.5rem;
+            background-color: #001F5F;
+        }
+
+        .btn-tool {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-tool:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+        }
+
+        .dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+        }
+
+        .dark-mode .tool-card {
+            background-color: var(--card-bg);
+            color: var(--light-text);
+        }
+
+        .dark-mode .tool-body {
+            background-color: var(--card-bg);
+        }
+
+        /* Tool-specific colors */
+        .password-tool .tool-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .virus-tool .tool-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .breach-tool .tool-header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .downcheck-tool .tool-header {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+        }
+
+        .phishing-tool .tool-header {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+
+        .ip-tool .tool-header {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+        }
+
+        .website-tool .tool-header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .network-tool .tool-header {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .tool-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Security Tools</h1>
+            <div>
+                <button id="darkModeToggle" class="btn btn-sm btn-outline-dark">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Password Strength Checker -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card password-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h5>Password Strength Checker</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Check how strong your passwords are against common attack patterns.</p>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter password">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="checkPassword()">Analyze Password</button>
+                        </div>
+                        <div class="mt-3">
+                            <div class="progress" style="height: 10px;">
+                                <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p id="passwordFeedback" class="mt-2 small"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virus Detection -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card virus-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <h5>Virus Detection</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Scan files for potential viruses and malware.</p>
+                        <div class="mb-3">
+                            <input class="form-control" type="file" id="fileInput">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="scanFile()">Scan File</button>
+                        </div>
+                        <div id="scanResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Breach Checker -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card breach-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h5>Data Breach Checker</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Check if your email has been involved in known data breaches.</p>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="checkBreaches()">Check Email</button>
+                        </div>
+                        <div id="breachResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Site Down Checker -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card downcheck-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h5>Site Down Checker</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Check if a website is currently down or experiencing issues.</p>
+                        <div class="mb-3">
+                            <input type="url" class="form-control" id="siteInput" placeholder="Enter website URL">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="checkSiteStatus()">Check Status</button>
+                        </div>
+                        <div id="siteResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phishing URL Detection -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card phishing-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-fishing-hook"></i>
+                        </div>
+                        <h5>Phishing URL Detection</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Analyze URLs for potential phishing indicators.</p>
+                        <div class="mb-3">
+                            <input type="url" class="form-control" id="urlInput" placeholder="Enter URL to check">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="checkPhishingURL()">Analyze URL</button>
+                        </div>
+                        <div id="phishingResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IP Address Risk Analyzer -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card ip-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h5>IP Risk Analyzer</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Check if an IP address is suspicious or has been reported.</p>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="ipInput" placeholder="Enter IP address">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="analyzeIP()">Analyze IP</button>
+                        </div>
+                        <div id="ipResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Website Scanner -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card website-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h5>Website Scanner</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Scan websites for vulnerabilities and security issues.</p>
+                        <div class="mb-3">
+                            <input type="url" class="form-control" id="websiteInput" placeholder="Enter website URL">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="scanWebsite()">Scan Website</button>
+                        </div>
+                        <div id="websiteResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Traffic Detection -->
+            <div class="col-md-6 col-lg-3">
+                <div class="tool-card network-tool">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h5>Network Traffic Detection</h5>
+                    </div>
+                    <div class="tool-body">
+                        <p>Analyze network traffic for suspicious activities.</p>
+                        <div class="mb-3">
+                            <select class="form-select" id="networkInterface">
+                                <option selected>Select network interface</option>
+                                <option value="eth0">Ethernet</option>
+                                <option value="wlan0">WiFi</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-tool" onclick="analyzeNetwork()">Start Analysis</button>
+                        </div>
+                        <div id="networkResult" class="mt-3 small"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                this.classList.remove('btn-outline-dark');
+                this.classList.add('btn-outline-light');
+                this.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                this.classList.remove('btn-outline-light');
+                this.classList.add('btn-outline-dark');
+                this.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        });
+
+        // Password Strength Checker
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const feedback = document.getElementById('passwordFeedback');
+
+            if (!password) {
+                feedback.innerHTML = 'Please enter a password';
+                strengthBar.style.width = '0%';
+                strengthBar.className = 'progress-bar';
+                return;
+            }
+
+            // Simple password strength algorithm
+            let strength = 0;
+
+            // Length check
+            if (password.length >= 8) strength += 20;
+
+            // Complexity checks
+            // Continuing the password strength checker function
+            if (password.match(/[A-Z]+/)) strength += 10;
+            if (password.match(/[0-9]+/)) strength += 10;
+            if (password.match(/[^a-zA-Z0-9]+/)) strength += 20;
+
+            // Set progress bar
+            strengthBar.style.width = strength + '%';
+
+            // Style and feedback based on strength
+            if (strength < 30) {
+                strengthBar.className = 'progress-bar bg-danger';
+                feedback.innerHTML = 'Very weak: Please use a stronger password';
+                feedback.className = 'mt-2 small text-danger';
+            } else if (strength < 60) {
+                strengthBar.className = 'progress-bar bg-warning';
+                feedback.innerHTML = 'Moderate: Consider adding numbers and special characters';
+                feedback.className = 'mt-2 small text-warning';
+            } else if (strength < 80) {
+                strengthBar.className = 'progress-bar bg-info';
+                feedback.innerHTML = 'Strong: Good password strength';
+                feedback.className = 'mt-2 small text-info';
+            } else {
+                strengthBar.className = 'progress-bar bg-success';
+                feedback.innerHTML = 'Very strong: Excellent password';
+                feedback.className = 'mt-2 small text-success';
+            }
+        }
+
+        // Virus Detection in File
+        function scanFile() {
+            const fileInput = document.getElementById('fileInput');
+            const scanResult = document.getElementById('scanResult');
+
+            if (!fileInput.files.length) {
+                scanResult.innerHTML = 'Please select a file to scan';
+                scanResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            const file = fileInput.files[0];
+
+            // Simulate scanning process
+            scanResult.innerHTML = '<div class="d-flex align-items-center"><strong>Scanning file...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would send the file to your backend
+                // This is just a simulation
+                const isSafe = Math.random() > 0.2;
+
+                if (isSafe) {
+                    scanResult.innerHTML = `<i class="fas fa-check-circle text-success"></i> File "${file.name}" appears safe. No threats detected.`;
+                    scanResult.className = 'mt-3 small text-success';
+                } else {
+                    scanResult.innerHTML = `<i class="fas fa-exclamation-triangle text-danger"></i> Potential threat detected in "${file.name}"! We recommend not opening this file.`;
+                    scanResult.className = 'mt-3 small text-danger';
+                }
+            }, 2000);
+        }
+
+        // Data Breach Email Checker
+        function checkBreaches() {
+            const email = document.getElementById('emailInput').value;
+            const breachResult = document.getElementById('breachResult');
+
+            if (!email) {
+                breachResult.innerHTML = 'Please enter an email address';
+                breachResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                breachResult.innerHTML = 'Please enter a valid email address';
+                breachResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate API call to check breaches
+            breachResult.innerHTML = '<div class="d-flex align-items-center"><strong>Checking breaches...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would call a breach database API
+                // This is just a simulation
+                const breachCount = Math.floor(Math.random() * 5);
+
+                if (breachCount === 0) {
+                    breachResult.innerHTML = `<i class="fas fa-shield-alt text-success"></i> Good news! No data breaches found for ${email}`;
+                    breachResult.className = 'mt-3 small text-success';
+                } else {
+                    breachResult.innerHTML = `<i class="fas fa-exclamation-circle text-danger"></i> Your email was found in ${breachCount} data breach${breachCount > 1 ? 'es' : ''}. Consider changing your password.`;
+                    breachResult.className = 'mt-3 small text-danger';
+                }
+            }, 1500);
+        }
+
+        // Site Down Check
+        function checkSiteStatus() {
+            const site = document.getElementById('siteInput').value;
+            const siteResult = document.getElementById('siteResult');
+
+            if (!site) {
+                siteResult.innerHTML = 'Please enter a website URL';
+                siteResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // URL validation (simple)
+            if (!site.startsWith('http')) {
+                siteResult.innerHTML = 'Please enter a valid URL including http:// or https://';
+                siteResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate status check
+            siteResult.innerHTML = '<div class="d-flex align-items-center"><strong>Checking site status...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would ping the site
+                // This is just a simulation
+                const isUp = Math.random() > 0.15;
+
+                if (isUp) {
+                    siteResult.innerHTML = `<i class="fas fa-check-circle text-success"></i> ${site} is up and running!`;
+                    siteResult.className = 'mt-3 small text-success';
+                } else {
+                    siteResult.innerHTML = `<i class="fas fa-times-circle text-danger"></i> ${site} appears to be down or unreachable.`;
+                    siteResult.className = 'mt-3 small text-danger';
+                }
+            }, 1800);
+        }
+
+        // Phishing URL Detection
+        function checkPhishingURL() {
+            const url = document.getElementById('urlInput').value;
+            const phishingResult = document.getElementById('phishingResult');
+
+            if (!url) {
+                phishingResult.innerHTML = 'Please enter a URL to check';
+                phishingResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // URL validation (simple)
+            if (!url.startsWith('http')) {
+                phishingResult.innerHTML = 'Please enter a valid URL including http:// or https://';
+                phishingResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate phishing check
+            phishingResult.innerHTML = '<div class="d-flex align-items-center"><strong>Analyzing URL for phishing indicators...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would analyze the URL against phishing databases
+                // This is just a simulation
+                const riskLevel = Math.random();
+
+                if (riskLevel < 0.6) {
+                    phishingResult.innerHTML = `<i class="fas fa-check-circle text-success"></i> ${url} appears to be legitimate.`;
+                    phishingResult.className = 'mt-3 small text-success';
+                } else if (riskLevel < 0.85) {
+                    phishingResult.innerHTML = `<i class="fas fa-exclamation-circle text-warning"></i> ${url} has some suspicious characteristics. Exercise caution.`;
+                    phishingResult.className = 'mt-3 small text-warning';
+                } else {
+                    phishingResult.innerHTML = `<i class="fas fa-exclamation-triangle text-danger"></i> HIGH RISK! ${url} is likely a phishing attempt. Do not proceed!`;
+                    phishingResult.className = 'mt-3 small text-danger';
+                }
+            }, 2200);
+        }
+
+        // IP Address Risk Analyzer
+        function analyzeIP() {
+            const ip = document.getElementById('ipInput').value;
+            const ipResult = document.getElementById('ipResult');
+
+            if (!ip) {
+                ipResult.innerHTML = 'Please enter an IP address';
+                ipResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simple IP validation
+            const ipRegex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            if (!ipRegex.test(ip)) {
+                ipResult.innerHTML = 'Please enter a valid IPv4 address';
+                ipResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate IP analysis
+            ipResult.innerHTML = '<div class="d-flex align-items-center"><strong>Analyzing IP address...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would check against threat intelligence databases
+                // This is just a simulation
+                const threatLevel = Math.random();
+                let threatText, threatClass, icon;
+
+                if (threatLevel < 0.7) {
+                    threatText = `No known threats associated with ${ip}`;
+                    threatClass = 'text-success';
+                    icon = 'check-circle';
+                } else if (threatLevel < 0.9) {
+                    threatText = `${ip} has been associated with suspicious activity`;
+                    threatClass = 'text-warning';
+                    icon = 'exclamation-circle';
+                } else {
+                    threatText = `HIGH RISK! ${ip} is known for malicious activity`;
+                    threatClass = 'text-danger';
+                    icon = 'ban';
+                }
+
+                ipResult.innerHTML = `<i class="fas fa-${icon} ${threatClass}"></i> ${threatText}`;
+                ipResult.className = `mt-3 small ${threatClass}`;
+            }, 1700);
+        }
+
+        // Website Scanner
+        function scanWebsite() {
+            const website = document.getElementById('websiteInput').value;
+            const websiteResult = document.getElementById('websiteResult');
+
+            if (!website) {
+                websiteResult.innerHTML = 'Please enter a website URL';
+                websiteResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // URL validation (simple)
+            if (!website.startsWith('http')) {
+                websiteResult.innerHTML = 'Please enter a valid URL including http:// or https://';
+                websiteResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate website scanning
+            websiteResult.innerHTML = '<div class="d-flex align-items-center"><strong>Scanning website for vulnerabilities...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would perform an actual security scan
+                // This is just a simulation
+                const issues = Math.floor(Math.random() * 5);
+
+                if (issues === 0) {
+                    websiteResult.innerHTML = `<i class="fas fa-shield-alt text-success"></i> No vulnerabilities detected on ${website}`;
+                    websiteResult.className = 'mt-3 small text-success';
+                } else {
+                    websiteResult.innerHTML = `<i class="fas fa-exclamation-triangle text-warning"></i> ${issues} potential security issue${issues > 1 ? 's' : ''} found on ${website}.`;
+
+                    // Add details about found issues
+                    let issuesList = '<ul class="mt-2 ps-3">';
+                    const possibleIssues = [
+                        'Outdated SSL certificate',
+                        'Missing security headers',
+                        'Cross-site scripting vulnerability',
+                        'SQL injection vulnerability',
+                        'Insecure cookies'
+                    ];
+
+                    for (let i = 0; i < issues; i++) {
+                        issuesList += `<li>${possibleIssues[i]}</li>`;
+                    }
+                    issuesList += '</ul>';
+
+                    websiteResult.innerHTML += issuesList;
+                    websiteResult.className = 'mt-3 small text-warning';
+                }
+            }, 3000);
+        }
+
+        // Network Traffic Detection
+        function analyzeNetwork() {
+            const networkInterface = document.getElementById('networkInterface').value;
+            const networkResult = document.getElementById('networkResult');
+
+            if (networkInterface === 'Select network interface') {
+                networkResult.innerHTML = 'Please select a network interface';
+                networkResult.className = 'mt-3 small text-danger';
+                return;
+            }
+
+            // Simulate network analysis
+            networkResult.innerHTML = '<div class="d-flex align-items-center"><strong>Analyzing network traffic...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>';
+
+            setTimeout(() => {
+                // In a real application, you would analyze actual network traffic
+                // This is just a simulation
+                const suspiciousConnections = Math.floor(Math.random() * 3);
+
+                if (suspiciousConnections === 0) {
+                    networkResult.innerHTML = `<i class="fas fa-shield-alt text-success"></i> No suspicious traffic detected on ${networkInterface}`;
+                    networkResult.className = 'mt-3 small text-success';
+                } else {
+                    networkResult.innerHTML = `<i class="fas fa-exclamation-triangle text-warning"></i> ${suspiciousConnections} suspicious connection${suspiciousConnections > 1 ? 's' : ''} detected on ${networkInterface}.`;
+
+                    // Traffic details
+                    const trafficData = [
+                        {ip: '45.33.2.' + Math.floor(Math.random() * 255), port: 4444, protocol: 'TCP', risk: 'high'},
+                        {ip: '192.168.0.' + Math.floor(Math.random() * 255), port: 8080, protocol: 'HTTP', risk: 'medium'},
+                        {ip: '91.234.56.' + Math.floor(Math.random() * 255), port: 21, protocol: 'FTP', risk: 'medium'}
+                    ];
+
+                    let trafficTable = `
+                        <table class="table table-sm table-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th>IP Address</th>
+                                    <th>Port</th>
+                                    <th>Protocol</th>
+                                    <th>Risk</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+
+                    for (let i = 0; i < suspiciousConnections; i++) {
+                        const connection = trafficData[i];
+                        let riskClass = connection.risk === 'high' ? 'danger' : 'warning';
+
+                        trafficTable += `
+                            <tr>
+                                <td>${connection.ip}</td>
+                                <td>${connection.port}</td>
+                                <td>${connection.protocol}</td>
+                                <td><span class="badge bg-${riskClass}">${connection.risk}</span></td>
+                            </tr>
+                        `;
+                    }
+
+                    trafficTable += `
+                            </tbody>
+                        </table>
+                    `;
+
+                    networkResult.innerHTML += trafficTable;
+                    networkResult.className = 'mt-3 small';
+                }
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Cyber Threat Analysis</title>
+    <style>
+        :root {
+            --primary-color: #05386B;
+            --secondary-color: #0F4C81;
+            --accent-color: #5CDB95;
+            --text-color: #333;
+            --light-text: #EDF5E1;
+            --background: #121212;
+            --card-bg: #1E1E1E;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--light-text);
+            background-color: var(--background);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23103a5e' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(92, 219, 149, 0.2);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--light-text);
+            padding: 35px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 1px solid rgba(92, 219, 149, 0.3);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 1.4em;
+            letter-spacing: 0.5px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+        
+        .date {
+            font-style: italic;
+            color: #888;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        ul {
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background-color: rgba(92, 219, 149, 0.1);
+            color: var(--accent-color);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            border: 1px solid rgba(92, 219, 149, 0.3);
+        }
+
+        .privacy-highlight {
+            background-color: rgba(15, 76, 129, 0.3);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .data-section {
+            background-color: rgba(5, 56, 107, 0.2);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid rgba(92, 219, 149, 0.1);
+        }
+
+        .section-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: rgba(92, 219, 149, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #4dbb7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-info {
+            background-color: rgba(5, 56, 107, 0.3);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 30px 0;
+            border: 1px solid rgba(92, 219, 149, 0.2);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(92, 219, 149, 0.2);
+        }
+
+        th {
+            background-color: rgba(5, 56, 107, 0.5);
+            color: var(--accent-color);
+        }
+
+        tr:hover {
+            background-color: rgba(5, 56, 107, 0.2);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.5em;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: #4dbb7a;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="/static/images/logo.png" style="width:40px">ThreatEye</div>
+            <h1>Privacy Policy</h1>
+        </header>
+
+        <div class="content">
+            <div class="date">Last Updated: March 17, 2025</div>
+
+            <p>At the Cyber Threat Analysis Project, we take your privacy seriously. This Privacy Policy describes how we collect, use, and protect your personal information.</p>
+
+            <div class="privacy-highlight">
+                <p>The Cyber Threat Analysis Project is committed to protecting your privacy while providing valuable cybersecurity intelligence and analysis. This document outlines our practices regarding data collection, usage, and security measures.</p>
+            </div>
+
+            <h2 id="information"><span class="section-icon">🔍</span> 1. Information We Collect</h2>
+            <p>We may collect the following types of information:</p>
+            <div class="data-section">
+                <ul>
+                    <li><strong>Personal Information:</strong> Name, email address, company affiliation, and contact details when you register for an account or subscribe to our services.</li>
+                    <li><strong>Usage Data:</strong> Information on how you access and use our services, including IP addresses, browser type, device information, and pages visited.</li>
+                    <li><strong>Threat Intelligence Data:</strong> Technical data related to cyber threats, vulnerabilities, and security incidents that may be shared with our platform.</li>
+                    <li><strong>Cookies and Tracking Technologies:</strong> Information collected through cookies and similar technologies to enhance user experience and analyze usage patterns.</li>
+                </ul>
+            </div>
+
+            <h2 id="usage"><span class="section-icon">⚙️</span> 2. How We Use Your Information</h2>
+            <p>We use the collected information for the following purposes:</p>
+            <div class="data-section">
+                <ul>
+                    <li>To provide, maintain, and improve our services</li>
+                    <li>To process and complete transactions</li>
+                    <li>To send administrative information, such as updates, security alerts, and support messages</li>
+                    <li>To respond to your comments, questions, and requests</li>
+                    <li>To conduct research and analysis to better understand how users access and use our services</li>
+                    <li>To develop new products, services, features, and functionality</li>
+                    <li>To generate anonymized threat intelligence and security insights</li>
+                    <li>To detect, prevent, and address technical issues and security threats</li>
+                </ul>
+            </div>
+
+            <h2 id="sharing"><span class="section-icon">🔄</span> 3. Data Sharing and Disclosure</h2>
+            <p>We may share your information with:</p>
+            <div class="data-section">
+                <ul>
+                    <li><strong>Service Providers:</strong> Third-party vendors who provide services on our behalf, such as hosting, data analysis, and customer service.</li>
+                    <li><strong>Compliance and Legal Requirements:</strong> When we believe disclosure is necessary to comply with applicable laws, regulations, legal processes, or governmental requests.</li>
+                    <li><strong>Security and Fraud Prevention:</strong> To protect against security breaches, fraud, and other illegal activities.</li>
+                    <li><strong>Business Transfers:</strong> In connection with any merger, sale of company assets, financing, or acquisition of all or a portion of our business.</li>
+                    <li><strong>With Your Consent:</strong> We may share your information with third parties when you have given us your consent to do so.</li>
+                </ul>
+            </div>
+
+            <h2 id="intelligence"><span class="section-icon">🛡️</span> 4. Anonymized Threat Intelligence</h2>
+            <p>We may process and aggregate data related to cyber threats to create anonymized threat intelligence that helps improve cybersecurity defenses. This information does not identify individual users and is used for research, analysis, and improving cybersecurity practices.</p>
+
+            <h2 id="security"><span class="section-icon">🔒</span> 5. Data Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
+            <div class="data-section">
+                <ul>
+                    <li>Encryption of sensitive data</li>
+                    <li>Regular security assessments and audits</li>
+                    <li>Access controls and authentication mechanisms</li>
+                    <li>Secure data storage and transmission protocols</li>
+                    <li>Staff training on data protection and security practices</li>
+                </ul>
+            </div>
+
+            <h2 id="retention"><span class="section-icon">⏱️</span> 6. Data Retention</h2>
+            <p>We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. The criteria used to determine our retention periods include:</p>
+            <div class="data-section">
+                <ul>
+                    <li>The length of time we have an ongoing relationship with you</li>
+                    <li>Our legal obligations under applicable laws</li>
+                    <li>The existence of any legal claims or compliance requirements</li>
+                    <li>The nature of the data and its sensitivity</li>
+                </ul>
+            </div>
+            <p>When we no longer need to process your personal information, we will delete or anonymize it, or if this is not possible, we will securely store your personal information and isolate it from any further processing until deletion is possible.</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Category</th>
+                            <th>Retention Period</th>
+                            <th>Reason for Retention</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Account Information</td>
+                            <td>Duration of account + 2 years</td>
+                            <td>Service provision and legal compliance</td>
+                        </tr>
+                        <tr>
+                            <td>Usage Data</td>
+                            <td>12 months</td>
+                            <td>Service improvement and security</td>
+                        </tr>
+                        <tr>
+                            <td>Threat Intelligence</td>
+                            <td>5 years (anonymized)</td>
+                            <td>Research and security enhancement</td>
+                        </tr>
+                        <tr>
+                            <td>Communication Records</td>
+                            <td>3 years</td>
+                            <td>Customer support and legal compliance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 id="rights"><span class="section-icon">👤</span> 7. Your Rights and Choices</h2>
+            <p>Depending on your location, you may have certain rights regarding your personal information, including:</p>
+            <div class="data-section">
+                <ul>
+                    <li><strong>Access:</strong> You can request a copy of the personal information we hold about you.</li>
+                    <li><strong>Correction:</strong> You can request that we correct inaccurate or incomplete information.</li>
+                    <li><strong>Deletion:</strong> You can request that we delete your personal information in certain circumstances.</li>
+                    <li><strong>Restriction:</strong> You can request that we restrict the processing of your personal information.</li>
+                    <li><strong>Data Portability:</strong> You can request a copy of your personal information in a structured, commonly used, and machine-readable format.</li>
+                    <li><strong>Objection:</strong> You can object to our processing of your personal information in certain circumstances.</li>
+                </ul>
+            </div>
+            <p>To exercise these rights, please contact us using the details provided in the "Contact Us" section below. We will respond to your request within the timeframe required by applicable law.</p>
+
+            <div class="privacy-highlight">
+                <p>We respect your privacy rights and are committed to addressing your concerns promptly. If you are not satisfied with our response, you have the right to lodge a complaint with a supervisory authority.</p>
+            </div>
+
+            <h2 id="cookies"><span class="section-icon">🍪</span> 8. Cookies and Similar Technologies</h2>
+            <p>We use cookies and similar tracking technologies to collect and use personal information about you. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our service.</p>
+            <p>Types of cookies we use:</p>
+            <div class="data-section">
+                <ul>
+                    <li><strong>Essential Cookies:</strong> Required for the operation of our website and services.</li>
+                    <li><strong>Analytical/Performance Cookies:</strong> Allow us to recognize and count the number of visitors and see how visitors move around our website.</li>
+                    <li><strong>Functionality Cookies:</strong> Used to recognize you when you return to our website.</li>
+                    <li><strong>Targeting Cookies:</strong> Record your visit to our website, the pages you have visited, and the links you have followed.</li>
+                </ul>
+            </div>
+
+            <h2 id="international"><span class="section-icon">🌍</span> 9. International Data Transfers</h2>
+            <p>We may transfer your personal information to countries other than the one in which you reside. We have implemented appropriate safeguards to ensure that your personal information remains protected in accordance with this Privacy Policy and applicable law.</p>
+
+            <h2 id="children"><span class="section-icon">👶</span> 10. Children's Privacy</h2>
+            <p>Our services are not directed to individuals under the age of 16. We do not knowingly collect personal information from children. If you become aware that a child has provided us with personal information, please contact us. If we become aware that we have collected personal information from a child without verification of parental consent, we will take steps to remove that information from our servers.</p>
+
+            <h2 id="changes"><span class="section-icon">📝</span> 11. Changes to This Privacy Policy</h2>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top of this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+            <h2 id="contact"><span class="section-icon">📞</span> 12. Contact Us</h2>
+            <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us:</p>
+            <div class="contact-info">
+                <p><strong>Email:</strong> privacy@threateye.com</p>
+                <p><strong>Postal Address:</strong> Cyber Threat Analysis Project, 123 Security Boulevard, Suite 456, Cybertown, CT 12345</p>
+                <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+            </div>
+            <p>Our Data Protection Officer can be contacted at dpo@threateye.com</p>
+
+            <a href="#" class="button">Back to Top</a>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+</body>
+</html>

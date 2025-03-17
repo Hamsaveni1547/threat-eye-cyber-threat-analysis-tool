@@ -2,9 +2,222 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Site down Check</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard - Site Status Checker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+       :root {
+            --primary-color: #00bcd4;
+            --secondary-color: #7928ca;
+            --dark-color: #0a1929;
+            --light-color: #f8f9fa;
+            --danger-color: #ff4757;
+            --success-color: #2ed573;
+            --warning-color: #ffa502;
+        }
+
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            font-family: 'Poppins', sans-serif;
+            background-image: url('/static/images/cyber-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+        }
+
+        .hero-section {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 3rem 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .feature-card {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            border-radius: 10px;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-color: #58a6ff;
+        }
+        .btn-cyber {
+            background: linear-gradient(135deg, #7928ca 0%, #ff0080 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-cyber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
+        }
+        .form-control {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            color: #e0e0e0;
+        }
+        .form-control:focus {
+           background-color: var(--dark-color);
+            color: var(--light-color);
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.25);
+            color: #e0e0e0;
+        }
+        .text-cyber {
+            background: linear-gradient(135deg, #7928ca 0%, #ff0080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cyber-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #58a6ff;
+        }
+        .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: #58a6ff;
+            border-color: #58a6ff;
+        }
+    </style>
 </head>
 <body>
-<h1>Gagana</h1>
+
+    <!-- Hero Section -->
+    <div class="container my-5">
+        <div class="hero-section p-4 p-md-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="display-4 fw-bold mb-3">Site Status <span class="text-cyber">Checker</span></h1>
+                    <p class="lead mb-4">Monitor website availability and performance with our advanced cyber security tools. Get instant notifications when your sites go down.</p>
+                    <form action="/check_password" method="POST" class="mt-4">
+                        <div class="mb-3">
+                            <label for="siteUrl" class="form-label">Website URL</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                                <input type="url" class="form-control" id="siteUrl" name="siteUrl" placeholder="https://example.com" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="notRobot" name="notRobot" required>
+                            <label class="form-check-label" for="notRobot">I'm not a robot</label>
+                        </div>
+                        <button type="submit" class="btn btn-cyber px-4 py-2">
+                            <i class="fas fa-search me-2"></i> Check Site Status
+                        </button>
+                    </form>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="/api/placeholder/500/400" alt="Cyber Security Illustration" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Section -->
+    <div id="tools" class="container my-5">
+        <h2 class="text-center mb-5 fw-bold">Cyber Security <span class="text-cyber">Tools</span></h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-shield-virus cyber-icon"></i>
+                    <h3 class="h4 mb-3">Vulnerability Scanner</h3>
+                    <p class="mb-3">Identify security weaknesses in your web applications and infrastructure.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-lock cyber-icon"></i>
+                    <h3 class="h4 mb-3">Password Strength</h3>
+                    <p class="mb-3">Test the strength of your passwords against common attack methods.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-network-wired cyber-icon"></i>
+                    <h3 class="h4 mb-3">Port Scanner</h3>
+                    <p class="mb-3">Discover open ports and potential security risks on your network.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-fingerprint cyber-icon"></i>
+                    <h3 class="h4 mb-3">DNS Lookup</h3>
+                    <p class="mb-3">Analyze DNS records and detect potential domain hijacking attempts.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-virus-slash cyber-icon"></i>
+                    <h3 class="h4 mb-3">Malware Scanner</h3>
+                    <p class="mb-3">Scan files and URLs for malicious content and potential threats.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card p-4 text-center">
+                    <i class="fas fa-eye-slash cyber-icon"></i>
+                    <h3 class="h4 mb-3">Privacy Checker</h3>
+                    <p class="mb-3">Evaluate your digital privacy and protect against data leaks.</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Launch Tool</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="/api/placeholder/600/400" alt="Security Features" class="img-fluid rounded shadow">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Advanced <span class="text-cyber">Security Features</span></h2>
+                <div class="d-flex mb-3">
+                    <div class="me-3">
+                        <i class="fas fa-check-circle text-success fa-2x"></i>
+                    </div>
+                    <div>
+                        <h4>Real-time Monitoring</h4>
+                        <p>Continuous monitoring of your websites with instant alerts when issues are detected.</p>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="me-3">
+                        <i class="fas fa-check-circle text-success fa-2x"></i>
+                    </div>
+                    <div>
+                        <h4>Comprehensive Reports</h4>
+                        <p>Detailed security reports with actionable insights to improve your website's security posture.</p>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="me-3">
+                        <i class="fas fa-check-circle text-success fa-2x"></i>
+                    </div>
+                    <div>
+                        <h4>Automated Responses</h4>
+                        <p>Set up automated responses to common security threats to minimize downtime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

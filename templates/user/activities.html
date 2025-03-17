@@ -1,159 +1,627 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Cyber Threat Analysis Dashboard</title>-->
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    &lt;!&ndash; Custom CSS &ndash;&gt;-->
+<!--    <link href="{{ url_for('static', activities='css/activities.css') }}" rel="stylesheet">-->
+<!--    &lt;!&ndash; Font Awesome for icons &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--</head>-->
+<!--<body class="dark-theme">-->
+<!--    <div class="container-fluid">-->
+<!--        <div class="row">-->
+<!--            &lt;!&ndash; Sidebar &ndash;&gt;-->
+<!--            <div class="col-md-2 sidebar">-->
+<!--                <div class="d-flex flex-column align-items-center mt-4 mb-5">-->
+<!--                    <div class="profile-image">-->
+<!--                        <img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="Profile" class="rounded-circle">-->
+<!--                    </div>-->
+<!--                    <div class="profile-name text-center mt-2">-->
+<!--                        <h6 class="mb-0">{{ username }}</h6>-->
+<!--                        <small class="text-muted">Security Analyst</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <ul class="nav flex-column sidebar-nav">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/templates/user/dashboard.html">-->
+<!--                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/templates/user/settings.html">-->
+<!--                            <i class="fas fa-cog me-2"></i> Settings-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/templates/tools.html">-->
+<!--                            <i class="fas fa-tools me-2"></i> Tools-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link active" href="/templates/activities.html">-->
+<!--                            <i class="fas fa-chart-line me-2"></i> Activities-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/templates/contact.html">-->
+<!--                            <i class="fas fa-question-circle me-2"></i> Help & Support-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item mt-5">-->
+<!--                        <a class="nav-link logout" href="/templates/logout1.html">-->
+<!--                            <i class="fas fa-sign-out-alt me-2"></i> Logout-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Main Content &ndash;&gt;-->
+<!--            <div class="col-md-10 main-content">-->
+<!--                <div class="content-container">-->
+<!--                    <h1 class="page-title mb-4">Activities</h1>-->
+
+<!--                    &lt;!&ndash; Scanning Form &ndash;&gt;-->
+<!--                    <div class="card scan-card mb-4">-->
+<!--                        <div class="card-body">-->
+<!--                            <form id="scanForm" method="POST" action="{{ url_for('scan_content') }}" enctype="multipart/form-data">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-6">-->
+<!--                                        <div class="input-group mb-3">-->
+<!--                                            <span class="input-group-text"><i class="fas fa-link"></i></span>-->
+<!--                                            <input type="text" class="form-control" id="urlInput" name="url" placeholder="Enter URL to scan">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-4">-->
+<!--                                        <div class="input-group mb-3">-->
+<!--                                            <input type="file" class="form-control" id="fileInput" name="file">-->
+<!--                                            <label class="input-group-text" for="fileInput"><i class="fas fa-file-upload"></i></label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-2">-->
+<!--                                        <button type="submit" class="btn btn-primary w-100" id="scanButton">-->
+<!--                                            <i class="fas fa-search me-2"></i> Scan-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Activities Table &ndash;&gt;-->
+<!--                    <div class="card activities-card">-->
+<!--                        <div class="card-body">-->
+<!--                            <div class="table-controls mb-3">-->
+<!--                                <div class="row align-items-center">-->
+<!--                                    <div class="col-md-6">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <span class="input-group-text"><i class="fas fa-search"></i></span>-->
+<!--                                            <input type="text" id="searchInput" class="form-control" placeholder="Search activities...">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-3">-->
+<!--                                        <select class="form-select" id="statusFilter">-->
+<!--                                            <option value="all">All Status</option>-->
+<!--                                            <option value="Clean">Clean</option>-->
+<!--                                            <option value="Malicious">Malicious</option>-->
+<!--                                            <option value="Suspicious">Suspicious</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-3">-->
+<!--                                        <button class="btn btn-outline-primary w-100" id="exportBtn">-->
+<!--                                            <i class="fas fa-download me-2"></i> Export Data-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div class="table-responsive">-->
+<!--                                <table class="table table-hover activities-table">-->
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th scope="col">Sl.No</th>-->
+<!--                                            <th scope="col">Scanned Content</th>-->
+<!--                                            <th scope="col">Date</th>-->
+<!--                                            <th scope="col">Status</th>-->
+<!--                                            <th scope="col">Actions</th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
+<!--                                    <tbody id="activitiesTableBody">-->
+<!--                                        &lt;!&ndash; Table content will be dynamically populated via JavaScript &ndash;&gt;-->
+<!--                                    </tbody>-->
+<!--                                </table>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--                            <div class="d-flex justify-content-between align-items-center mt-3">-->
+<!--                                <div class="showing-entries">-->
+<!--                                    Showing <span id="startEntry">1</span> to <span id="endEntry">10</span> of <span id="totalEntries">0</span> entries-->
+<!--                                </div>-->
+<!--                                <nav aria-label="Activities pagination">-->
+<!--                                    <ul class="pagination" id="activitiesPagination">-->
+<!--                                        <li class="page-item disabled">-->
+<!--                                            <a class="page-link" href="#" tabindex="-1">Previous</a>-->
+<!--                                        </li>-->
+<!--                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>-->
+<!--                                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                                        <li class="page-item">-->
+<!--                                            <a class="page-link" href="#">Next</a>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </nav>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Scan Report Modal &ndash;&gt;-->
+<!--    <div class="modal fade" id="scanReportModal" tabindex="-1" aria-labelledby="scanReportModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog modal-lg">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="scanReportModalLabel">Scan Report</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body" id="scanReportContent">-->
+<!--                    &lt;!&ndash; Report content will be populated dynamically &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--                    <button type="button" class="btn btn-primary" id="downloadReportBtn">Download Report</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Bootstrap & jQuery JS &ndash;&gt;-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--    &lt;!&ndash; Custom JS &ndash;&gt;-->
+<!--    <script src="{{ url_for('static', activities='js/activities.js') }}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Threat Analysis Dashboard</title>
-    <!-- Bootstrap CSS -->
+    <title>Cyber Shield - Activities</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{ url_for('static', activities='css/activities.css') }}" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a3af1;
+            --secondary-color: #1e1e3f;
+            --accent-color: #00d4ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+        .brand {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .content-wrapper {
+            margin-left: 5%;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2a2ae0;
+            border-color: #2a2ae0;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Timeline and activity styles */
+        .activity-item {
+            padding: 1rem;
+            border-left: 2px solid var(--primary-color);
+            position: relative;
+            margin-bottom: 1rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 0 5px 5px 0;
+        }
+
+        .activity-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            left: -7px;
+            top: 1.5rem;
+        }
+
+        .activity-time {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+        }
+
+        .activity-icon {
+            background-color: rgba(58, 58, 241, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-safe {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .status-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .status-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .activity-filters button {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-right: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .activity-filters button.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .activity-filters button:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+
+        /* Charts and stats */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(58, 58, 241, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .stat-info h3 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-info p {
+            margin: 0;
+            color: #a0a0a0;
+        }
+    </style>
 </head>
-<body class="dark-theme">
+<body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 sidebar">
-                <div class="d-flex flex-column align-items-center mt-4 mb-5">
-                    <div class="profile-image">
-                        <img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="Profile" class="rounded-circle">
-                    </div>
-                    <div class="profile-name text-center mt-2">
-                        <h6 class="mb-0">{{ username }}</h6>
-                        <small class="text-muted">Security Analyst</small>
-                    </div>
-                </div>
-
-                <ul class="nav flex-column sidebar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/templates/user/dashboard.html">
-                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/templates/user/settings.html">
-                            <i class="fas fa-cog me-2"></i> Settings
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/templates/tools.html">
-                            <i class="fas fa-tools me-2"></i> Tools
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/templates/activities.html">
-                            <i class="fas fa-chart-line me-2"></i> Activities
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/templates/contact.html">
-                            <i class="fas fa-question-circle me-2"></i> Help & Support
-                        </a>
-                    </li>
-                    <li class="nav-item mt-5">
-                        <a class="nav-link logout" href="/templates/logout.html">
-                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
             <!-- Main Content -->
-            <div class="col-md-10 main-content">
-                <div class="content-container">
-                    <h1 class="page-title mb-4">Activities</h1>
+            <div class="col-lg-9 col-xl-10 content-wrapper">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Security Activities</h1>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-primary">Last scan: 2 hours ago</span>
+                    </div>
+                </div>
 
-                    <!-- Scanning Form -->
-                    <div class="card scan-card mb-4">
-                        <div class="card-body">
-                            <form id="scanForm" method="POST" action="{{ url_for('scan_content') }}" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="fas fa-link"></i></span>
-                                            <input type="text" class="form-control" id="urlInput" name="url" placeholder="Enter URL to scan">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group mb-3">
-                                            <input type="file" class="form-control" id="fileInput" name="file">
-                                            <label class="input-group-text" for="fileInput"><i class="fas fa-file-upload"></i></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary w-100" id="scanButton">
-                                            <i class="fas fa-search me-2"></i> Scan
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                <!-- Activity Stats -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>127</h3>
+                                <p>Documents Scanned</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>89</h3>
+                                <p>Links Analyzed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>42</h3>
+                                <p>Sites Monitored</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Activities Table -->
-                    <div class="card activities-card">
-                        <div class="card-body">
-                            <div class="table-controls mb-3">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                            <input type="text" id="searchInput" class="form-control" placeholder="Search activities...">
+                <!-- Activity Filters -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Activities</h5>
+                            <div class="activity-filters">
+                                <button class="active">All</button>
+                                <button>Documents</button>
+                                <button>Links</button>
+                                <button>Sites</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Timeline of activities -->
+                        <div class="activity-timeline">
+                            <!-- Activity 1 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">quarterly_report.pdf</h6>
+                                            <span class="activity-time">Today, 10:42 AM</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <select class="form-select" id="statusFilter">
-                                            <option value="all">All Status</option>
-                                            <option value="Clean">Clean</option>
-                                            <option value="Malicious">Malicious</option>
-                                            <option value="Suspicious">Suspicious</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button class="btn btn-outline-primary w-100" id="exportBtn">
-                                            <i class="fas fa-download me-2"></i> Export Data
-                                        </button>
-                                    </div>
+                                    <span class="status-badge status-safe">Safe</span>
                                 </div>
+                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>
                             </div>
 
-                            <div class="table-responsive">
-                                <table class="table table-hover activities-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Sl.No</th>
-                                            <th scope="col">Scanned Content</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="activitiesTableBody">
-                                        <!-- Table content will be dynamically populated via JavaScript -->
-                                    </tbody>
-                                </table>
+                            <!-- Activity 2 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-link"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">https://suspicious-offer.com/claim-prize</h6>
+                                            <span class="activity-time">Today, 09:18 AM</span>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-danger">Malicious</span>
+                                </div>
+                                <p class="mb-0 ms-5 ps-2">Phishing attempt detected. Link has been blocked.</p>
                             </div>
 
-                            <!-- Pagination -->
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <div class="showing-entries">
-                                    Showing <span id="startEntry">1</span> to <span id="endEntry">10</span> of <span id="totalEntries">0</span> entries
+                            <!-- Activity 3 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-globe"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">www.companywebsite.com</h6>
+                                            <span class="activity-time">Yesterday, 05:42 PM</span>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-warning">SSL Issue</span>
                                 </div>
-                                <nav aria-label="Activities pagination">
-                                    <ul class="pagination" id="activitiesPagination">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                <p class="mb-0 ms-5 ps-2">SSL certificate expires in 5 days. Renewal recommended.</p>
+                            </div>
+
+                            <!-- Activity 4 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-file-word"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">contract_draft.docx</h6>
+                                            <span class="activity-time">Yesterday, 03:15 PM</span>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-safe">Safe</span>
+                                </div>
+                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>
+                            </div>
+
+                            <!-- Activity 5 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-link"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">https://partners.legitimate-company.com</h6>
+                                            <span class="activity-time">Mar 14, 11:32 AM</span>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-safe">Safe</span>
+                                </div>
+                                <p class="mb-0 ms-5 ps-2">Link analysis completed. Website is secure.</p>
+                            </div>
+
+                            <!-- Activity 6 -->
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="activity-icon me-3">
+                                            <i class="fas fa-file-excel"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">financial_report.xlsx</h6>
+                                            <span class="activity-time">Mar 13, 02:48 PM</span>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-warning">Macro Warning</span>
+                                </div>
+                                <p class="mb-0 ms-5 ps-2">Document contains macros. No malicious code detected but review recommended.</p>
+                            </div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Activity Charts -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Activity Distribution</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center py-4">
+                                    <img src="/api/placeholder/500/300" alt="Activity Distribution Chart" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Threat Detection Trends</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center py-4">
+                                    <img src="/api/placeholder/500/300" alt="Threat Detection Trends Chart" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -162,29 +630,31 @@
         </div>
     </div>
 
-    <!-- Scan Report Modal -->
-    <div class="modal fade" id="scanReportModal" tabindex="-1" aria-labelledby="scanReportModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="scanReportModalLabel">Scan Report</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="scanReportContent">
-                    <!-- Report content will be populated dynamically -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="downloadReportBtn">Download Report</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap & jQuery JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="{{ url_for('static', activities='js/activities.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activity filter buttons functionality
+            const filterButtons = document.querySelectorAll('.activity-filters button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    // Here you would add actual filtering logic based on the selected filter
+                });
+            });
+
+            // Responsive sidebar toggle functionality
+            const handleResize = () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.add('collapsed');
+                } else {
+                    document.querySelector('.sidebar').classList.remove('collapsed');
+                }
+            };
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+        });
+    </script>
 </body>
 </html>
