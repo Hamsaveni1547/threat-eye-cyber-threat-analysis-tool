@@ -1,79 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatEye - Cyber Threat Analysis Tool</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>footer</title>
+        <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1a2c42;
-            --secondary-color: #00b4d8;
-            --accent-color: #7209b7;
-            --dark-color: #121212;
-            --light-color: #f8f9fa;
-        }
 
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .footer {
-            background: var(--primary-color);
-            padding: 30px 0;
-            border-top: 3px solid var(--secondary-color);
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--secondary-color);
-        }
-
-        .nav-link.active {
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-
-
-    </style>
+    <link href="/static/css/footer.css" rel="stylesheet">
 </head>
+
 <body>
 
-    <!-- Stats Section -->
-    <section class="py-5 bg-dark">
+<!-- Stats Section -->
+    <section class="stats">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h2 class="text-secondary"><i class="fas fa-shield-alt me-2"></i>10M+</h2>
-                    <p class="text-light">Threats Detected</p>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Threat Detection Rate</div>
                 </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h2 class="text-secondary"><i class="fas fa-users me-2"></i>500K+</h2>
-                    <p class="text-light">Protected Users</p>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Enterprise Clients</div>
                 </div>
-                <div class="col-md-4">
-                    <h2 class="text-secondary"><i class="fas fa-globe me-2"></i>99.9%</h2>
-                    <p class="text-light">Detection Accuracy</p>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Security Monitoring</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Threats Blocked Monthly</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+<!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="logo mb-4"><img src="static/images/logo.png"> Threat<span>Eye</span></h4>
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                       Threat<span class="eye">Eye</span></h4>
                     <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
                     <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
                     <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
@@ -119,4 +93,3 @@
     </footer>
 
 </body>
-</html>

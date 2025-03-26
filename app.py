@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from logic.phishing_check_url import check_phishing_url
+from logic.web_logic import scan_website
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ def contact():
 
 @app.route('/get')
 def login():
-    return render_template('login.html')
+    return render_template('/user/login.html')
 
 @app.route('/email')
 def email():
@@ -79,6 +80,19 @@ def check():
 
     return render_template('result/result.html', result=result, color=color)
 
+@app.route('/scan_website', methods=['POST'])
+def scan_website_route():
+    """Handles the website scanning process"""
+    website_url = request.form.get('website_url')
+
+    if not website_url:
+        return render_template('result/web_result.html', scan_results={"error": "Invalid input. Please enter a URL."})
+
+    # Call the website scanning function
+    scan_results = scan_website(website_url, API_KEY)
+
+    # Pass scan results to the results page
+    return render_template('result/web_result.html', scan_results=scan_results)
 
 if __name__ == '__main__':
     app.run(debug=True)

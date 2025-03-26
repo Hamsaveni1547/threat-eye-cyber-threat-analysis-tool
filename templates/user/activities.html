@@ -190,471 +190,1804 @@
 <!--</html>-->
 
 
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Cyber Shield - Activities</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #3a3af1;-->
+<!--            &#45;&#45;secondary-color: #1e1e3f;-->
+<!--            &#45;&#45;accent-color: #00d4ff;-->
+<!--            &#45;&#45;dark-bg: #121212;-->
+<!--            &#45;&#45;card-bg: #1e1e2f;-->
+<!--            &#45;&#45;text-color: #e0e0e0;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background-color: var(&#45;&#45;dark-bg);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--        }-->
+
+
+<!--        .brand {-->
+<!--            color: var(&#45;&#45;accent-color);-->
+<!--            font-size: 1.5rem;-->
+<!--            font-weight: bold;-->
+<!--            padding: 0.5rem 1rem;-->
+<!--            margin-bottom: 2rem;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .brand i {-->
+<!--            margin-right: 0.5rem;-->
+<!--            font-size: 1.8rem;-->
+<!--        }-->
+
+<!--        .content-wrapper {-->
+<!--            margin-left: 5%;-->
+<!--            padding: 2rem;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background-color: var(&#45;&#45;card-bg);-->
+<!--            border: none;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .card-header {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--            padding: 1rem;-->
+<!--        }-->
+
+<!--        .form-control, .form-select {-->
+<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            border: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--        }-->
+
+<!--        .form-control:focus, .form-select:focus {-->
+<!--            background-color: rgba(255, 255, 255, 0.1);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #2a2ae0;-->
+<!--            border-color: #2a2ae0;-->
+<!--        }-->
+
+<!--        .btn-outline-primary {-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .btn-outline-primary:hover {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Timeline and activity styles */-->
+<!--        .activity-item {-->
+<!--            padding: 1rem;-->
+<!--            border-left: 2px solid var(&#45;&#45;primary-color);-->
+<!--            position: relative;-->
+<!--            margin-bottom: 1rem;-->
+<!--            background-color: rgba(255, 255, 255, 0.03);-->
+<!--            border-radius: 0 5px 5px 0;-->
+<!--        }-->
+
+<!--        .activity-item::before {-->
+<!--            content: '';-->
+<!--            width: 12px;-->
+<!--            height: 12px;-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            border-radius: 50%;-->
+<!--            position: absolute;-->
+<!--            left: -7px;-->
+<!--            top: 1.5rem;-->
+<!--        }-->
+
+<!--        .activity-time {-->
+<!--            color: #a0a0a0;-->
+<!--            font-size: 0.85rem;-->
+<!--        }-->
+
+<!--        .activity-icon {-->
+<!--            background-color: rgba(58, 58, 241, 0.1);-->
+<!--            width: 40px;-->
+<!--            height: 40px;-->
+<!--            border-radius: 8px;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        .status-badge {-->
+<!--            padding: 0.25rem 0.75rem;-->
+<!--            border-radius: 50px;-->
+<!--            font-size: 0.75rem;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .status-safe {-->
+<!--            background-color: rgba(40, 167, 69, 0.1);-->
+<!--            color: #28a745;-->
+<!--        }-->
+
+<!--        .status-warning {-->
+<!--            background-color: rgba(255, 193, 7, 0.1);-->
+<!--            color: #ffc107;-->
+<!--        }-->
+
+<!--        .status-danger {-->
+<!--            background-color: rgba(220, 53, 69, 0.1);-->
+<!--            color: #dc3545;-->
+<!--        }-->
+
+<!--        .activity-filters button {-->
+<!--            background-color: transparent;-->
+<!--            color: var(&#45;&#45;text-color);-->
+<!--            border: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--            margin-right: 0.5rem;-->
+<!--            padding: 0.25rem 0.75rem;-->
+<!--            border-radius: 50px;-->
+<!--            font-size: 0.85rem;-->
+<!--            transition: all 0.3s;-->
+<!--        }-->
+
+<!--        .activity-filters button.active {-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .activity-filters button:hover:not(.active) {-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+
+<!--        /* Responsive adjustments */-->
+<!--        @media (max-width: 992px) {-->
+<!--            .content-wrapper {-->
+<!--                margin-left: 70px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .content-wrapper {-->
+<!--                margin-left: 0;-->
+<!--                padding: 1rem;-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Charts and stats */-->
+<!--        .stat-card {-->
+<!--            background: linear-gradient(135deg, rgba(58, 58, 241, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);-->
+<!--            border-radius: 10px;-->
+<!--            padding: 1.5rem;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .stat-icon {-->
+<!--            width: 50px;-->
+<!--            height: 50px;-->
+<!--            border-radius: 10px;-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            color: white;-->
+<!--            font-size: 1.5rem;-->
+<!--            margin-right: 1rem;-->
+<!--        }-->
+
+<!--        .stat-info h3 {-->
+<!--            margin: 0;-->
+<!--            font-size: 2rem;-->
+<!--            font-weight: 700;-->
+<!--        }-->
+
+<!--        .stat-info p {-->
+<!--            margin: 0;-->
+<!--            color: #a0a0a0;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container-fluid">-->
+<!--        <div class="row">-->
+
+<!--            &lt;!&ndash; Main Content &ndash;&gt;-->
+<!--            <div class="col-lg-9 col-xl-10 content-wrapper">-->
+<!--                <div class="d-flex justify-content-between align-items-center mb-4">-->
+<!--                    <h1>Security Activities</h1>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                        <span class="badge bg-primary">Last scan: 2 hours ago</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Activity Stats &ndash;&gt;-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-4">-->
+<!--                        <div class="stat-card">-->
+<!--                            <div class="stat-icon">-->
+<!--                                <i class="fas fa-file-alt"></i>-->
+<!--                            </div>-->
+<!--                            <div class="stat-info">-->
+<!--                                <h3>127</h3>-->
+<!--                                <p>Documents Scanned</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <div class="stat-card">-->
+<!--                            <div class="stat-icon">-->
+<!--                                <i class="fas fa-link"></i>-->
+<!--                            </div>-->
+<!--                            <div class="stat-info">-->
+<!--                                <h3>89</h3>-->
+<!--                                <p>Links Analyzed</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <div class="stat-card">-->
+<!--                            <div class="stat-icon">-->
+<!--                                <i class="fas fa-globe"></i>-->
+<!--                            </div>-->
+<!--                            <div class="stat-info">-->
+<!--                                <h3>42</h3>-->
+<!--                                <p>Sites Monitored</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Activity Filters &ndash;&gt;-->
+<!--                <div class="card mb-4">-->
+<!--                    <div class="card-header">-->
+<!--                        <div class="d-flex justify-content-between align-items-center">-->
+<!--                            <h5 class="mb-0">Recent Activities</h5>-->
+<!--                            <div class="activity-filters">-->
+<!--                                <button class="active">All</button>-->
+<!--                                <button>Documents</button>-->
+<!--                                <button>Links</button>-->
+<!--                                <button>Sites</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        &lt;!&ndash; Timeline of activities &ndash;&gt;-->
+<!--                        <div class="activity-timeline">-->
+<!--                            &lt;!&ndash; Activity 1 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-file-pdf"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">quarterly_report.pdf</h6>-->
+<!--                                            <span class="activity-time">Today, 10:42 AM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-safe">Safe</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Activity 2 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-link"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">https://suspicious-offer.com/claim-prize</h6>-->
+<!--                                            <span class="activity-time">Today, 09:18 AM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-danger">Malicious</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">Phishing attempt detected. Link has been blocked.</p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Activity 3 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-globe"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">www.companywebsite.com</h6>-->
+<!--                                            <span class="activity-time">Yesterday, 05:42 PM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-warning">SSL Issue</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">SSL certificate expires in 5 days. Renewal recommended.</p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Activity 4 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-file-word"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">contract_draft.docx</h6>-->
+<!--                                            <span class="activity-time">Yesterday, 03:15 PM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-safe">Safe</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Activity 5 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-link"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">https://partners.legitimate-company.com</h6>-->
+<!--                                            <span class="activity-time">Mar 14, 11:32 AM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-safe">Safe</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">Link analysis completed. Website is secure.</p>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Activity 6 &ndash;&gt;-->
+<!--                            <div class="activity-item">-->
+<!--                                <div class="d-flex justify-content-between align-items-center mb-2">-->
+<!--                                    <div class="d-flex align-items-center">-->
+<!--                                        <div class="activity-icon me-3">-->
+<!--                                            <i class="fas fa-file-excel"></i>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <h6 class="mb-0">financial_report.xlsx</h6>-->
+<!--                                            <span class="activity-time">Mar 13, 02:48 PM</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <span class="status-badge status-warning">Macro Warning</span>-->
+<!--                                </div>-->
+<!--                                <p class="mb-0 ms-5 ps-2">Document contains macros. No malicious code detected but review recommended.</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--                        <nav class="mt-4">-->
+<!--                            <ul class="pagination justify-content-center">-->
+<!--                                <li class="page-item disabled">-->
+<!--                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
+<!--                                </li>-->
+<!--                                <li class="page-item active"><a class="page-link" href="#">1</a></li>-->
+<!--                                <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                                <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                                <li class="page-item">-->
+<!--                                    <a class="page-link" href="#">Next</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </nav>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Activity Charts &ndash;&gt;-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-6">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="mb-0">Activity Distribution</h5>-->
+<!--                            </div>-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="text-center py-4">-->
+<!--                                    <img src="/api/placeholder/500/300" alt="Activity Distribution Chart" class="img-fluid">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-6">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="mb-0">Threat Detection Trends</h5>-->
+<!--                            </div>-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="text-center py-4">-->
+<!--                                    <img src="/api/placeholder/500/300" alt="Threat Detection Trends Chart" class="img-fluid">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            // Activity filter buttons functionality-->
+<!--            const filterButtons = document.querySelectorAll('.activity-filters button');-->
+<!--            filterButtons.forEach(button => {-->
+<!--                button.addEventListener('click', function() {-->
+<!--                    filterButtons.forEach(btn => btn.classList.remove('active'));-->
+<!--                    this.classList.add('active');-->
+<!--                    // Here you would add actual filtering logic based on the selected filter-->
+<!--                });-->
+<!--            });-->
+
+<!--            // Responsive sidebar toggle functionality-->
+<!--            const handleResize = () => {-->
+<!--                if (window.innerWidth <= 768) {-->
+<!--                    document.querySelector('.sidebar').classList.add('collapsed');-->
+<!--                } else {-->
+<!--                    document.querySelector('.sidebar').classList.remove('collapsed');-->
+<!--                }-->
+<!--            };-->
+
+<!--            window.addEventListener('resize', handleResize);-->
+<!--            handleResize();-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Shield - Activities</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Cyber Threat Analysis - Activities Dashboard</title>
     <style>
         :root {
-            --primary-color: #3a3af1;
-            --secondary-color: #1e1e3f;
-            --accent-color: #00d4ff;
-            --dark-bg: #121212;
-            --card-bg: #1e1e2f;
-            --text-color: #e0e0e0;
+            --dark-blue: #0d1b2a;
+            --blue: #1b263b;
+            --medium-blue: #2c3e50;
+            --light-blue: #3d5a80;
+            --accent-blue: #4dabf7;
+            --warning: #e63946;
+            --success: #2a9d8f;
+            --pending: #e9c46a;
+            --text: #e0e1dd;
         }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-color);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        body {
+            background-color: var(--dark-blue);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
-        .brand {
-            color: var(--accent-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 0.5rem 1rem;
-            margin-bottom: 2rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-blue);
+            margin-bottom: 30px;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
         }
 
-        .brand i {
-            margin-right: 0.5rem;
-            font-size: 1.8rem;
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 24px;
         }
 
-        .content-wrapper {
-            margin-left: 5%;
-            padding: 2rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-
-        .card-header {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-        }
-
-        .form-control, .form-select {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-        }
-
-        .form-control:focus, .form-select:focus {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-color);
-            color: var(--text-color);
-            box-shadow: 0 0 0 0.25rem rgba(58, 58, 241, 0.25);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: #2a2ae0;
-            border-color: #2a2ae0;
-        }
-
-        .btn-outline-primary {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Timeline and activity styles */
-        .activity-item {
-            padding: 1rem;
-            border-left: 2px solid var(--primary-color);
-            position: relative;
-            margin-bottom: 1rem;
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 0 5px 5px 0;
-        }
-
-        .activity-item::before {
-            content: '';
-            width: 12px;
-            height: 12px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            position: absolute;
-            left: -7px;
-            top: 1.5rem;
-        }
-
-        .activity-time {
-            color: #a0a0a0;
-            font-size: 0.85rem;
-        }
-
-        .activity-icon {
-            background-color: rgba(58, 58, 241, 0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
+        h1 {
+            font-size: 24px;
             font-weight: 600;
         }
 
-        .status-safe {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-        }
-
-        .status-warning {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-        }
-
-        .status-danger {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-        }
-
-        .activity-filters button {
-            background-color: transparent;
-            color: var(--text-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-right: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .activity-filters button.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        .activity-filters button:hover:not(.active) {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .content-wrapper {
-                margin-left: 70px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .content-wrapper {
-                margin-left: 0;
-                padding: 1rem;
-            }
-        }
-
-        /* Charts and stats */
-        .stat-card {
-            background: linear-gradient(135deg, rgba(58, 58, 241, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
-            border-radius: 10px;
-            padding: 1.5rem;
+        .user-info {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
         }
 
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background-color: var(--primary-color);
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-right: 10px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
             color: white;
-            font-size: 1.5rem;
-            margin-right: 1rem;
         }
 
-        .stat-info h3 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 700;
+        .btn-primary:hover {
+            background-color: #3b8cd4;
         }
 
-        .stat-info p {
-            margin: 0;
-            color: #a0a0a0;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--blue);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background-color: var(--medium-blue);
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--medium-blue);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background-color: rgba(61, 90, 128, 0.2);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .status-clean {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-threat {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .status-pending {
+            background-color: var(--pending);
+            color: var(--dark-blue);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .file-icon {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination-btn {
+            padding: 5px 10px;
+            background-color: var(--medium-blue);
+            border: none;
+            border-radius: 4px;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .pagination-btn.active {
+            background-color: var(--accent-blue);
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--light-blue);
+            background-color: var(--blue);
+            color: var(--text);
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--light-blue);
+            background-color: var(--blue);
+            color: var(--text);
+        }
+
+        .hexagon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="hexagon-bg"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+                <h1>CyberShield Analytics</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">JS</div>
+                <span>John Smith</span>
+            </div>
+        </header>
+
+        <div class="dashboard-header">
+            <h2 class="section-title">Scanning Activities</h2>
+            <div class="action-buttons">
+                <button class="btn btn-primary">Scan New Item</button>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" class="search-input" placeholder="Search by filename, URL or content...">
+            <select class="filter-select">
+                <option value="all">All Types</option>
+                <option value="file">Files</option>
+                <option value="url">URLs</option>
+                <option value="email">Emails</option>
+            </select>
+            <select class="filter-select">
+                <option value="all">All Status</option>
+                <option value="clean">Clean</option>
+                <option value="threat">Threat Detected</option>
+                <option value="pending">Pending</option>
+            </select>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Scanned Document</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span>quarterly_report.pdf</span>
+                        </div>
+                    </td>
+                    <td>Mar 24, 2025</td>
+                    <td><span class="status-badge status-clean">Clean</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">🔗</span>
+                            <span>https://example-suspicious-site.com</span>
+                        </div>
+                    </td>
+                    <td>Mar 23, 2025</td>
+                    <td><span class="status-badge status-threat">Threat</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">✉️</span>
+                            <span>invoice_march2025@clientmail.com</span>
+                        </div>
+                    </td>
+                    <td>Mar 22, 2025</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>004</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span>network_config.xml</span>
+                        </div>
+                    </td>
+                    <td>Mar 21, 2025</td>
+                    <td><span class="status-badge status-clean">Clean</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>005</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span>server_access.log</span>
+                        </div>
+                    </td>
+                    <td>Mar 20, 2025</td>
+                    <td><span class="status-badge status-threat">Threat</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>006</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">🔗</span>
+                            <span>https://download.company-portal.com/resources</span>
+                        </div>
+                    </td>
+                    <td>Mar 19, 2025</td>
+                    <td><span class="status-badge status-clean">Clean</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>007</td>
+                    <td>
+                        <div class="file-info">
+                            <span class="file-icon">✉️</span>
+                            <span>security_update@partner-domain.net</span>
+                        </div>
+                    </td>
+                    <td>Mar 18, 2025</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                    <td>
+                        <button class="btn">View Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">Next</button>
+        </div>
+    </div>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Tools - Activity History</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6610f2;
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .cyber-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cyber-card .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+
+        .activity-timeline .timeline-item {
+            position: relative;
+            padding-left: 45px;
+            padding-bottom: 20px;
+            border-left: 2px solid #dee2e6;
+            margin-left: 20px;
+        }
+
+        .activity-timeline .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+
+        .activity-timeline .timeline-icon {
+            position: absolute;
+            left: -20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+        }
+
+        .activity-timeline .timeline-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-stats {
+            text-align: center;
+            padding: 20px 10px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.9), rgba(102, 16, 242, 0.9));
+        }
+
+        .stats-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .user-profile {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            padding: 3px;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .tool-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+<!--        .hexagon-bg {-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            z-index: -1;-->
+<!--            opacity: 0.05;-->
+<!--            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23000000' fill-opacity='1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");-->
+<!--        }-->
+
+        .cyber-pulse {
+            position: relative;
+        }
+
+        .cyber-pulse::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(13, 110, 253, 0.5);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--    &lt;!&ndash; Hexagon background pattern &ndash;&gt;-->
+<!--    <div class="hexagon-bg"></div>-->
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt me-2"></i>
+                CyberShield
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-history me-1"></i> Activity History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-tools me-1"></i> Security Tools</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i> Reports</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell me-1"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-exclamation-triangle text-danger me-2"></i> Critical vulnerability detected!</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-shield-alt text-warning me-2"></i> Phishing attempt blocked</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-info-circle text-info me-2"></i> System scan completed</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Manage notifications</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i> Rajesh Kumar
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
         <div class="row">
-
-            <!-- Main Content -->
-            <div class="col-lg-9 col-xl-10 content-wrapper">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1>Security Activities</h1>
-                    <div class="d-flex align-items-center">
-                        <span class="badge bg-primary">Last scan: 2 hours ago</span>
+            <div class="col-md-3">
+                <!-- User Profile -->
+                <div class="user-profile mb-4">
+                    <img src="/api/placeholder/400/400" alt="User Profile" class="mb-3">
+                    <h5 class="mb-1">Rajesh Kumar</h5>
+                    <p class="text-muted mb-2">Security Analyst</p>
+                    <span class="badge bg-success mb-3">Premium User</span>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm"><i class="fas fa-edit me-1"></i> Edit Profile</button>
                     </div>
                 </div>
 
-                <!-- Activity Stats -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>127</h3>
-                                <p>Documents Scanned</p>
-                            </div>
-                        </div>
+                <!-- Stats Cards -->
+                <div class="dashboard-stats">
+                    <div class="stats-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <div class="col-md-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-link"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>89</h3>
-                                <p>Links Analyzed</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>42</h3>
-                                <p>Sites Monitored</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3>127</h3>
+                    <p>Total Security Checks</p>
                 </div>
 
-                <!-- Activity Filters -->
-                <div class="card mb-4">
+                <div class="dashboard-stats">
+                    <div class="stats-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>18</h3>
+                    <p>Threats Detected</p>
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stats-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>94%</h3>
+                    <p>Security Score</p>
+                </div>
+
+                <!-- Tools Quick Access -->
+                <div class="cyber-card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Recent Activities</h5>
-                            <div class="activity-filters">
-                                <button class="active">All</button>
-                                <button>Documents</button>
-                                <button>Links</button>
-                                <button>Sites</button>
-                            </div>
-                        </div>
+                        <i class="fas fa-tools me-2"></i> Quick Access
                     </div>
                     <div class="card-body">
-                        <!-- Timeline of activities -->
-                        <div class="activity-timeline">
-                            <!-- Activity 1 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">quarterly_report.pdf</h6>
-                                            <span class="activity-time">Today, 10:42 AM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-safe">Safe</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>
-                            </div>
-
-                            <!-- Activity 2 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-link"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">https://suspicious-offer.com/claim-prize</h6>
-                                            <span class="activity-time">Today, 09:18 AM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-danger">Malicious</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">Phishing attempt detected. Link has been blocked.</p>
-                            </div>
-
-                            <!-- Activity 3 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-globe"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">www.companywebsite.com</h6>
-                                            <span class="activity-time">Yesterday, 05:42 PM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-warning">SSL Issue</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">SSL certificate expires in 5 days. Renewal recommended.</p>
-                            </div>
-
-                            <!-- Activity 4 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-file-word"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">contract_draft.docx</h6>
-                                            <span class="activity-time">Yesterday, 03:15 PM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-safe">Safe</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">Document scan completed. No threats detected.</p>
-                            </div>
-
-                            <!-- Activity 5 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-link"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">https://partners.legitimate-company.com</h6>
-                                            <span class="activity-time">Mar 14, 11:32 AM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-safe">Safe</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">Link analysis completed. Website is secure.</p>
-                            </div>
-
-                            <!-- Activity 6 -->
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <div class="activity-icon me-3">
-                                            <i class="fas fa-file-excel"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">financial_report.xlsx</h6>
-                                            <span class="activity-time">Mar 13, 02:48 PM</span>
-                                        </div>
-                                    </div>
-                                    <span class="status-badge status-warning">Macro Warning</span>
-                                </div>
-                                <p class="mb-0 ms-5 ps-2">Document contains macros. No malicious code detected but review recommended.</p>
-                            </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-search me-1"></i> Phishing URL Scanner</button>
+                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-globe me-1"></i> Website Scanner</button>
+                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-network-wired me-1"></i> IP Analyzer</button>
+                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-file-alt me-1"></i> File Scanner</button>
+                            <button class="btn btn-outline-primary btn-sm"><i class="fas fa-key me-1"></i> Password Strength Check</button>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Pagination -->
-                        <nav class="mt-4">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
+            <div class="col-md-9">
+                <!-- Page Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2><i class="fas fa-history me-2"></i> Activity History</h2>
+                        <p class="text-muted">Track all your security tool usage and scan results</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exportModal">
+                            <i class="fas fa-file-export me-1"></i> Export
+                        </button>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">All Activities</a></li>
+                                <li><a class="dropdown-item" href="#">Phishing URL Scanner</a></li>
+                                <li><a class="dropdown-item" href="#">Website Scanner</a></li>
+                                <li><a class="dropdown-item" href="#">IP Analyzer</a></li>
+                                <li><a class="dropdown-item" href="#">File Scanner</a></li>
+                                <li><a class="dropdown-item" href="#">Password Checker</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
+                                <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
                             </ul>
-                        </nav>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Activity Charts -->
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Activity Distribution</h5>
+                <!-- Activity Timeline -->
+                <div class="cyber-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-calendar-alt me-2"></i> Today (24 March 2025)</span>
+                        <span class="badge bg-primary">5 activities</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline">
+                            <!-- Timeline Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-danger cyber-pulse">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-danger text-white">
+                                            <i class="fas fa-search me-1"></i> Phishing URL Scanner
+                                        </span>
+                                        <span class="text-muted small">10:45 AM</span>
+                                    </div>
+                                    <h5>Malicious URL Detected</h5>
+                                    <p>Scanned URL: <code>https://banking-secure-login.example.com</code></p>
+                                    <p class="text-danger mb-2"><i class="fas fa-exclamation-triangle me-1"></i> This URL exhibits phishing characteristics targeting banking credentials.</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="text-center py-4">
-                                    <img src="/api/placeholder/500/300" alt="Activity Distribution Chart" class="img-fluid">
+
+                            <!-- Timeline Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-success text-white">
+                                            <i class="fas fa-key me-1"></i> Password Strength Check
+                                        </span>
+                                        <span class="text-muted small">09:30 AM</span>
+                                    </div>
+                                    <h5>Password Evaluation</h5>
+                                    <p>Analyzed password strength for account: <strong>Corporate Email</strong></p>
+                                    <div class="progress mb-2" style="height: 10px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="text-success mb-2"><i class="fas fa-shield-alt me-1"></i> Strong password - Would take approximately 2 years to crack.</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-primary">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-primary text-white">
+                                            <i class="fas fa-globe me-1"></i> Website Scanner
+                                        </span>
+                                        <span class="text-muted small">08:15 AM</span>
+                                    </div>
+                                    <h5>Website Security Analysis</h5>
+                                    <p>Scanned website: <strong>www.company-portal.com</strong></p>
+                                    <div class="d-flex mb-3">
+                                        <div class="me-3">
+                                            <span class="badge bg-success">SSL: Valid</span>
+                                        </div>
+                                        <div class="me-3">
+                                            <span class="badge bg-warning">CSRF: Warning</span>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-success">XSS: Protected</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-warning mb-2"><i class="fas fa-exclamation-circle me-1"></i> 2 security warnings detected. Consider reviewing CSRF protections.</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Threat Detection Trends</h5>
+                </div>
+
+                <!-- Yesterday's Activities -->
+                <div class="cyber-card mt-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-calendar-alt me-2"></i> Yesterday (23 March 2025)</span>
+                        <span class="badge bg-primary">7 activities</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline">
+                            <!-- Timeline Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-info">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-info text-white">
+                                            <i class="fas fa-network-wired me-1"></i> IP Analyzer
+                                        </span>
+                                        <span class="text-muted small">4:20 PM</span>
+                                    </div>
+                                    <h5>IP Address Analysis</h5>
+                                    <p>Analyzed IP: <code>103.43.112.76</code></p>
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Location
+                                                    <span>Mumbai, India</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    ISP
+                                                    <span>Airtel Broadband</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Reputation
+                                                    <span class="text-success">Good</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Open Ports
+                                                    <span>3 (80, 443, 8080)</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="text-center py-4">
-                                    <img src="/api/placeholder/500/300" alt="Threat Detection Trends Chart" class="img-fluid">
+
+                            <!-- Timeline Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-warning">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-warning text-white">
+                                            <i class="fas fa-file-alt me-1"></i> File Scanner
+                                        </span>
+                                        <span class="text-muted small">2:45 PM</span>
+                                    </div>
+                                    <h5>File Security Analysis</h5>
+                                    <p>Scanned file: <strong>quarterly_report.pdf</strong></p>
+                                    <p class="text-success mb-2"><i class="fas fa-check-circle me-1"></i> No malware detected. File appears to be safe.</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-secondary">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-secondary text-white">
+                                            <i class="fas fa-search me-1"></i> Site DIWB Check
+                                        </span>
+                                        <span class="text-muted small">11:30 AM</span>
+                                    </div>
+                                    <h5>Domain Information & Whois Check</h5>
+                                    <p>Analyzed domain: <strong>tech-innovations.in</strong></p>
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Registrar
+                                                    <span>GoDaddy.com, LLC</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Created
+                                                    <span>12-Jun-2022</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Expires
+                                                    <span>12-Jun-2026</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Status
+                                                    <span class="text-success">Active</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Show More Button -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-plus-circle me-1"></i> Show More Activities
+                            </button>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Last Week -->
+                <div class="cyber-card mt-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-calendar-alt me-2"></i> Last Week (17-23 March 2025)</span>
+                        <span class="badge bg-primary">23 activities</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline">
+                            <!-- Timeline Item 1 - Last Week -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-danger">
+                                    <i class="fas fa-virus"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-danger text-white">
+                                            <i class="fas fa-file-alt me-1"></i> File Scanner
+                                        </span>
+                                        <span class="text-muted small">22 Mar, 3:15 PM</span>
+                                    </div>
+                                    <h5>Malware Detection Alert</h5>
+                                    <p>Scanned file: <strong>invoice_march2025.docx</strong></p>
+                                    <p class="text-danger mb-2"><i class="fas fa-exclamation-triangle me-1"></i> Trojan detected: Potential ransomware signature identified.</p>
+                                    <div class="alert alert-danger" role="alert">
+                                        <i class="fas fa-shield-alt me-1"></i> The file has been quarantined automatically. No action required.
+                                    </div>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 2 - Last Week -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-info">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-info text-white">
+                                            <i class="fas fa-globe me-1"></i> Website Scanner
+                                        </span>
+                                        <span class="text-muted small">20 Mar, 11:45 AM</span>
+                                    </div>
+                                    <h5>SSL Certificate Analysis</h5>
+                                    <p>Scanned website: <strong>www.shoppingmart.co.in</strong></p>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="card border-success mb-2">
+                                                <div class="card-body p-2">
+                                                    <h6 class="mb-1"><i class="fas fa-lock text-success me-1"></i> SSL Valid</h6>
+                                                    <p class="mb-0 small">Expires: 15 Oct 2025</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card border-warning mb-2">
+                                                <div class="card-body p-2">
+                                                    <h6 class="mb-1"><i class="fas fa-cookie text-warning me-1"></i> Cookie Issues</h6>
+                                                    <p class="mb-0 small">Missing secure attributes</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-primary mb-2"><i class="fas fa-info-circle me-1"></i> Overall security score: 85/100 (Good)</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 3 - Last Week -->
+                            <div class="timeline-item">
+                                <div class="timeline-icon bg-warning">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="tool-badge bg-warning text-white">
+                                            <i class="fas fa-search me-1"></i> Phishing URL Scanner
+                                        </span>
+                                        <span class="text-muted small">18 Mar, 2:30 PM</span>
+                                    </div>
+                                    <h5>Suspicious URL Analysis</h5>
+                                    <p>Scanned URL: <code>https://secure-login-paymentportal.com</code></p>
+                                    <div class="progress mb-2" style="height: 10px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="text-warning mb-2"><i class="fas fa-exclamation-circle me-1"></i> Suspicious URL - Domain registered within last 24 hours. Exercise caution.</p>
+                                    <div class="d-flex mt-3">
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-info-circle me-1"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary me-2">
+                                            <i class="fas fa-share-alt me-1"></i> Share Report
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Show More Button -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-plus-circle me-1"></i> Show More Activities
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Activity navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportModalLabel"><i class="fas fa-file-export me-2"></i> Export Activity Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="reportName" class="form-label">Report Name</label>
+                            <input type="text" class="form-control" id="reportName" value="Security_Activity_Report_March2025">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateRange" class="form-label">Date Range</label>
+                            <select class="form-select" id="dateRange">
+                                <option selected>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Current month</option>
+                                <option>Custom range</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Include Activities</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="allActivities" checked>
+                                <label class="form-check-label" for="allActivities">
+                                    All Activities
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="phishingURL" checked>
+                                <label class="form-check-label" for="phishingURL">
+                                    Phishing URL Scanner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="websiteScanner" checked>
+                                <label class="form-check-label" for="websiteScanner">
+                                    Website Scanner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ipAnalyzer" checked>
+                                <label class="form-check-label" for="ipAnalyzer">
+                                    IP Analyzer
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="fileScanning" checked>
+                                <label class="form-check-label" for="fileScanning">
+                                    File Scanning
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="passwordCheck" checked>
+                                <label class="form-check-label" for="passwordCheck">
+                                    Password Strength Check
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exportFormat" class="form-label">Format</label>
+                            <select class="form-select" id="exportFormat">
+                                <option selected>PDF</option>
+                                <option>Excel (XLSX)</option>
+                                <option>CSV</option>
+                                <option>JSON</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-download me-1"></i> Export</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Activity filter buttons functionality
-            const filterButtons = document.querySelectorAll('.activity-filters button');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    // Here you would add actual filtering logic based on the selected filter
-                });
-            });
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel"><i class="fas fa-search me-2"></i> Phishing URL Analysis Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h5><i class="fas fa-exclamation-triangle me-2"></i> High Risk Detection</h5>
+                        <p class="mb-0">This URL has been identified as a potential phishing attempt targeting banking credentials.</p>
+                    </div>
 
-            // Responsive sidebar toggle functionality
-            const handleResize = () => {
-                if (window.innerWidth <= 768) {
-                    document.querySelector('.sidebar').classList.add('collapsed');
-                } else {
-                    document.querySelector('.sidebar').classList.remove('collapsed');
-                }
-            };
+                    <div class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-link me-2"></i> URL Information
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Analyzed URL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="https://banking-secure-login.example.com" readonly>
+                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Domain Age:</strong> <span class="text-danger">2 days</span></p>
+                                    <p><strong>SSL Certificate:</strong> <span class="text-warning">Self-signed</span></p>
+                                    <p><strong>Registrar:</strong> NameCheap, Inc.</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>IP Address:</strong> 191.234.56.78</p>
+                                    <p><strong>Location:</strong> Kiev, Ukraine</p>
+                                    <p><strong>Blacklist Status:</strong> <span class="text-danger">Listed on 3 blacklists</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            window.addEventListener('resize', handleResize);
-            handleResize();
-        });
-    </script>
+                    <div class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-shield-alt me-2"></i> Threat Analysis
+                        </div>
+                        <div class="card-body">
+                            <h6>Risk Factors</h6>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Domain name mimics legitimate banking website</li>
+                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Recently registered domain (less than 3 days old)</li>
+                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Uses self-signed SSL certificate</li>
+                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Domain hosted on suspicious IP range</li>
+                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Contains form fields requesting sensitive information</li>
+                            </ul>
+
+                            <h6>Risk Score</h6>
+                            <div class="progress mb-2" style="height: 25px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92/100</div>
+                            </div>
+                            <p class="text-muted small">Risk scores above 80 indicate high probability of phishing.</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-clipboard-list me-2"></i> Recommendation
+                        </div>
+                        <div class="card-body">
+                            <p><i class="fas fa-ban text-danger me-2"></i> <strong>Do not visit this website or enter any personal information.</strong></p>
+                            <p>This URL shows multiple high-risk indicators consistent with phishing attempts. The domain appears designed to mimic a legitimate banking website but is not affiliated with any known financial institution.</p>
+                            <h6>Actions Taken:</h6>
+                            <ul>
+                                <li>URL added to your personal blocklist</li>
+                                <li>Phishing report submitted to relevant authorities</li>
+                                <li>Added to CyberShield community database</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-file-pdf me-1"></i> Download Report</button>
+                    <button type="button" class="btn btn-danger"><i class="fas fa-exclamation-triangle me-1"></i> Report False Positive</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>

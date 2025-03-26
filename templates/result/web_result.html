@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Scan Results | Threat Eye</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-dark: #0a58ca;
+            --accent-color: #20c997;
+            --dark-blue: #192a56;
+            --light-blue: #dbeafe;
+            --danger-color: #dc3545;
+            --warning-color: #fd7e14;
+            --safe-color: #198754;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .result-card {
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            border: none;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            border-bottom: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+            padding: 1.5rem !important;
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .result-badge {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+        }
+
+        .risk-meter {
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #e9ecef;
+        }
+
+        .report-btn {
+            transition: all 0.3s;
+            border-radius: 7px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border: none;
+        }
+
+        .report-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-row {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .detail-row {
+            transition: background-color 0.2s;
+        }
+
+        .detail-row:hover {
+            background-color: #f1f1f1;
+        }
+
+        .risk-critical {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .risk-high {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .risk-medium {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .risk-low {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .risk-safe {
+            background-color: var(--safe-color);
+            color: white;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 220px;
+            width: 220px;
+            margin: 0 auto;
+        }
+
+        #reportContent {
+            background-color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .accordion-button {
+            padding: 1rem 1.25rem;
+        }
+
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.2);
+        }
+
+        .table th {
+            font-weight: 600;
+        }
+
+        .badge {
+            font-weight: 500;
+            padding: 0.5em 0.8em;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .list-group-item {
+            padding: 0.75rem 1.25rem;
+        }
+
+        .section-title {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 180px;
+                width: 180px;
+                margin-top: 20px;
+            }
+
+            .card-header {
+                padding: 1rem !important;
+            }
+
+            .header-actions {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-5" id="reportContent">
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-11">
+                <div class="card result-card">
+                    <div class="card-header text-white py-3">
+                        <div class="d-md-flex justify-content-between align-items-center">
+                            <h3 class="mb-0 mb-md-0 brand-logo">
+                                <i class="fas fa-eye me-2"></i> Threat Eye
+                                <span class="fs-6 ms-2">Website Security Scan Results</span>
+                            </h3>
+                            <div class="header-actions mt-3 mt-md-0">
+                                <button class="btn btn-light report-btn me-2" id="downloadPdf">
+                                    <i class="fas fa-file-pdf me-1"></i> Download PDF
+                                </button>
+                                <button class="btn btn-light report-btn" id="downloadImage">
+                                    <i class="fas fa-image me-1"></i> Download Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h5 class="section-title mb-3"><i class="fas fa-globe me-2"></i>Scan Summary</h5>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th width="30%" class="header-row">URL Scanned</th>
+                                            <td class="detail-row">
+                                                <a href="https://example.com" target="_blank">https://example.com</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="header-row">Scan Date</th>
+                                            <td class="detail-row">March 23, 2025 14:35:22 UTC</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="header-row">Risk Level</th>
+                                            <td class="detail-row">
+                                                <span class="badge risk-medium">Medium</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="header-row">Overall Score</th>
+                                            <td class="detail-row">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="risk-meter w-100 me-2">
+                                                        <div class="bg-warning" style="width: 45%; height: 100%;"></div>
+                                                    </div>
+                                                    <span class="fw-bold">45/100</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="chart-container">
+                                    <canvas id="riskChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion" id="scanResultsAccordion">
+                            <!-- Malware Detection Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="malwareHeading">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#malwareCollapse" aria-expanded="true" aria-controls="malwareCollapse">
+                                        <i class="fas fa-bug me-2"></i> Malware Detection
+                                        <span class="badge bg-success ms-2">Clean</span>
+                                    </button>
+                                </h2>
+                                <div id="malwareCollapse" class="accordion-collapse collapse show" aria-labelledby="malwareHeading" data-bs-parent="#scanResultsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h6 class="card-title"><i class="fas fa-chart-pie me-2"></i>Detection Summary</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Total Engines
+                                                                <span class="badge bg-primary rounded-pill">68</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Malicious Detections
+                                                                <span class="badge bg-danger rounded-pill">0</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Suspicious Detections
+                                                                <span class="badge bg-warning rounded-pill">1</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Clean Verdicts
+                                                                <span class="badge bg-success rounded-pill">64</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Undetected
+                                                                <span class="badge bg-secondary rounded-pill">3</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                Last Analysis
+                                                                <span class="badge bg-info rounded-pill">March 22, 2025</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-check-circle me-2"></i> No malware or suspicious content detected.
+                                        </div>
+
+                                        <div class="mt-3">
+                                            <a href="#" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-external-link-alt me-1"></i> View Full Report on VirusTotal
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phishing Detection Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="phishingHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#phishingCollapse" aria-expanded="false" aria-controls="phishingCollapse">
+                                        <i class="fas fa-fishing-hook me-2"></i> Phishing Detection
+                                        <span class="badge bg-warning ms-2">Medium Risk</span>
+                                    </button>
+                                </h2>
+                                <div id="phishingCollapse" class="accordion-collapse collapse" aria-labelledby="phishingHeading" data-bs-parent="#scanResultsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h6 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Phishing Risk Score</h6>
+                                                <div class="risk-meter w-100 mb-2">
+                                                    <div class="bg-warning" style="width: 45%; height: 100%;"></div>
+                                                </div>
+                                                <p class="mb-0">Risk Score: <strong>45/100</strong></p>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="mb-3"><i class="fas fa-exclamation-circle me-2"></i>Suspicious Patterns Detected</h6>
+                                        <div class="list-group mb-3">
+                                            <div class="list-group-item list-group-item-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i> Login form detected without proper SSL implementation
+                                            </div>
+                                            <div class="list-group-item list-group-item-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i> Domain registered recently (less than 6 months ago)
+                                            </div>
+                                            <div class="list-group-item list-group-item-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i> Potential credential harvesting form detected
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SSL Certificate Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="sslHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sslCollapse" aria-expanded="false" aria-controls="sslCollapse">
+                                        <i class="fas fa-lock me-2"></i> SSL Certificate
+                                        <span class="badge bg-warning ms-2">Expiring Soon</span>
+                                    </button>
+                                </h2>
+                                <div id="sslCollapse" class="accordion-collapse collapse" aria-labelledby="sslHeading" data-bs-parent="#scanResultsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h6 class="card-title"><i class="fas fa-certificate me-2"></i>Certificate Information</h6>
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th width="30%">Issued To</th>
+                                                            <td>example.com</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Organization</th>
+                                                            <td>Example Organization</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Issued By</th>
+                                                            <td>Let's Encrypt Authority X3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Valid From</th>
+                                                            <td>December 20, 2024</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Valid Until</th>
+                                                            <td>March 30, 2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Days Remaining</th>
+                                                            <td>
+                                                                <span class="badge bg-warning">7 days</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security Headers Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headersHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#headersCollapse" aria-expanded="false" aria-controls="headersCollapse">
+                                        <i class="fas fa-code me-2"></i> Security Headers
+                                        <span class="badge bg-warning ms-2">45/100</span>
+                                    </button>
+                                </h2>
+                                <div id="headersCollapse" class="accordion-collapse collapse" aria-labelledby="headersHeading" data-bs-parent="#scanResultsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h6 class="card-title"><i class="fas fa-tachometer-alt me-2"></i>Security Headers Score</h6>
+                                                <div class="risk-meter w-100 mb-2">
+                                                    <div class="bg-warning" style="width: 45%; height: 100%;"></div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-md-6">
+                                                        <p>Present Headers: <strong>3</strong></p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Missing Headers: <strong>5</strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="mb-3"><i class="fas fa-list-alt me-2"></i>Headers Details</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Header</th>
+                                                        <th>Status</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Content-Security-Policy</td>
+                                                        <td>
+                                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Missing</span>
+                                                        </td>
+                                                        <td>Helps prevent Cross-Site Scripting (XSS) and data injection attacks</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>X-XSS-Protection</td>
+                                                        <td>
+                                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i> Present</span>
+                                                        </td>
+                                                        <td>Enables browser's built-in XSS filtering</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>X-Frame-Options</td>
+                                                        <td>
+                                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i> Present</span>
+                                                        </td>
+                                                        <td>Protects against clickjacking attacks</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>X-Content-Type-Options</td>
+                                                        <td>
+                                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i> Present</span>
+                                                        </td>
+                                                        <td>Prevents MIME type sniffing</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Strict-Transport-Security</td>
+                                                        <td>
+                                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Missing</span>
+                                                        </td>
+                                                        <td>Enforces HTTPS connections</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Referrer-Policy</td>
+                                                        <td>
+                                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Missing</span>
+                                                        </td>
+                                                        <td>Controls how much referrer information is included with requests</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feature-Policy</td>
+                                                        <td>
+                                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Missing</span>
+                                                        </td>
+                                                        <td>Allows control over browser features</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Permissions-Policy</td>
+                                                        <td>
+                                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Missing</span>
+                                                        </td>
+                                                        <td>Modern replacement for Feature-Policy header</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <h6 class="mt-4 mb-3"><i class="fas fa-lightbulb me-2"></i>Recommendations</h6>
+                                        <div class="list-group">
+                                            <div class="list-group-item list-group-item-info">
+                                                <i class="fas fa-info-circle me-2"></i> Implement Content-Security-Policy header to prevent XSS attacks
+                                            </div>
+                                            <div class="list-group-item list-group-item-info">
+                                                <i class="fas fa-info-circle me-2"></i> Add Strict-Transport-Security header to enforce HTTPS connections
+                                            </div>
+                                            <div class="list-group-item list-group-item-info">
+                                                <i class="fas fa-info-circle me-2"></i> Implement Referrer-Policy to control information leakage
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Domain Information Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="domainHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#domainCollapse" aria-expanded="false" aria-controls="domainCollapse">
+                                        <i class="fas fa-info-circle me-2"></i> Domain Information
+                                    </button>
+                                </h2>
+                                <div id="domainCollapse" class="accordion-collapse collapse" aria-labelledby="domainHeading" data-bs-parent="#scanResultsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="card-title"><i class="fas fa-server me-2"></i>Domain Registration Details</h6>
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th width="30%">Domain</th>
+                                                            <td>example.com</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Registrar</th>
+                                                            <td>Example Registrar, LLC</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Creation Date</th>
+                                                            <td>October 15, 2024</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Expiration Date</th>
+                                                            <td>October 15, 2026</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Last Updated</th>
+                                                            <td>January 12, 2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Domain Age</th>
+                                                            <td>
+                                                                159 days
+                                                                <span class="badge bg-warning ms-2">New Domain</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <h6 class="mt-4 mb-3">Name Servers</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">ns1.example-hosting.com</li>
+                                                    <li class="list-group-item">ns2.example-hosting.com</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create the risk chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            const riskChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Safe', 'Risk'],
+                    datasets: [{
+                        data: [55, 45],
+                        backgroundColor: [
+                            '#198754',  // green for safe
+                            '#ffc107'   // yellow for medium risk
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
+
+            // Add center text to doughnut
+            Chart.register({
+                id: 'centerTextPlugin',
+                afterDraw: function(chart) {
+                    const width = chart.width;
+                    const height = chart.height;
+                    const ctx = chart.ctx;
+
+                    ctx.restore();
+                    const fontSize = (height / 114).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    const text = "45%";
+                    const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                    const textY = height / 2;
+
+                    ctx.fillStyle = "#333";
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            });
+
+            // PDF Download functionality
+            if (window.jspdf && window.html2canvas) {
+                const { jsPDF } = window.jspdf;
+
+                document.getElementById('downloadPdf').addEventListener('click', function() {
+                    const reportContent = document.getElementById('reportContent');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+
+                    html2canvas(reportContent).then(canvas => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const imgWidth = 210;
+                        const pageHeight = 295;
+                        const imgHeight = canvas.height * imgWidth / canvas.width;
+                        let heightLeft = imgHeight;
+                        let position = 0;
+
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+
+                        while (heightLeft >= 0) {
+                            position = heightLeft - imgHeight;
+                            pdf.addPage();
+                            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                        }
+
+                        pdf.save('threat-eye-security-report.pdf');
+                    });
+                });
+
+                document.getElementById('downloadImage').addEventListener('click', function() {
+                    const reportContent = document.getElementById('reportContent');
+
+                    html2canvas(reportContent).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = 'threat-eye-security-report.png';
+                        link.href = canvas.toDataURL();
+                        link.click();
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

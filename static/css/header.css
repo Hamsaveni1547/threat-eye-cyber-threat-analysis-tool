@@ -1,0 +1,155 @@
+:root {
+    --primary-color: #0F52BA;      /* Deep blue */
+    --secondary-color: #1E90FF;    /* Bright blue */
+    --accent-color: #00BFFF;       /* Deep sky blue */
+    --dark-background: #121620;    /* Deep dark blue-black */
+    --light-background: #1E2333;   /* Slightly lighter dark background */
+    --text-color: #E0E6F0;         /* Light grayish blue */
+    --border-color: #2C3E50;       /* Dark slate blue */
+}
+
+/* Global Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--dark-background);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(to right, var(--dark-background), var(--light-background)) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent-color) !important;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+}
+
+.nav-link {
+    color: var(--text-color) !important;
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+
+.btn-outline-light {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: var(--accent-color);
+    color: var(--dark-background) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 191, 255, 0.3);
+}
+
+/* Footer Styling */
+footer {
+    background: linear-gradient(to right, var(--dark-background), var(--light-background)) !important;
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0;
+}
+
+footer h5 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+footer .social-icons a {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .nav-link {
+        text-align: center;
+    }
+}
+
+/* Subtle Background Pattern */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    opacity: 0.05;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+.eye{
+    color: white;
+}
