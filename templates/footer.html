@@ -6,13 +6,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>footer</title>
-        <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <link href="/static/css/footer.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -20,34 +20,34 @@
 <!-- Stats Section -->
     <section class="stats">
         <div class="container">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Threat Detection Rate</div>
+            <div class="stats">
+                <div class="stat">
+                  <span class="counter" data-target="99.9">0</span><span class="symbol">%</span>
+                  <p>Threat Detection Rate</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Enterprise Clients</div>
+                <div class="stat">
+                  <span class="counter" data-target="500">0</span><span class="symbol">+</span>
+                  <p>Enterprise Clients</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Security Monitoring</div>
+                <div class="stat">
+                  <span class="counter" data-target="24">0</span><span class="symbol">/7</span>
+                  <p>Security Monitoring</p>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">10M+</div>
-                    <div class="stat-label">Threats Blocked Monthly</div>
+                <div class="stat">
+                  <span class="counter" data-target="10000000">0</span><span class="symbol">+</span>
+                  <p>Threats Blocked Monthly</p>
                 </div>
-            </div>
+              </div>             
         </div>
     </section>
 
 <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="container h-container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
-                       Threat<span class="eye">Eye</span></h4>
+                        <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span></h4>
                     <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
                     <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
                     <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
@@ -55,11 +55,11 @@
                 <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
                     <h5 class="text-white mb-4">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
-                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
+                        <li class="mb-2"><a href="/" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="/about" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="/contact" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="/privacy" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="/terms" class="nav-link p-0">Terms & Conditions</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
@@ -74,13 +74,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <h5 class="text-white mb-4">Stay Updated</h5>
-                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
-                        <button class="btn btn-secondary" type="button">Subscribe</button>
-                    </div>
-
+                    <img src="/static/images/footer4.png" width="500px">
                 </div>
             </div>
             <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
@@ -92,4 +86,28 @@
         </div>
     </footer>
 
+    <script>
+        const counters = document.querySelectorAll('.counter');
+      
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const current = +counter.innerText;
+            const increment = target / 200;
+      
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(updateCount, 10);
+            } else {
+              // For values like 99.9 or 10M, adjust format
+              counter.innerText = target >= 1000000 ? (target / 1000000) + "M" : target;
+            }
+          };
+      
+          updateCount();
+        });
+        
+      </script>
+      
 </body>
+</html>

@@ -3,645 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberShield | IP Analysis Results</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/reports.js"></script>
-    <script src="/static/js/sharing.js"></script>
-    <style>
-        :root {
-            --primary-color: #00bcd4;
-            --secondary-color: #7928ca;
-            --dark-color: #0a1929;
-            --light-color: #f8f9fa;
-            --danger-color: #ff4757;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-        }
-
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Poppins', sans-serif;
-            background-image: url('/static/images/cyber-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-blend-mode: overlay;
-        }
-
-        .navbar {
-            background-color: rgba(10, 25, 41, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .main-container {
-            min-height: calc(100vh - 76px);
-            padding: 50px 0;
-        }
-
-        .result-card {
-            background-color: rgba(10, 25, 41, 0.8);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            margin-bottom: 30px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .result-title {
-            font-weight: 700;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-
-        .btn-back {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-back:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .ip-badge {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-left: 10px;
-        }
-
-        .info-row {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .info-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.5rem;
-        }
-
-        .info-content {
-            flex-grow: 1;
-        }
-
-        .info-label {
-            opacity: 0.7;
-            margin-bottom: 3px;
-            font-size: 0.9rem;
-        }
-
-        .info-value {
-            font-weight: 500;
-            font-size: 1.1rem;
-            margin: 0;
-        }
-
-        .icon-primary {
-            background-color: rgba(0, 188, 212, 0.1);
-            color: var(--primary-color);
-        }
-
-        .icon-danger {
-            background-color: rgba(255, 71, 87, 0.1);
-            color: var(--danger-color);
-        }
-
-        .icon-success {
-            background-color: rgba(46, 213, 115, 0.1);
-            color: var(--success-color);
-        }
-
-        .icon-warning {
-            background-color: rgba(255, 165, 2, 0.1);
-            color: var(--warning-color);
-        }
-
-        .risk-meter {
-            background-color: rgba(255, 255, 255, 0.1);
-            height: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-
-        .risk-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 1.5s ease-in-out;
-        }
-
-        .risk-low {
-            background: linear-gradient(to right, #2ed573, #7bed9f);
-        }
-
-        .risk-medium {
-            background: linear-gradient(to right, #ffa502, #ff7f50);
-        }
-
-        .risk-high {
-            background: linear-gradient(to right, #ff4757, #ff6b81);
-        }
-
-        .risk-level {
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .level-low {
-            color: var(--success-color);
-        }
-
-        .level-medium {
-            color: var(--warning-color);
-        }
-
-        .level-high {
-            color: var(--danger-color);
-        }
-
-        .detail-title {
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .detail-section {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .threat-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .threat-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .threat-icon {
-            margin-right: 15px;
-            font-size: 1.5rem;
-        }
-
-        .threat-content {
-            flex-grow: 1;
-        }
-
-        .threat-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .threat-description {
-            opacity: 0.8;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        .recommendation-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            background-color: rgba(0, 188, 212, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 3px solid var(--primary-color);
-        }
-
-        .recommendation-icon {
-            margin-right: 15px;
-            font-size: 1.2rem;
-            color: var(--primary-color);
-        }
-
-        .recommendation-content {
-            flex-grow: 1;
-        }
-
-        .recommendation-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .recommendation-description {
-            opacity: 0.8;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        .map-container {
-            height: 300px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(10, 25, 41, 0.3);
-            backdrop-filter: blur(5px);
-        }
-
-        .location-info {
-            text-align: center;
-        }
-
-        .map-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn-report {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 10px;
-            flex-grow: 1;
-            transition: all 0.3s ease;
-        }
-
-        .btn-report:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.3);
-        }
-
-        .btn-share {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 10px;
-            flex-grow: 1;
-            transition: all 0.3s ease;
-        }
-
-        .btn-share:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .badge-stat {
-            background-color: rgba(0, 188, 212, 0.1);
-            color: var(--primary-color);
-            font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-left:
-      margin-left: 10px;
-        }
-
-        .severity-badge {
-            font-size: 0.8rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        .severity-high {
-            background-color: rgba(255, 71, 87, 0.2);
-            color: var(--danger-color);
-        }
-
-        .severity-medium {
-            background-color: rgba(255, 165, 2, 0.2);
-            color: var(--warning-color);
-        }
-
-        .severity-low {
-            background-color: rgba(46, 213, 115, 0.2);
-            color: var(--success-color);
-        }
-
-        .footer {
-            background-color: rgba(10, 25, 41, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-text {
-            opacity: 0.7;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .activity-timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -30px;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -34px;
-            top: 10px;
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-        }
-
-        .timeline-item:last-child {
-            padding-bottom: 0;
-        }
-
-        .timeline-item:last-child::before {
-            height: 10px;
-        }
-
-        .timeline-time {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 5px;
-        }
-
-        .timeline-content {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .tooltip-custom {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .result-card {
-                padding: 20px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .info-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .info-icon {
-                margin-bottom: 10px;
-                margin-right: 0;
-            }
-        }
-    </style>
+    <title>IP Analysis Results | CyberShield</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/result/result.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 </head>
 <body>
+    <div class="result-container">
+        <div class="result-header">
+            <h1><i class="fas fa-network-wired"></i> IP Address Analysis Report</h1>
+            <div class="timestamp">Generated on: {{ result.timestamp }}</div>
+        </div>
 
-    <div class="main-container">
-        <div class="container">
+        <div class="result-summary">
+            <div class="summary-item summary-target">
+                <span class="label">Target IP:</span>
+                <span class="value">{{ result.ip_address }}</span>
+            </div>
+            <div class="summary-item summary-status status-{{ result.risk_color }}">
+                <span class="label">Risk Level:</span>
+                <span class="value">{{ result.risk_level }}</span>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <button id="download-pdf" class="btn btn-primary">
+                <i class="fas fa-file-pdf"></i> Download PDF Report
+            </button>
+            <button id="share-report" class="btn btn-info">
+                <i class="fas fa-share-alt"></i> Share Results
+            </button>
+        </div>
+
+        <div class="result-section" id="report-content">
             <div class="result-card">
                 <div class="card-header">
-                    <h1 class="result-title">
-                        <i class="bi bi-search"></i> IP Analysis Results
-                        <span class="ip-badge">192.168.43.128</span>
-                    </h1>
-                    <button class="btn-back">
-                        <i class="bi bi-arrow-left"></i> Back to Search
-                    </button>
+                    <h3><i class="fas fa-info-circle"></i> IP Information</h3>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="info-row">
-                            <div class="info-icon icon-primary">
-                                <i class="bi bi-globe"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">IP Type</div>
-                                <div class="info-value">IPv4 Private Address</div>
-                            </div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Country</div>
+                            <div class="info-value">{{ result.country }}</div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="info-row">
-                            <div class="info-icon icon-primary">
-                                <i class="bi bi-building"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Organization</div>
-                                <div class="info-value">Private Network</div>
-                            </div>
+                        <div class="info-item">
+                            <div class="info-label">ASN</div>
+                            <div class="info-value">{{ result.asn }}</div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="info-row">
-                            <div class="info-icon icon-primary">
-                                <i class="bi bi-pin-map"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Location</div>
-                                <div class="info-value">Local Network</div>
-                            </div>
+                        <div class="info-item">
+                            <div class="info-label">AS Owner</div>
+                            <div class="info-value">{{ result.as_owner }}</div>
                         </div>
+                        <div class="info-item">
+                            <div class="info-label">Reputation</div>
+                            <div class="info-value">{{ result.reputation }}</div>
+                        </div>
+                        <!-- Add this section where you want to display the security score -->
+<div class="security-score">
+    <div class="score-value">
+        <span class="h1">{{ result.security_score }}</span>
+        <span class="h5">/100</span>
+    </div>
+    <div class="score-label">Security Score</div>
+</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="info-row">
-                            <div class="info-icon icon-danger">
-                                <i class="bi bi-shield-exclamation"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Risk Assessment</div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="risk-level level-low">Low Risk</div>
-                                    <div>20%</div>
-                                </div>
-                                <div class="risk-meter">
-                                    <div class="risk-fill risk-low" style="width: 20%;"></div>
-                                </div>
-                            </div>
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shield-alt"></i> Security Analysis</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="securityChart"></canvas>
+                    </div>
+                    <div class="security-stats">
+                        <div class="stat-item stat-malicious">
+                            <div class="stat-count">{{ result.malicious_count }}</div>
+                            <div class="stat-label">Malicious</div>
+                        </div>
+                        <div class="stat-item stat-suspicious">
+                            <div class="stat-count">{{ result.suspicious_count }}</div>
+                            <div class="stat-label">Suspicious</div>
+                        </div>
+                        <div class="stat-item stat-harmless">
+                            <div class="stat-count">{{ result.harmless_count }}</div>
+                            <div class="stat-label">Harmless</div>
+                        </div>
+                        <div class="stat-item stat-undetected">
+                            <div class="stat-count">{{ result.undetected_count }}</div>
+                            <div class="stat-label">Undetected</div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <h2 class="detail-title mt-5"><i class="bi bi-info-circle"></i> Detailed Analysis</h2>
-
-                <div class="detail-section">
-                    <h4>Threat Intelligence</h4>
-                    <div class="threat-item">
-                        <div class="threat-icon text-success">
-                            <i class="bi bi-check-circle"></i>
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h3>
+                </div>
+                <div class="card-body">
+                    <div class="risk-meter">
+                        <div class="risk-level risk-{{ result.risk_color }}">
+                            {{ result.risk_level }} Risk
                         </div>
-                        <div class="threat-content">
-                            <div class="threat-title">No Malicious Activity Detected</div>
-                            <p class="threat-description">This IP address has not been associated with any known malicious activities in our threat intelligence database.</p>
-                        </div>
-                    </div>
-                    <div class="threat-item">
-                        <div class="threat-icon text-primary">
-                            <i class="bi bi-shield"></i>
-                        </div>
-                        <div class="threat-content">
-                            <div class="threat-title">Private IP Information</div>
-                            <p class="threat-description">This is a private IP address (192.168.x.x) typically used in local networks and not accessible from the internet.</p>
+                        <div class="risk-description">
+                            {% if result.risk_level == "High" %}
+                                This IP address has been flagged as malicious by multiple security vendors. It may be associated with malware distribution, phishing, or other malicious activities.
+                            {% elif result.risk_level == "Medium" %}
+                                This IP address has some suspicious activity reported. Exercise caution when interacting with services from this IP.
+                            {% else %}
+                                This IP address appears to be clean with no significant malicious activity detected.
+                            {% endif %}
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="detail-section">
-                    <h4>Location Information</h4>
-                    <div class="map-container">
-                        <div class="map-overlay">
-                            <div class="location-info">
-                                <div class="map-icon">
-                                    <i class="bi bi-house"></i>
-                                </div>
-                                <h5>Private Network</h5>
-                                <p>This IP address is part of a private network range.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-check-circle"></i> Recommendations</h3>
                 </div>
-
-                <div class="detail-section">
-                    <h4>Recommendations</h4>
-                    <div class="recommendation-item">
-                        <div class="recommendation-icon">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <div class="recommendation-content">
-                            <div class="recommendation-title">Secure Your Network</div>
-                            <p class="recommendation-description">Ensure your private network is protected with a strong password and WPA2/WPA3 encryption if it's a wireless network.</p>
-                        </div>
-                    </div>
-                    <div class="recommendation-item">
-                        <div class="recommendation-icon">
-                            <i class="bi bi-router"></i>
-                        </div>
-                        <div class="recommendation-content">
-                            <div class="recommendation-title">Update Router Firmware</div>
-                            <p class="recommendation-description">Keep your router's firmware updated to protect against known vulnerabilities.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="btn-report">
-                        <i class="bi bi-file-earmark-pdf"></i> Generate PDF Report
-                    </button>
-                    <button class="btn-share">
-                        <i class="bi bi-share"></i> Share Results
-                    </button>
+                <div class="card-body">
+                    <ul class="recommendations-list">
+                        {% if result.risk_level == "High" %}
+                            <li>Block this IP address in your firewall or security systems</li>
+                            <li>Investigate any connections to this IP in your network logs</li>
+                            <li>If this IP is in your network, isolate the device and scan for malware</li>
+                            <li>Report this IP to your security team or ISP</li>
+                        {% elif result.risk_level == "Medium" %}
+                            <li>Monitor traffic to/from this IP address</li>
+                            <li>Consider implementing additional authentication for connections from this IP</li>
+                            <li>Review your logs for suspicious activity related to this IP</li>
+                        {% else %}
+                            <li>No immediate action required</li>
+                            <li>Continue regular security monitoring as part of best practices</li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Animation for risk meter
-    document.addEventListener("DOMContentLoaded", function() {
-        const riskFill = document.querySelector('.risk-fill');
-        setTimeout(() => {
-            riskFill.style.width = '20%';
-        }, 300);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create security analysis chart
+            const ctx = document.getElementById('securityChart').getContext('2d');
+            const securityChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Malicious', 'Suspicious', 'Harmless', 'Undetected'],
+                    datasets: [{
+                        data: [
+                            {{ result.malicious_count }},
+                            {{ result.suspicious_count }},
+                            {{ result.harmless_count }},
+                            {{ result.undetected_count }}
+                        ],
+                        backgroundColor: [
+                            '#ef4444',
+                            '#f59e0b',
+                            '#10b981',
+                            '#8892b0'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#e6f1ff'
+                            }
+                        }
+                    }
+                }
+            });
 
-        // Initialize tooltips
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl, {
-                template: '<div class="tooltip tooltip-custom" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+            // PDF download functionality
+            document.getElementById('download-pdf').addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const reportContent = document.getElementById('report-content');
+
+                html2canvas(reportContent).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const width = pdf.internal.pageSize.getWidth();
+                    const height = canvas.height * width / canvas.width;
+
+                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                    pdf.save('ip_analysis_{{ result.ip_address }}.pdf');
+                });
+            });
+
+            // Share functionality
+            document.getElementById('share-report').addEventListener('click', function() {
+                const shareData = {
+                    title: 'IP Address Analysis Report',
+                    text: 'IP Address Analysis for {{ result.ip_address }} - Risk Level: {{ result.risk_level }}',
+                    url: window.location.href
+                };
+
+                if (navigator.share && navigator.canShare(shareData)) {
+                    navigator.share(shareData)
+                        .catch(err => {
+                            console.log('Error sharing:', err);
+                            alert('Sharing failed. You can manually copy the URL from your browser address bar.');
+                        });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    const tempInput = document.createElement('input');
+                    tempInput.value = window.location.href;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    alert('URL copied to clipboard! You can share it manually.');
+                }
             });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

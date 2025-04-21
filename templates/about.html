@@ -10,27 +10,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/template/about.css">
 
+    <!--Header-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+
+    <!--Footer-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/footer.css" rel="stylesheet">
+
 </head>
 <body>
-    <div class="circuit-bg"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">
-                <img src="/static/images/logo.png" alt="ThreatEye Logo" class="logo-image">Threat<span>Eye</span>
-            </a>
-
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="/tool" class="nav-link">Tools</a></li>
-                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="/get" class="btn-nav">Get Started</a></li>
-            </ul>
-        </div>
-    </nav>
-
+    {% include 'header.html' %}
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -62,7 +61,7 @@
                     <!-- Vision Image (Left) -->
                     <div class="col-lg-6">
                         <div class="vision-image">
-                            <img src="/api/placeholder/600/400" alt="Vision" class="img-fluid w-100">
+                            <img src="/static/images/cybersecurityteam.jpg" alt="Vision" class="img-fluid w-100">
                         </div>
                     </div>
 
@@ -94,7 +93,7 @@
                     <!-- Mission Image (Right) -->
                     <div class="col-lg-6">
                         <div class="mission-image">
-                            <img src="/api/placeholder/600/400" alt="Mission" class="img-fluid w-100">
+                            <img src="https://placehold.co/600x400" alt="Mission" class="img-fluid w-100">
                         </div>
                     </div>
                 </div>
@@ -116,17 +115,17 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-card">
                         <div class="team-img-container">
-                            <img src="/api/placeholder/400/400" alt="Team Member 1" class="team-img">
+                            <img src="https://placehold.co/400x200" alt="Team Member 1" class="team-img">
                         </div>
                         <div class="team-info">
                             <h4 class="team-name">Hamsaveni N</h4>
                             <div class="team-role">Backend Developer</div>
                             <p class="team-specialization">Python & Data Analysis Expert</p>
                             <div class="social-icons">
-                                <a href="#"><i class="fab fa-github"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="https://github.com/hamsaveni1547/"><i class="fab fa-github"></i></a>
+                                <a href="mailto:hamsa3838@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <a href="https://www.linkedin.com/in/hamsaveni-n-3834752b8?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/hamsammu3817"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -136,17 +135,17 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-card">
                         <div class="team-img-container">
-                            <img src="/api/placeholder/400/400" alt="Team Member 2" class="team-img">
+                            <img src="https://placehold.co/400x200" alt="Team Member 2" class="team-img">
                         </div>
                         <div class="team-info">
                             <h4 class="team-name">Santhosh S</h4>
                             <div class="team-role">Frontend Developer</div>
                             <p class="team-specialization">UI/UX & JavaScript Specialist</p>
                             <div class="social-icons">
-                                <a href="#"><i class="fab fa-github"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="https://github.com/Santhosh-S-2004"><i class="fab fa-github"></i></a>
+                                <a href="mailto:santhosh03082004@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <a href="https://www.linkedin.com/in/santhosh-s-36694033a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/santhosh.s04?igsh=aXpvczVtZnE5aHJh"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -156,17 +155,17 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-card">
                         <div class="team-img-container">
-                            <img src="/api/placeholder/400/400" alt="Team Member 3" class="team-img">
+                            <img src="https://placehold.co/400x200" alt="Team Member 3" class="team-img">
                         </div>
                         <div class="team-info">
                             <h4 class="team-name">Bhavana P K</h4>
                             <div class="team-role">Security Analyst</div>
                             <p class="team-specialization">Threat Intelligence Expert</p>
                             <div class="social-icons">
-                                <a href="#"><i class="fab fa-github"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="https://github.com/bhavana5823"><i class="fab fa-github"></i></a>
+                                <a href="mailto:bhavanakumar5624@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <a href="https://www.linkedin.com/in/bhavana-kumar-6a92982b1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/bhavanakumar_05?utm_source=qr&igsh=MW1sNXQ4em5oanVhcA=="><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -176,17 +175,17 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-card">
                         <div class="team-img-container">
-                            <img src="/api/placeholder/400/400" alt="Team Member 4" class="team-img">
+                            <img src="https://placehold.co/400x200" alt="Team Member 4" class="team-img">
                         </div>
                         <div class="team-info">
                             <h4 class="team-name">Gagana B A</h4>
                             <div class="team-role">Full Stack Developer</div>
                             <p class="team-specialization">Flask & Bootstrap Specialist</p>
                             <div class="social-icons">
-                                <a href="#"><i class="fab fa-github"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="https://github.com/GaganaBAgagana"><i class="fab fa-github"></i></a>
+                                <a href="mailto:gaganaba05@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <a href="https://www.linkedin.com/in/gagana-ba-548a5233a"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/itz__ganu__24?igsh=MTlkMWQ3aHh6Nnp6bA=="><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -195,57 +194,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
-                        <p class="gap" style="padding:5px"></p>Threat<span>Eye</span></h4>
-                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
-                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
-                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
-                </div>
-                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
-                    <h5 class="text-white mb-4">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
-                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
-                    <h5 class="text-white mb-4">Follow Us On</h5>
-                    <div class="d-flex gap-3 mt-4">
-                        <ul class="list-unstyled">
-                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <h5 class="text-white mb-4">Stay Updated</h5>
-                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
-                        <button class="btn btn-secondary" type="button">Subscribe</button>
-                    </div>
 
-                </div>
-            </div>
-            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
-            <div class="row justify-content-center">
-                <div class="col-md-6 mb-3 mb-md-0 text-center">
-                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    {% include 'footer.html' %}
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -7,324 +7,73 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #00bcd4;
-            --secondary-color: #7928ca;
-            --dark-color: #0a1929;
-            --light-color: #f8f9fa;
-            --danger-color: #ff4757;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-        }
 
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Poppins', sans-serif;
-            background-image: url('/api/placeholder/1920/1080');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-blend-mode: overlay;
-        }
+    <!--Header-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
 
-        .main-container {
-            min-height: calc(100vh - 76px);
-            padding: 50px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    <!--Footer-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/footer.css" rel="stylesheet">
 
-        .auth-card {
-            background-color: rgba(10, 25, 41, 0.8);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
-            width: 100%;
-            max-width: 450px;
-        }
+    <link href="/static/css/user/login.css" rel="stylesheet">
 
-        .auth-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .auth-title {
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.8rem;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .form-control:focus {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.25);
-            color: white;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.5);
-        }
-
-        .form-check-input {
-            width: 1.2em;
-            height: 1.2em;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .form-check-label {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .auth-footer {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 0.95rem;
-            opacity: 0.8;
-        }
-
-        .auth-footer a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
-            color: var(--secondary-color);
-        }
-
-        .auth-divider {
-            text-align: center;
-            margin: 25px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .auth-divider::before,
-        .auth-divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .auth-divider span {
-            padding: 0 10px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .social-login {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .social-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--light-color);
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 30px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
-            cursor: pointer;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .auth-tab.active {
-            border-bottom: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .password-field {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .toggle-password:hover {
-            color: var(--primary-color);
-        }
-
-        .password-strength {
-            height: 5px;
-            border-radius: 3px;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .password-strength-bar {
-            height: 100%;
-            width: 0;
-            transition: all 0.3s ease;
-        }
-
-        .password-feedback {
-            font-size: 0.8rem;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .weak {
-            width: 25%;
-            background-color: var(--danger-color);
-        }
-
-        .medium {
-            width: 50%;
-            background-color: var(--warning-color);
-        }
-
-        .strong {
-            width: 75%;
-            background-color: var(--primary-color);
-        }
-
-        .very-strong {
-            width: 100%;
-            background-color: var(--success-color);
-        }
-
-        /* Glow animation for auth title */
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(0, 188, 212, 0.7), 0 0 30px rgba(121, 40, 202, 0.5);
-            }
-            100% {
-                text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-            }
-        }
-
-        .animated-glow {
-            animation: glow 3s infinite;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-floating {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .form-floating label {
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 12px 20px;
-            height: 100%;
-            pointer-events: none;
-            border: 1px solid transparent;
-            transform-origin: 0 0;
-            transition: opacity .1s ease-in-out,transform .1s ease-in-out;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .form-floating input:focus ~ label,
-        .form-floating input:not(:placeholder-shown) ~ label {
-            transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
-            opacity: .65;
-        }
-
-        .captcha-area {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-        }
-
-    </style>
 </head>
 <body>
+    <!-- Advanced Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container h-container">
+            <!-- Logo and Website Name with Cyber-Inspired Design -->
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
+                <span class="threat">Threat</span><span class="eye">Eye</span>
+            </a>
+
+            <!-- Responsive Navigation Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="mx-3">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/tools">
+                            <i class="fas fa-tools me-2"></i>Tools
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="/get">
+                            <i class="fas fa-rocket me-2"></i>Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
     <!-- Main Content -->
     <div class="main-container">
@@ -472,6 +221,81 @@
             </div>
         </div>
     </div>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Threat Detection Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Enterprise Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Security Monitoring</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Threats Blocked Monthly</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container h-container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                       Threat<span class="eye">Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-white mb-4">Stay Updated</h5>
+                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
+                        <button class="btn btn-secondary" type="button">Subscribe</button>
+                    </div>
+
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>

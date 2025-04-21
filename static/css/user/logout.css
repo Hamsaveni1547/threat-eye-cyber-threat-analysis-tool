@@ -1,0 +1,107 @@
+:root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --dark-bg: #1e272e;
+            --card-bg: #2d3436;
+            --light-text: #f1f2f6;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logout-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logout-icon {
+            display: flex; /* Use flexbox for easy alignment */
+            align-items: center; /* Vertically align items */
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            height: 100px; /* Adjust as needed */
+            margin-top:9px;
+            margin-right: 20px; /* Space between logo and text */
+        }
+        .text {
+          font-size: 0.4em; /* Adjust as needed */
+          font-family: bold sans-serif; /* Choose a font */
+        }
+
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+        }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+        }
+
+        .dark-mode .logout-card {
+            background-color: var(--card-bg);
+            color: var(--light-text);
+        }
+
+        .dark-mode .card-body {
+            background-color: var(--card-bg);
+        }
+
+        .dark-mode .btn-outline-secondary {
+            border-color: #adb5bd;
+            color: #adb5bd;
+        }
+
+        .dark-mode .btn-outline-secondary:hover {
+            background-color: #adb5bd;
+            color: var(--dark-bg);
+        }
+        .container{
+            width: 40%; /* or any fixed width */
+            margin: auto;
+        }

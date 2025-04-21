@@ -80,31 +80,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 191, 255, 0.3);
 }
 
-/* Footer Styling */
-footer {
-    background: linear-gradient(to right, var(--dark-background), var(--light-background)) !important;
-    border-top: 1px solid var(--border-color);
-    padding: 3rem 0;
-}
-
-footer h5 {
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-footer .social-icons a {
-    color: var(--text-color);
-    font-size: 1.5rem;
-    margin-right: 15px;
-    transition: color 0.3s ease;
-}
-
-footer .social-icons a:hover {
-    color: var(--accent-color);
-    transform: scale(1.2);
-}
-
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .navbar-brand {

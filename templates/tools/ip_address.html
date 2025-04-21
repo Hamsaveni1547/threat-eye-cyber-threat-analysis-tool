@@ -4,260 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberShield | IP Risk Scanner</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    <style>
-        :root {
-            --primary-color: #00bcd4;
-            --secondary-color: #7928ca;
-            --dark-color: #0a1929;
-            --light-color: #f8f9fa;
-            --danger-color: #ff4757;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-        }
+    <link href="/static/css/tools/tools.css" rel="stylesheet">
 
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Poppins', sans-serif;
-            background-image: url('/static/images/cyber-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-blend-mode: overlay;
-        }
-
-        .main-container {
-            min-height: calc(100vh - 76px);
-            padding: 50px 0;
-        }
-
-        .hero-title {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
-
-        .ip-scanner-card {
-            background-color: rgba(10, 25, 41, 0.8);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
-        }
-
-        .ip-scanner-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-title {
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.25);
-            color: white;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .btn-scan {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-scan:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.5);
-        }
-
-        .captcha-area {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .form-check-input {
-            width: 1.2em;
-            height: 1.2em;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .form-check-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-        }
-
-        .tool-card {
-            background-color: rgba(10, 25, 41, 0.7);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(var(--primary-color), 0.3);
-        }
-
-        .tool-card-img {
-            height: 160px;
-            background-color: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-
-        .tool-card-body {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tool-card-title {
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .tool-card-text {
-            margin-bottom: 20px;
-            opacity: 0.8;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-
-        .btn-tool {
-            background-color: rgba(0, 188, 212, 0.1);
-            color: var(--primary-color);
-            border: 1px solid rgba(0, 188, 212, 0.3);
-            padding: 8px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-tool:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .tools-section {
-            padding: 60px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
-
-        .section-title span {
-            color: var(--primary-color);
-        }
-
-        .icon-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: rgba(0, 188, 212, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-        }
-
-        .feature-icon {
-            font-size: 30px;
-            color: var(--primary-color);
-        }
-
-        .tool-icon {
-            font-size: 48px;
-        }
-
-        footer {
-            background-color: rgba(10, 25, 41, 0.9);
-            padding: 30px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Glow animation for hero title */
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(0, 188, 212, 0.7), 0 0 30px rgba(121, 40, 202, 0.5);
-            }
-            100% {
-                text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-            }
-        }
-
-        .animated-glow {
-            animation: glow 3s infinite;
-        }
-    </style>
 </head>
 <body>
+    {% include 'header.html' %}
 
     <!-- Main Container -->
     <div class="main-container">
@@ -266,8 +22,7 @@
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h1 class="hero-title animated-glow">Advanced IP <span>Risk Analysis</span></h1>
                     <p class="hero-subtitle">
-                        Detect and neutralize cyber threats with our state-of-the-art AI-powered IP address
-                        scanning system. Stay ahead of potential security risks with real-time analysis.
+                        Provides detailed information about any IP address, IP Insight helps you track down the location, provider, and threat status of any IP address, giving you the information you need to stay one step ahead of potential threats.
                     </p>
                     <div class="d-flex">
                         <div class="d-flex align-items-center me-4">
@@ -287,7 +42,7 @@
                             <i class="bi bi-search"></i>
                             IP Address Risk Scanner
                         </h3>
-                        <form action="/check_ip" method="post">
+                        <form action="/analyze_ip" method="post">
                             <div class="mb-4">
                                 <label for="ipAddress" class="form-label">Enter IP Address to Analyze</label>
                                 <input type="text" class="form-control" id="ipAddress" name="ip_address"
@@ -313,116 +68,10 @@
         </div>
     </div>
 
-    <!-- Tools Section -->
-    <section class="tools-section" id="tools">
-        <div class="container">
-            <h2 class="section-title">Advanced <span>Cybersecurity Tools</span></h2>
-            <div class="row g-4">
-                <!-- Tool 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-server tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">Network Scanner</h4>
-                            <p class="tool-card-text">
-                                Scan your entire network for vulnerabilities, open ports, and unauthorized devices.
-                                Get comprehensive reports and remediation suggestions.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Tool 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-file-earmark-lock2 tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">Malware Detection</h4>
-                            <p class="tool-card-text">
-                                Advanced malware detection engine powered by AI. Scan files, URLs and systems
-                                for ransomware, trojans, and zero-day threats.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tool 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-shield-lock tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">Password Analyzer</h4>
-                            <p class="tool-card-text">
-                                Check the strength of your passwords and detect if they've been compromised
-                                in known data breaches. Get recommendations for stronger passwords.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tool 4 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-envelope-slash tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">Phishing Detector</h4>
-                            <p class="tool-card-text">
-                                Advanced email and website phishing detection. Analyze suspicious links
-                                and emails to identify social engineering attempts.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tool 5 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-hdd-network tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">DNS Security Audit</h4>
-                            <p class="tool-card-text">
-                                Analyze your DNS configurations for security misconfigurations. Detect
-                                DNS poisoning attempts and zone transfer vulnerabilities.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tool 6 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="tool-card">
-                        <div class="tool-card-img">
-                            <i class="bi bi-graph-up tool-icon"></i>
-                        </div>
-                        <div class="tool-card-body">
-                            <h4 class="tool-card-title">Threat Intelligence</h4>
-                            <p class="tool-card-text">
-                                Real-time cyber threat intelligence dashboard. Monitor emerging threats
-                                and receive early warnings about attacks targeting your industry.
-                            </p>
-                            <a href="#" class="btn btn-tool">Launch Tool</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% include 'tools.html' %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed File Analysis Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0e17;
+            color: #e0e6f0;
+            font-family: 'Arial', sans-serif;
+        }
+        .report-container {
+            background-color: #121824;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 900px;
+        }
+        .threat-plot {
+            max-width: 100%;
+            height: auto;
+        }
+        .gradient-button {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            border: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        .vendor-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="report-container">
+            <h2 class="text-center mb-4">Comprehensive File Analysis Report</h2>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4>File Details</h4>
+                    <p><strong>Filename:</strong> {{ report.file_name }}</p>
+                    <p><strong>Scan Date:</strong> {{ report.scan_date }}</p>
+                    <p><strong>Threat Level:</strong>
+                        {% if report.positives == 0 %}
+                            <span class="text-success">Low Risk</span>
+                        {% else %}
+                            <span class="text-danger">High Risk ({{ report.positives }} threats)</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Scan Statistics</h4>
+                    <p><strong>Total Scans:</strong> {{ report.total }}</p>
+                    <p><strong>Positive Detections:</strong> {{ report.positives }}</p>
+                    <p><strong>Detection Ratio:</strong> {{ (report.positives / report.total * 100)|round(2) }}%</p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h4>Threat Visualization</h4>
+                <img src="{{ plot_path }}" alt="Threat Detection Plot" class="threat-plot">
+            </div>
+
+            <div class="vendor-results mb-4">
+                <h4>Detailed Vendor Results</h4>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Vendor</th>
+                            <th>Detected</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vendor, details in report.detailed_results.items() %}
+                        <tr>
+                            <td>{{ vendor }}</td>
+                            <td>
+                                {% if details.detected %}
+                                    <span class="text-danger">Yes</span>
+                                {% else %}
+                                    <span class="text-success">No</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ details.result or 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center">
+                <a href="{{ url_for('download_report', report_id=report.report_id) }}" class="btn gradient-button me-2">
+                    Download Full Report
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                    Scan Another File
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

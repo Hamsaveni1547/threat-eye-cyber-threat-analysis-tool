@@ -3,105 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Scanner | Cyber Security Tools</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style>
-        .scanner-card {
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        .scanner-card:hover {
-            transform: translateY(-5px);
-        }
-        .result-badge {
-            font-size: 0.85rem;
-            padding: 0.35rem 0.65rem;
-        }
-        .scan-btn {
-            transition: all 0.3s;
-        }
-        .scan-btn:hover {
-            transform: scale(1.05);
-        }
-        .loading-spinner {
-            display: none;
-        }
-    </style>
+    <title>CyberShield | Website Scanner</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="/static/css/tools/tools.css" rel="stylesheet">
+
 </head>
 <body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card scanner-card">
-                    <div class="card-header bg-primary text-white py-3">
-                        <h4 class="mb-0"><i class="fas fa-globe me-2"></i>Website Security Scanner</h4>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="alert alert-info" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            This tool scans websites for potential security vulnerabilities, malware, and suspicious content using VirusTotal API.
+    
+    {% include 'header.html' %}
+
+    <div class="main-container">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="hero-title animated-glow">Website <span>Security Scanner</span></h1>
+                    <p class="hero-subtitle">
+                        Analyzes websites for vulnerabilities, outdated software, exposed directories, and misconfigurations. WebScan helps identify security flaws that could be exploited by attackers — making it ideal for both developers and security analysts.
+                    </p>
+                    <div class="d-flex">
+                        <div class="d-flex align-items-center me-4">
+                            <div class="icon-circle">
+                                <i class="bi bi-globe feature-icon"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Deep Web Analysis</h5>
+                                <p class="mb-0 opacity-75">Thorough security assessment</p>
+                            </div>
                         </div>
-
-                        <form id="websiteScanForm" action="/scan_website" method="POST">
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="ip-scanner-card">
+                        <h3 class="card-title">
+                            <i class="bi bi-search"></i>
+                            Website Security Scanner
+                        </h3>
+                        <form action="/scan_website" method="post">
                             <div class="mb-4">
-                                <label for="websiteUrl" class="form-label fw-bold">Website URL to Scan</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-link"></i></span>
-                                    <input type="url" class="form-control" id="websiteUrl" name="website_url"
-                                           placeholder="https://example.com" required>
-                                </div>
-                                <div class="form-text">Enter the complete URL including https:// or http://</div>
+                                <label for="websiteUrl" class="form-label">Enter Website URL to Scan</label>
+                                <input type="url" class="form-control" id="websiteUrl" name="url"
+                                    placeholder="e.g., https://www.example.com" required>
                             </div>
-
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Scan Options</label>
-                                <div class="row g-2">
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="malwareScan" name="scan_options" value="malware" checked>
-                                            <label class="form-check-label" for="malwareScan">
-                                                <i class="fas fa-bug me-1"></i> Malware Detection
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="phishingScan" name="scan_options" value="phishing" checked>
-                                            <label class="form-check-label" for="phishingScan">
-                                                <i class="fas fa-fishing-hook me-1"></i> Phishing Detection
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="sslCheck" name="scan_options" value="ssl" checked>
-                                            <label class="form-check-label" for="sslCheck">
-                                                <i class="fas fa-lock me-1"></i> SSL Certificate Analysis
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="headerCheck" name="scan_options" value="headers" checked>
-                                            <label class="form-check-label" for="headerCheck">
-                                                <i class="fas fa-code me-1"></i> Security Headers Check
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="captcha-area mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="robot" name="robot" required>
+                                    <label class="form-check-label" for="robot">
+                                        <i class="bi bi-shield-lock"></i>
+                                        I'm not a robot
+                                    </label>
                                 </div>
                             </div>
-
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary scan-btn py-2">
-                                    <span class="normal-text"><i class="fas fa-search me-2"></i>Scan Website</span>
-                                    <span class="loading-spinner">
-                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        Scanning...
-                                    </span>
-                                </button>
-                            </div>
+                            <button type="submit" class="btn btn-scan w-100 submit">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Scan Website
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -109,13 +67,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('websiteScanForm').addEventListener('submit', function() {
-            // Show loading spinner
-            document.querySelector('.normal-text').style.display = 'none';
-            document.querySelector('.loading-spinner').style.display = 'inline-block';
-        });
-    </script>
+    {% include 'tools.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

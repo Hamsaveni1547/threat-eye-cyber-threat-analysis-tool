@@ -16,52 +16,7 @@
 
 <body>
 
-    <!-- Advanced Navigation -->
-    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <!-- Logo and Website Name with Cyber-Inspired Design -->
-            <a class="navbar-brand" href="/">
-                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
-                <span class="threat">Threat</span><span class="eye">Eye</span>
-            </a>
-
-            <!-- Responsive Navigation Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navigation Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="mx-3">
-                        <a class="nav-link" href="/">
-                            <i class="fas fa-home me-2"></i>Home
-                        </a>
-                    </li>
-                    <li class="mx-3">
-                        <a class="nav-link" href="/about">
-                            <i class="fas fa-info-circle me-2"></i>About
-                        </a>
-                    </li>
-                    <li class="mx-3">
-                        <a class="nav-link" href="/tools">
-                            <i class="fas fa-tools me-2"></i>Tools
-                        </a>
-                    </li>
-                    <li class="mx-3">
-                        <a class="nav-link" href="/contact">
-                            <i class="fas fa-envelope me-2"></i>Contact
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light ms-2" href="/get">
-                            <i class="fas fa-rocket me-2"></i>Get Started
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    {% include 'header.html' %}
 
     <!-- Hero Section -->
     <section class="hero">
@@ -70,12 +25,12 @@
                 <h1 class="hero-heading">Protect Your Digital <span>Future</span> With Advanced Security</h1>
                 <p class="hero-subheading">Stay ahead of cyber threats with our innovative security solutions. Our enterprise-grade protection system ensures the safety of your data, prevents breaches, and keeps your business operations running smoothly.</p>
                 <div class="button-group">
-                    <a href="#" class="btn-primary">Get Started</a>
-                    <a href="#" class="btn-secondary">Learn More →</a>
+                    <a href="/tool" class="btn-primary">Get Started</a>
+                    
                 </div>
             </div>
             <div class="hero-image">
-                <img src="/static/images/about2.png" alt="Cybersecurity" class="hero-img">
+                <img src="/static/images/footer1.png" alt="Cybersecurity" class="hero-img">
             </div>
         </div>
     </section>
@@ -84,9 +39,9 @@
     <section class="features">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">Why Choose Us</span>
+                <span class="section-subtitle">Why to Choose Us</span>
                 <h2 class="section-title">Comprehensive Protection</h2>
-                <p class="section-description">Our platform uses advanced AI and machine learning to detect and prevent cyber threats before they impact your business.</p>
+                <p class="section-description">Our platform uses advanced APIs and Cyber Security Methods to detect and prevent cyber threats before they impact your business.</p>
             </div>
 
             <div class="features-grid">
@@ -95,7 +50,7 @@
                     <div class="feature-icon">🛡️</div>
                     <h3 class="feature-title">Threat Intelligence</h3>
                     <p class="feature-description">Real-time monitoring and analysis of potential security threats across your network infrastructure.</p>
-                    <a href="#" class="feature-link">Learn more →</a>
+                    
                 </div>
 
                 <!-- Feature 2 -->
@@ -103,7 +58,7 @@
                     <div class="feature-icon">🔍</div>
                     <h3 class="feature-title">Vulnerability Assessment</h3>
                     <p class="feature-description">Identify and address security vulnerabilities before they can be exploited by attackers.</p>
-                    <a href="#" class="feature-link">Learn more →</a>
+                    
                 </div>
 
                 <!-- Feature 3 -->
@@ -111,7 +66,7 @@
                     <div class="feature-icon">🔐</div>
                     <h3 class="feature-title">Data Encryption</h3>
                     <p class="feature-description">Protect sensitive information with military-grade encryption technology.</p>
-                    <a href="#" class="feature-link">Learn more →</a>
+                    
                 </div>
             </div>
         </div>
@@ -138,7 +93,7 @@
                 <!-- Service 2 -->
                 <div class="service-card">
                     <div class="service-icon">🦠</div>
-                    <h3 class="service-title">Virus Detection</h3>
+                    <h3 class="service-title">Virus Detection in File</h3>
                     <p class="feature-description">Scan files for malware, viruses, and other malicious code before download.</p>
                     <a href="/virus" class="service-btn">Access Tool</a>
                 </div>
@@ -146,7 +101,7 @@
                 <!-- Service 3 -->
                 <div class="service-card">
                     <div class="service-icon">🔑</div>
-                    <h3 class="service-title">Password Strength Checker</h3>
+                    <h3 class="service-title">Password Strength Analyzer</h3>
                     <p class="feature-description">Test password strength and get recommendations for more secure credentials.</p>
                     <a href="/password" class="service-btn">Access Tool</a>
                 </div>
@@ -154,7 +109,7 @@
                 <!-- Service 4 -->
                 <div class="service-card">
                     <div class="service-icon">📧</div>
-                    <h3 class="service-title">Data Breach Checker</h3>
+                    <h3 class="service-title">Mail Breach Checker</h3>
                     <p class="feature-description">Check if your email has been compromised in known data breaches.</p>
                     <a href="/email" class="service-btn">Access Tool</a>
                 </div>
@@ -178,96 +133,15 @@
                 <!-- Service 7 -->
                 <div class="service-card">
                     <div class="service-icon">🔄</div>
-                    <h3 class="service-title">Site Down Checker</h3>
+                    <h3 class="service-title">Site Down or Not</h3>
                     <p class="feature-description">Monitor website availability and receive downtime alerts.</p>
                     <a href="/site" class="service-btn">Access Tool</a>
                 </div>
-
-                <!-- Service 8 -->
-                <div class="service-card">
-                    <div class="service-icon">📡</div>
-                    <h3 class="service-title">Network Traffic Analyzer</h3>
-                    <p class="feature-description">Monitor and analyze network traffic patterns to detect anomalies.</p>
-                    <a href="/network" class="service-btn">Access Tool</a>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Threat Detection Rate</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Enterprise Clients</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Security Monitoring</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">10M+</div>
-                    <div class="stat-label">Threats Blocked Monthly</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
-                       Threat<span class="eye">Eye</span></h4>
-                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
-                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
-                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
-                </div>
-                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
-                    <h5 class="text-white mb-4">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
-                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
-                    <h5 class="text-white mb-4">Follow Us On</h5>
-                    <div class="d-flex gap-3 mt-4">
-                        <ul class="list-unstyled">
-                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <h5 class="text-white mb-4">Stay Updated</h5>
-                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
-                        <button class="btn btn-secondary" type="button">Subscribe</button>
-                    </div>
-
-                </div>
-            </div>
-            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
-            <div class="row justify-content-center">
-                <div class="col-md-6 mb-3 mb-md-0 text-center">
-                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 
     <script>
         // Create floating particles for background effect

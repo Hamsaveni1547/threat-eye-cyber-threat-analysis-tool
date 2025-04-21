@@ -4,454 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help & Support | Cyber Threat Analysis Platform</title>
-    <style>
-        :root {
-            --primary-color: #0a192f;
-            --secondary-color: #112240;
-            --accent-color: #64ffda;
-            --text-primary: #e6f1ff;
-            --text-secondary: #8892b0;
-            --danger-color: #e63946;
-            --warning-color: #ffb703;
-            --success-color: #2ec4b6;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--primary-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo span {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent-color);
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .help-container {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 2rem;
-        }
-
-        .sidebar {
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-
-        .sidebar h3 {
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--text-secondary);
-            color: var(--accent-color);
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar li {
-            margin-bottom: 0.75rem;
-        }
-
-        .sidebar a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-            display: block;
-            padding: 0.5rem;
-            border-radius: 4px;
-        }
-
-        .sidebar a:hover {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-        }
-
-        .sidebar a.active {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-            border-left: 3px solid var(--accent-color);
-            padding-left: 0.7rem;
-        }
-
-        .content {
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 2rem;
-        }
-
-        .content h1 {
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-            font-size: 2.25rem;
-        }
-
-        .content h2 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            border-bottom: 1px solid var(--text-secondary);
-            padding-bottom: 0.5rem;
-        }
-
-        .content h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-            font-size: 1.25rem;
-        }
-
-        .content p {
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .content ul, .content ol {
-            margin-bottom: 1.5rem;
-            margin-left: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        .content li {
-            margin-bottom: 0.5rem;
-        }
-
-        .content a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .content a:hover {
-            text-decoration: underline;
-        }
-
-        .card {
-            background-color: var(--primary-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .card-title i {
-            color: var(--accent-color);
-            font-size: 1.25rem;
-        }
-
-        .card-title h3 {
-            margin: 0;
-        }
-
-        .card-content {
-            color: var(--text-secondary);
-        }
-
-        .search-container {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background-color: var(--primary-color);
-            border: 1px solid var(--text-secondary);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-
-        .search-container i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .faq-item {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(137, 146, 176, 0.2);
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-question {
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-answer {
-            margin-top: 1rem;
-            display: none;
-            padding-left: 1rem;
-            border-left: 2px solid var(--accent-color);
-        }
-
-        .show-answer .faq-answer {
-            display: block;
-        }
-
-        .contact-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .contact-card {
-            background-color: var(--primary-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .contact-card i {
-            font-size: 2rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .contact-card h3 {
-            margin-bottom: 0.75rem;
-        }
-
-        .contact-card a {
-            display: inline-block;
-            margin-top: 1rem;
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .contact-card a:hover {
-            background-color: rgba(100, 255, 218, 0.2);
-        }
-
-        footer {
-            background-color: var(--secondary-color);
-            padding: 2rem 1rem;
-            text-align: center;
-            color: var(--text-secondary);
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1rem 0;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            background-color: rgba(46, 196, 182, 0.1);
-            color: var(--success-color);
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .status-indicator .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--success-color);
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .code-block {
-            background-color: var(--primary-color);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            position: relative;
-        }
-
-        .code-block pre {
-            color: var(--text-primary);
-        }
-
-        .copy-btn {
-            position: absolute;
-            right: 0.5rem;
-            top: 0.5rem;
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-            border: none;
-            border-radius: 4px;
-            padding: 0.25rem 0.5rem;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-
-        .copy-btn:hover {
-            background-color: rgba(100, 255, 218, 0.2);
-        }
-
-        .api-method {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.875rem;
-            margin-right: 0.75rem;
-        }
-
-        .api-method.get {
-            background-color: rgba(46, 196, 182, 0.1);
-            color: var(--success-color);
-        }
-
-        .api-method.post {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-        }
-
-        .api-method.delete {
-            background-color: rgba(230, 57, 70, 0.1);
-            color: var(--danger-color);
-        }
-
-        @media (max-width: 768px) {
-            .help-container {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-                margin-bottom: 2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-        }
-    </style>
+    <!--Header-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+
+    <!--Footer-->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/footer.css" rel="stylesheet">
+
+    <link href="/static/css/user/help.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">
-                <i class="fas fa-shield-alt"></i><img src="/static/images/logo.png" style="width:40px">
-                <span>ThreatEye</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Threats</a></li>
-                    <li><a href="/templates/user/threat_intelligence.html">Analytics</a></li>
-                    <li><a href="#">Reports</a></li>
-                    <li><a href="#" class="active">Help</a></li>
+
+    <!-- Advanced Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container h-container">
+            <!-- Logo and Website Name with Cyber-Inspired Design -->
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
+                <span class="threat">Threat</span><span class="eye">Eye</span>
+            </a>
+
+            <!-- Responsive Navigation Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="mx-3">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/tools">
+                            <i class="fas fa-tools me-2"></i>Tools
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="/get-started">
+                            <i class="fas fa-rocket me-2"></i>Get Started
+                        </a>
+                    </li>
                 </ul>
-            </nav>
-            <div class="status-indicator">
-                <span class="dot"></span>
-                <span>Systems Operational</span>
             </div>
         </div>
     </header>
@@ -738,6 +354,81 @@ curl -X POST https://api.cybersentry.com/v1/auth \
             </div>
         </div>
     </main>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Threat Detection Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Enterprise Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Security Monitoring</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Threats Blocked Monthly</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container h-container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                       Threat<span class="eye">Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-white mb-4">Stay Updated</h5>
+                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
+                        <button class="btn btn-secondary" type="button">Subscribe</button>
+                    </div>
+
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Toggle FAQ answers

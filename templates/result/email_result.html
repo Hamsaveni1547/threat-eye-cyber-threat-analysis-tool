@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Data Breach Results | CyberShield</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/result/result.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result-header">
+            <h1><i class="fas fa-envelope-open-text"></i> Email Data Breach Report</h1>
+            <div class="timestamp">Generated on: {{ result.timestamp }}</div>
+        </div>
+
+        <div class="result-summary">
+            <div class="summary-item summary-target">
+                <span class="label">Target Email:</span>
+                <span class="value">{{ result.email }}</span>
+            </div>
+            <div class="summary-item summary-status status-{{ result.risk_color }}">
+                <span class="label">Risk Level:</span>
+                <span class="value">{{ result.risk_level }}</span>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <button id="download-pdf" class="btn btn-primary">
+                <i class="fas fa-file-pdf"></i> Download PDF Report
+            </button>
+            <button id="share-report" class="btn btn-info">
+                <i class="fas fa-share-alt"></i> Share Results
+            </button>
+        </div>
+
+        <div class="result-section" id="report-content">
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-info-circle"></i> Email Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Email Address</div>
+                            <div class="info-value">{{ result.email }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Domain</div>
+                            <div class="info-value">{{ result.domain }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Domain Reputation</div>
+                            <div class="info-value">{{ result.domain_reputation }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Breach Count</div>
+                            <div class="info-value">{{ result.breach_count }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Detected Breaches</h3>
+                </div>
+                <div class="card-body">
+                    {% if result.breaches %}
+                        <div class="breach-list">
+                            {% for breach in result.breaches %}
+                                <div class="breach-item">
+                                    <div class="breach-source">
+                                        <i class="fas fa-database"></i>
+                                        <span>{{ breach.source }}</span>
+                                    </div>
+                                    <div class="breach-year">{{ breach.year }}</div>
+                                    <div class="breach-data">
+                                        <span class="data-label">Exposed data:</span>
+                                        <span class="data-types">{{ breach.data_types|join(", ") }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="no-breach-message">
+                            <i class="fas fa-check-circle"></i>
+                            <p>No known data breaches detected for this email.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shield-alt"></i> Risk Assessment</h3>
+                </div>
+                <div class="card-body">
+                    <div class="risk-meter">
+                        <div class="risk-level risk-{{ result.risk_color }}">
+                            {{ result.risk_level }} Risk
+                        </div>
+                        <div class="risk-description">
+                            {% if result.risk_level == "High" %}
+                                This email address has been found in multiple data breaches. Your personal information is likely exposed and at risk of being used for identity theft, phishing, or other malicious activities.
+                            {% elif result.risk_level == "Medium" %}
+                                This email address has been found in at least one data breach. Some of your personal information may be exposed to unauthorized parties.
+                            {% else %}
+                                This email address has not been found in any known data breaches. However, continue to practice good security habits.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-check-circle"></i> Recommendations</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="recommendations-list">
+                        {% for recommendation in result.recommendations %}
+                            <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // PDF download functionality
+            document.getElementById('download-pdf').addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const reportContent = document.getElementById('report-content');
+
+                html2canvas(reportContent).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const width = pdf.internal.pageSize.getWidth();
+                    const height = canvas.height * width / canvas.width;
+
+                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                    pdf.save('email_breach_report_{{ result.email }}.pdf');
+                });
+            });
+
+            // Share functionality
+            document.getElementById('share-report').addEventListener('click', function() {
+                const shareData = {
+                    title: 'Email Data Breach Report',
+                    text: 'Email Data Breach Report for {{ result.email }} - Risk Level: {{ result.risk_level }}',
+                    url: window.location.href
+                };
+
+                if (navigator.share && navigator.canShare(shareData)) {
+                    navigator.share(shareData)
+                        .catch(err => {
+                            console.log('Error sharing:', err);
+                            alert('Sharing failed. You can manually copy the URL from your browser address bar.');
+                        });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    const tempInput = document.createElement('input');
+                    tempInput.value = window.location.href;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    alert('URL copied to clipboard! You can share it manually.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

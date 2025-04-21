@@ -1,0 +1,85 @@
+.pdf-report {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.pdf-header {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 2px solid #4361ee;
+    margin-bottom: 30px;
+}
+
+.pdf-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.pdf-title {
+    font-size: 24px;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.pdf-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pdf-section-title {
+    color: #4361ee;
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+}
+
+.pdf-risk-meter {
+    height: 20px;
+    background: linear-gradient(to right, #2ecc71, #f1c40f, #e74c3c);
+    border-radius: 10px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.pdf-risk-score {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.pdf-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.pdf-stat-item {
+    background-color: #f8fafc;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pdf-recommendations {
+    background-color: #f8fafc;
+    padding: 15px;
+    border-left: 4px solid #4361ee;
+    margin: 10px 0;
+}
+
+.pdf-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 12px;
+    color: #718096;
+}

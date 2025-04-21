@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Status Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #0f1b2d;
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #152a43;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    }
+
+    .status-up { color: #00ff88; }
+    .status-down { color: #ff4e4e; }
+
+    .performance-Excellent { background-color: #00c896; color: #000; }
+    .performance-Good { background-color: #6ac5f4; color: #000; }
+    .performance-Fair { background-color: #ffc107; color: #000; }
+    .performance-Poor { background-color: #ff6f61; color: #000; }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2><i class="fas fa-shield-alt"></i> Website Status Report</h2>
+
+    <p><strong>URL:</strong> {{ result.url }}</p>
+    <p><strong>Status:</strong>
+      {% if result.is_up %}
+        <span class="status-up">Online ✅</span>
+      {% else %}
+        <span class="status-down">Offline ❌</span>
+      {% endif %}
+    </p>
+
+    <p><strong>Response Time:</strong> {{ result.response_time }} ms
+      {% if result.performance %}
+        <span class="badge performance-{{ result.performance }}">{{ result.performance }}</span>
+      {% endif %}
+    </p>
+
+    <p><strong>Status Code:</strong> {{ result.status_code }} ({{ result.status_category or 'N/A' }})</p>
+    <p><strong>IP Address:</strong> {{ result.dns_resolution.ip_address if result.dns_resolution }}</p>
+
+    <h5 class="mt-4"><i class="fas fa-user-shield"></i> WHOIS Info</h5>
+    {% if result.whois_info %}
+      <ul>
+        <li><strong>Registrar:</strong> {{ result.whois_info.registrar }}</li>
+        <li><strong>Created:</strong> {{ result.whois_info.creation_date }}</li>
+        <li><strong>Expires:</strong> {{ result.whois_info.expiration_date }}</li>
+      </ul>
+    {% else %}
+      <p>WHOIS data unavailable.</p>
+    {% endif %}
+
+    <p><strong>Checked At:</strong> {{ result.timestamp }}</p>
+
+    {% if result.error %}
+      <p class="text-warning"><i class="fas fa-triangle-exclamation"></i> {{ result.error }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>

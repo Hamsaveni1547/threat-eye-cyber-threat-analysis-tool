@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analysis - CyberShield</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0d2e4d;
+            --primary: #1a4971;
+            --primary-light: #2a6496;
+            --accent: #00a8ff;
+            --success: #0AB76C;
+            --warning: #FFC107;
+            --danger: #DC3545;
+        }
+
+        body {
+            background-color: #f0f5fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .summary-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .safe {
+            background: linear-gradient(135deg, #2dce89, #2bffc6);
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #fb6340, #ffd600);
+        }
+
+        .critical {
+            background: linear-gradient(135deg, #f5365c, #f56036);
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+
+        .traffic-alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 5px solid;
+        }
+
+        .alert-high {
+            background-color: #fde9e9;
+            border-left-color: var(--danger);
+        }
+
+        .alert-medium {
+            background-color: #fff5e1;
+            border-left-color: var(--warning);
+        }
+
+        .alert-low {
+            background-color: #e1f5ec;
+            border-left-color: var(--success);
+        }
+
+        .table-connection td, .table-connection th {
+            vertical-align: middle;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-secure {
+            background-color: var(--success);
+        }
+
+        .status-suspicious {
+            background-color: var(--warning);
+        }
+
+        .status-malicious {
+            background-color: var(--danger);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+        }
+
+        .share-options {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            color: white;
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        .linkedin {
+            background-color: #0077b5;
+        }
+
+        .email {
+            background-color: #dd4b39;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1><i class="fas fa-shield-alt"></i> CyberShield</h1>
+            <p class="mb-0">Advanced Cybersecurity Solution</p>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/tools/network_traffic.html">Network Traffic Detection</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Results</li>
+                    </ol>
+                </nav>
+
+                <div class="result-card">
+                    <h2 class="text-center mb-4">Network Traffic Analysis</h2>
+                    <p class="text-center mb-4">Analysis completed on <span id="scanDate">April 2, 2025 at 14:32:17 UTC</span></p>
+
+                    <div class="summary-box warning">
+                        <div class="row">
+                            <div class="col-md-2 text-center">
+                                <i class="fas fa-exclamation-triangle fa-3x"></i>
+                            </div>
+                            <div class="col-md-10">
+                                <h3>Medium Risk Detected</h3>
+                                <p>We've detected potentially suspicious traffic patterns on your network. 3 medium-level alerts require your attention.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1">Total Traffic Analyzed</p>
+                                <div class="stat-number text-primary">5.2 GB</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1">Active Connections</p>
+                                <div class="stat-number text-primary">47</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card">
+                                <p class="text-muted mb-1">Suspicious Connections</p>
+                                <div class="stat-number text-warning">5</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h4>Traffic by Protocol</h4>
+                            <div class="chart-container">
+                                <canvas id="protocolChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <h4>Traffic by Destination</h4>
+                            <div class="chart-container">
+                                <canvas id="destinationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4 mb-3">Traffic Alerts</h4>
+                    <div class="traffic-alert alert-high">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-radiation fa-2x text-danger"></i>
+                            </div>
+                            <div>
+                                <h5>Unusual Data Transfer</h5>
+                                <p class="mb-2">Large data transfer detected to IP: 185.142.xx.xx (Location: Unknown)</p>
+                                <p class="mb-0 text-muted">5:23 PM - 384MB transferred over non-standard port 8912</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="traffic-alert alert-medium">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-exclamation-circle fa-2x text-warning"></i>
+                            </div>
+                            <div>
+                                <h5>Multiple Failed SSH Attempts</h5>
+                                <p class="mb-2">Repeated login failures from IP: 103.98.xx.xx (Location: Eastern Europe)</p>
+                                <p class="mb-0 text-muted">4:51 PM - 17 failed attempts over 3 minutes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="traffic-alert alert-medium">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-exclamation-circle fa-2x text-warning"></i>
+                            </div>
+                            <div>
+                                <h5>Unencrypted Data Transmission</h5>
+                                <p class="mb-2">HTTP (non-HTTPS) traffic detected with sensitive data patterns</p>
+                                <p class="mb-0 text-muted">3:28 PM - Destination: account-service.internal.domain</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="traffic-alert alert-low">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-info-circle fa-2x text-success"></i>
+                            </div>
+                            <div>
+                                <h5>Unusual Port Activity</h5>
+                                <p class="mb-2">Non-standard ports in use: 4782, 9103, 12443</p>
+                                <p class="mb-0 text-muted">2:14 PM - Low volume traffic, possibly legitimate application</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-5 mb-3">Active Connections</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-connection">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
+                                    <th>Protocol</th>
+                                    <th>Traffic</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="status-indicator status-secure"></span> Secure</td>
+                                    <td>192.168.1.105</td>
+                                    <td>cdn.cloudflare.com</td>
+                                    <td>HTTPS</td>
+                                    <td>128.3 MB</td>
+                                    <td>43 min</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-indicator status-secure"></span> Secure</td>
+                                    <td>192.168.1.105</td>
+                                    <td>api.microsoft.com</td>
+                                    <td>HTTPS</td>
+                                    <td>8.7 MB</td>
+                                    <td>26 min</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-indicator status-suspicious"></span> Suspicious</td>
+                                    <td>192.168.1.107</td>
+                                    <td>185.142.xx.xx</td>
+                                    <td>TCP/8912</td>
+                                    <td>384 MB</td>
+                                    <td>12 min</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-indicator status-secure"></span> Secure</td>
+                                    <td>192.168.1.110</td>
+                                    <td>aws-server-east.amazonaws.com</td>
+                                    <td>SSH</td>
+                                    <td>1.2 MB</td>
+                                    <td>58 min</t

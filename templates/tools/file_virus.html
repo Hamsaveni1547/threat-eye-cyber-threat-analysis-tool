@@ -3,275 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberShield - File Virus Detection</title>
+    <title>ThreatEye | File Virus Scanner</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background-color: #0a192f;
-            color: #e6f1ff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .navbar {
-            background-color: #172a45;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-            font-weight: bold;
-            color: #64ffda;
-            letter-spacing: 1px;
-        }
-        .nav-link {
-            color: #ccd6f6;
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #64ffda;
-        }
-        .hero-section {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
-        }
-        .card {
-            background-color: #172a45;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .btn-primary {
-            background-color: #64ffda;
-            color: #0a192f;
-            border: none;
-            font-weight: 600;
-        }
-        .btn-primary:hover {
-            background-color: #4fd1b3;
-            color: #0a192f;
-        }
-        .btn-outline-primary {
-            border-color: #64ffda;
-            color: #64ffda;
-        }
-        .btn-outline-primary:hover {
-            background-color: #64ffda;
-            color: #0a192f;
-        }
-        .text-primary {
-            color: #64ffda !important;
-        }
-        .upload-area {
-            border: 2px dashed #64ffda;
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .upload-area:hover {
-            background-color: rgba(100, 255, 218, 0.05);
-        }
-        .feature-icon {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: #FFFFFF;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-        .service-card {
-            height: 100%;
-            cursor: pointer;
-        }
-        footer {
-            background-color: #172a45;
-            padding: 2rem 0;
-        }
-        .form-control {
-            background-color: #233554;
-            border: none;
-            color: #e6f1ff;
-        }
-        .form-control:focus {
-            background-color: #2a4066;
-            color: #e6f1ff;
-            box-shadow: 0 0 0 0.25rem rgba(100, 255, 218, 0.25);
-        }
-        .form-check-input:checked {
-            background-color: #64ffda;
-            border-color: #64ffda;
-        }
-    </style>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/css/tools/tools.css" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    {% include 'header.html' %}
+
+    <!-- Main Content -->
+    <div class="main-container" style="padding: 150px;">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Advanced File <span class="text-primary">Virus Detection</span></h1>
-                    <p class="lead mb-4">Protect your systems with our cutting-edge file scanning technology powered by AI and machine learning algorithms.</p>
-                    <p class="mb-5">Upload your files to scan for malware, ransomware, trojans, and other malicious threats.</p>
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="hero-title animated-glow">Advanced File <span>Virus Scanner</span></h1>
+                    <p class="hero-subtitle">
+                        Keep your device secure by scanning files for hidden viruses, malware, and threats. With just a click, FileShield ensures any file you download is safe to open, protecting you from harmful surprises.
+                    </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="https://placehold.co/600x400" alt="Cybersecurity Illustration" class="img-fluid rounded shadow">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- File Upload Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card p-4">
-                        <h3 class="text-center mb-4">Upload File for Scanning</h3>
-                        <form action="/check_filedection" method="POST" enctype="multipart/form-data">
+                    <div class="file-scanner-card">
+                        <h3 class="card-title">
+                            <i class="bi bi-file-earmark-medical"></i>
+                            File Virus Scanner
+                        </h3>
+                        
+                        <!-- File Upload Form -->
+                        <form action="/scan_file" method="post" enctype="multipart/form-data" id="uploadForm">
                             <div class="mb-4">
-                                <div class="upload-area" id="drop-area">
-                                    <input type="file" name="file" id="file-input" class="d-none" required>
-                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
-                                    <h5>Drag & Drop or Click to Upload</h5>
-                                    <p class="text-muted">Maximum file size: 50MB</p>
-                                    <div id="file-name" class="mt-2"></div>
+                                <label for="fileUpload" class="form-label">Upload File for Scanning</label>
+                                <div class="file-upload-area" id="dropZone">
+                                    <i class="bi bi-cloud-upload file-upload-icon"></i>
+                                    <input type="file" class="form-control" id="fileUpload" name="file" 
+                                           accept=".exe,.dll,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.7z,.txt,.js,.php,.html,.htm,.css,.xml,.json" 
+                                           style="display: none;">
+                                    <p class="mb-2">Drag and drop or click to upload</p>
+                                    <small class="text-white">Accepted files: PDF, DOC(X), XLS(X), TXT</small>
+                                    <br>
+                                    <small class="text-muted">Max file size: 100MB</small>
                                 </div>
+                                <div id="fileInfo" class="mt-2" style="display: none;">
+                                    <p class="mb-1"><strong>Selected File:</strong> <span id="fileName"></span></p>
+                                    <p class="mb-1"><strong>Size:</strong> <span id="fileSize"></span></p>
+                                    <p class="mb-0"><strong>Type:</strong> <span id="fileType"></span></p>
+                                </div>
+                                <div id="errorMessage" class="alert alert-danger mt-2" style="display: none;"></div>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="captcha-area mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="robot-check" name="notRobot" required>
-                                    <label class="form-check-label" for="robot-check">
+                                    <input class="form-check-input" type="checkbox" id="robot" name="robot" required>
+                                    <label class="form-check-label" for="robot">
+                                        <i class="bi bi-shield-lock"></i>
                                         I'm not a robot
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg px-4">
-                                    <i class="fas fa-shield-alt me-2"></i>Scan File
-                                </button>
-                            </div>
+                            <button type="submit" class="btn btn-scan w-100" id="submitBtn" disabled>
+                                <i class="bi bi-shield-check me-2"></i>
+                                Scan File for Viruses
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="py-5 bg-dark">
-        <div class="container">
-            <h2 class="text-center mb-5">Our Advanced Security Features</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-virus-slash fa-lg"></i>
-                        </div>
-                        <h4 class="text-center">Malware Detection</h4>
-                        <p class="text-center text-muted">Advanced scanning algorithms to detect known and unknown malware variants.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-fingerprint fa-lg"></i>
-                        </div>
-                        <h4 class="text-center">Behavioral Analysis</h4>
-                        <p class="text-center text-muted">AI-powered monitoring of file behavior to detect suspicious activities.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-database fa-lg"></i>
-                        </div>
-                        <h4 class="text-center">Threat Intelligence</h4>
-                        <p class="text-center text-muted">Real-time updates from global threat intelligence databases.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
+    <!-- File Upload Scripts -->
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileUpload');
+        const uploadForm = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const fileType = document.getElementById('fileType');
+        const robotCheckbox = document.getElementById('robot');
+        const errorMessage = document.getElementById('errorMessage');
 
-    <!-- Other Security Services -->
-    <section class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Other Cybersecurity Applications</h2>
-            <div class="row g-4">
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-network-wired fa-2x text-primary mb-3"></i>
-                        <h5>Network Security</h5>
-                        <p class="text-muted small">Protect your network infrastructure from unauthorized access and threats.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-user-shield fa-2x text-primary mb-3"></i>
-                        <h5>Identity Protection</h5>
-                        <p class="text-muted small">Secure user identities and prevent unauthorized access to sensitive information.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-laptop-code fa-2x text-primary mb-3"></i>
-                        <h5>Application Security</h5>
-                        <p class="text-muted small">Identify and fix vulnerabilities in your software applications.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-lock fa-2x text-primary mb-3"></i>
-                        <h5>Encryption Tools</h5>
-                        <p class="text-muted small">Protect sensitive data with advanced encryption technologies.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-search fa-2x text-primary mb-3"></i>
-                        <h5>Vulnerability Scanning</h5>
-                        <p class="text-muted small">Detect and remediate vulnerabilities across your systems.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
-                        <h5>Endpoint Protection</h5>
-                        <p class="text-muted small">Secure all devices connected to your network from threats.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-bug fa-2x text-primary mb-3"></i>
-                        <h5>Penetration Testing</h5>
-                        <p class="text-muted small">Simulate attacks to identify security weaknesses in your systems.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card service-card p-3">
-                        <i class="fas fa-file-code fa-2x text-primary mb-3"></i>
-                        <h5>Secure Code Analysis</h5>
-                        <p class="text-muted small">Identify security flaws in your application source code.</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
+        const ALLOWED_TYPES = {
+            'application/x-msdownload': 'EXE/DLL',
+            'application/pdf': 'PDF',
+            'application/msword': 'DOC',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOCX',
+            'application/vnd.ms-excel': 'XLS',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'XLSX',
+            'application/zip': 'ZIP',
+            'application/x-rar-compressed': 'RAR',
+            'application/x-7z-compressed': '7Z',
+            'text/plain': 'TXT',
+            'application/javascript': 'JS',
+            'application/php': 'PHP',
+            'text/html': 'HTML',
+            'text/css': 'CSS',
+            'application/xml': 'XML',
+            'application/json': 'JSON'
+        };
 
-    </section>
+        // Enable/disable submit button based on file selection and robot checkbox
+        function updateSubmitButton() {
+            submitBtn.disabled = !(fileInput.files.length > 0 && robotCheckbox.checked);
+        }
+
+        // Handle click on drop zone
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        // Handle file drop
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length) {
+                fileInput.files = files;
+                updateFileInfo(files[0]);
+            }
+        }
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                updateFileInfo(e.target.files[0]);
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function validateFile(file) {
+            if (!file) return false;
+            
+            // Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                showError('File size exceeds 100MB limit');
+                return false;
+            }
+
+            // Check file type
+            if (!ALLOWED_TYPES[file.type]) {
+                showError('File type not supported');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Update file information display with validation
+        function updateFileInfo(file) {
+            if (!validateFile(file)) {
+                fileInput.value = ''; // Clear the input
+                fileInfo.style.display = 'none';
+                return;
+            }
+
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileType.textContent = ALLOWED_TYPES[file.type] || file.type;
+            fileInfo.style.display = 'block';
+            
+            // Update dropzone appearance
+            const fileIcon = getFileIcon(file.type);
+            dropZone.innerHTML = `
+                <i class="bi ${fileIcon} file-upload-icon"></i>
+                <p class="mb-2">File selected</p>
+                <small class="text-muted">Click to change file</small>
+            `;
+            updateSubmitButton();
+        }
+
+        function getFileIcon(mimeType) {
+            const iconMap = {
+                'application/x-msdownload': 'bi-file-earmark-binary',
+                'application/pdf': 'bi-file-earmark-pdf',
+                'application/msword': 'bi-file-earmark-word',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'bi-file-earmark-word',
+                'application/vnd.ms-excel': 'bi-file-earmark-excel',
+                'application/zip': 'bi-file-earmark-zip',
+                'text/plain': 'bi-file-earmark-text',
+                'text/html': 'bi-file-earmark-code',
+                'text/css': 'bi-file-earmark-code',
+                'application/javascript': 'bi-file-earmark-code',
+                'application/json': 'bi-file-earmark-code'
+            };
+            return iconMap[mimeType] || 'bi-file-earmark';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Handle robot checkbox
+        robotCheckbox.addEventListener('change', updateSubmitButton);
+
+        // Handle form submission
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!fileInput.files.length) {
+                showError('Please select a file to scan');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (!validateFile(file)) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('robot', robotCheckbox.checked);
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Scanning...
+            `;
+
+            try {
+                const response = await fetch('/scan_file', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Upload failed');
+                }
+
+                const result = await response.text();
+                document.open();
+                document.write(result);
+                document.close();
+            } catch (error) {
+                console.error('Upload error:', error);
+                showError(error.message || 'Error uploading file. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-shield-check me-2"></i>Scan File for Viruses';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

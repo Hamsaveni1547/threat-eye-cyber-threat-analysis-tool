@@ -3,283 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatEye - Cyber Threat Analysis Tool</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1a2c42;
-            --secondary-color: #00b4d8;
-            --accent-color: #7209b7;
-            --dark-color: #121212;
-            --light-color: #f8f9fa;
-        }
+    <title>ThreatEye | Phishing Detector</title>
 
-        body {
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"> -->
 
 
-        .hero-section {
-            padding: 80px 0;
-            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://itbrief.com.au/uploads/story/2024/01/23/compatible_cybersecurity_trends.jpg') no-repeat center center;
-            background-size: cover;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    <!--Font-Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/tools/phishing.css">
 
-        .url-checker {
-            background: rgba(26, 44, 66, 0.7);
-            border-radius: 10px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 180, 216, 0.1);
-        }
 
-        .url-input {
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--light-color);
-        }
+    
+    <!-- Advanced Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container h-container">
+            <!-- Logo and Website Name with Cyber-Inspired Design -->
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
+                <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span>
+            </a>
 
-        .url-input:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 180, 216, 0.25);
-            color: var(--light-color);
-        }
+            <!-- Responsive Navigation Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        .btn-scan {
-            background: var(--secondary-color);
-            border: none;
-            height: 50px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-scan:hover {
-            background: #0090b0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
-        }
-
-        .robot-check {
-            padding: 15px;
-            background: rgba(114, 9, 183, 0.1);
-            border: 1px solid rgba(114, 9, 183, 0.3);
-            border-radius: 5px;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .robot-check:hover {
-            background: rgba(114, 9, 183, 0.2);
-        }
-
-        .robot-check.active {
-            background: rgba(114, 9, 183, 0.3);
-        }
-
-        .features-section {
-            padding: 60px 0;
-        }
-
-        .feature-card {
-            background: rgba(26, 44, 66, 0.5);
-            border-radius: 8px;
-            padding: 25px;
-            height: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.2);
-            border-color: var(--secondary-color);
-        }
-
-        .feature-icon {
-            height: 60px;
-            width: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            border-radius: 50%;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .footer {
-            background: var(--primary-color);
-            padding: 30px 0;
-            border-top: 3px solid var(--secondary-color);
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--secondary-color);
-        }
-
-        .nav-link.active {
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(0, 180, 216, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0);
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Hero Section with URL Checker -->
-    <section class="hero-section">
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="mx-3">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/tool">
+                            <i class="fas fa-tools me-2"></i>Tools
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="/get">
+                            <i class="fas fa-rocket me-2"></i>Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="display-4 fw-bold mb-3">Cybersecurity Threat Analysis Platform</h1>
-                    <p class="lead mb-4">Detect and analyze potential threats with our advanced AI-powered scanning system. Stay one step ahead of cybercriminals.</p>
-                    <div class="d-flex gap-3">
-                        <button class="btn btn-outline-light px-4 py-2">Learn More</button>
-                        <button class="btn btn-secondary px-4 py-2">View Demo</button>
+                    <h1 class="hero-title animated-glow">Phishing <span>Detection</span></h1>
+                    <p class="hero-subtitle">
+                        Stay safe online with our Phishing URL Detector. Instantly check any link for hidden dangers, including fake websites and phishing scams. Protect your personal information from online threats with just a click — simple, fast, and effective. 
+                    </p>
+                    <div class="security-tips">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Security Tips</h5>
+                        <ul class="mb-0">
+                            <li>Always verify the sender's email address</li>
+                            <li>Check for suspicious URL patterns</li>
+                            <li>Be cautious of urgent or threatening messages</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="url-checker pulse">
-                        <h3 class="fw-bold mb-4 text-center">Check URL for Threats</h3>
+                    <div class="ip-scanner-card">
+                        <h3 class="card-title">
+                            <i class="bi bi-shield-slash"></i>
+                            Phishing URL Detector
+                        </h3>
                         <form action="/check" method="post">
-                            <div class="input-group mb-4">
-                                <input type="url" name="url" class="form-control url-input" placeholder="Enter URL to scan (e.g., https://example.com)" required>
-                                <button type="submit" class="btn btn-scan px-4"><i class="fas fa-search me-2"></i>Scan</button>
+                            <div class="mb-4">
+                                <label for="phishingUrl" class="form-label">Enter URL to Check</label>
+                                <input type="url" class="form-control" id="phishingUrl" name="url"
+                                    placeholder="e.g., https://suspicious-site.com" required>
                             </div>
-
-                            <!-- Not a Robot Verification -->
-                            <div class="robot-check" id="robotCheck">
+                            <div class="captcha-area mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="notRobot" name="not_robot" required>
-                                    <label class="form-check-label" for="notRobot">
-                                        <i class="fas fa-shield-alt me-2"></i> I'm not a robot
+                                    <input class="form-check-input" type="checkbox" id="robot" name="robot" required>
+                                    <label class="form-check-label" for="robot">
+                                        <i class="bi bi-shield-lock"></i>
+                                        I'm not a robot
                                     </label>
                                 </div>
                             </div>
-
-                            <div class="mt-4 text-center">
-                                <p class="small text-muted">Our advanced AI will analyze the URL for malware, phishing attempts, and other threats.</p>
-                            </div>
+                            <button type="submit" class="btn btn-scan w-100">
+                                <i class="bi bi-search-heart me-2"></i>
+                                Detect Phishing Threat
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Feature Section - Cyber Security Applications -->
     <section class="features-section">
         <div class="container">
-            <h2 class="text-center mb-5">Cybersecurity Applications</h2>
+            <h2 class="text-center mb-5">Our Advanced Cyber Security Tools</h2>
             <div class="row g-4">
-                <!-- Malware Detection -->
+
+                <!-- Malware Detection(File) -->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-bug"></i>
+                            <i class="fas fa-file"></i>
                         </div>
-                        <h3 class="h5 mb-3">Malware Detection</h3>
+                        <h3 class="h5 mb-3">Malware Detection (File)</h3>
                         <p>Identify and analyze malicious software, viruses, worms, and trojans using advanced heuristic scanning.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">Launch Scanner</button>
+                        <a href="/virus" class="btn btn-sm btn-outline-info mt-3">Check Files</a>
                     </div>
                 </div>
-
+ 
                 <!-- Phishing Analysis -->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-fish"></i>
+                            <i class="fas fa-link-slash"></i>
                         </div>
                         <h3 class="h5 mb-3">Phishing Analysis</h3>
                         <p>Detect fraudulent attempts to obtain sensitive information through deceptive websites and emails.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">Check Email</button>
+                        <a href="/phishing" class="btn btn-sm btn-outline-info mt-3">Check URL</a>
                     </div>
                 </div>
 
-                <!-- Network Security -->
+                <!-- IP Risk Analyzer -->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-network-wired"></i>
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h3 class="h5 mb-3">Network Security</h3>
-                        <p>Analyze network traffic for suspicious activities and potential intrusion attempts using real-time monitoring.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">Monitor Network</button>
+                        <h3 class="h5 mb-3">IP Risk Analyzer</h3>
+                        <p>Stay ahead of emerging threats with real-time intelligence feeds and comprehensive threat databases.</p>
+                        <a href="/ip" class="btn btn-sm btn-outline-info mt-3">Analyze IP</a>
                     </div>
                 </div>
 
-                <!-- Vulnerability Scanner -->
+                <!-- Password Strength Checker -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Password Strength Checker</h3>
+                        <p>Identify security weaknesses in systems and applications before they can be exploited by attackers.</p>
+                        <a href="/password" class="btn btn-sm btn-outline-info mt-3">Analyze Password</a>
+                    </div>
+                </div>
+
+                <!-- Website Scanner -->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-search"></i>
                         </div>
-                        <h3 class="h5 mb-3">Vulnerability Scanner</h3>
-                        <p>Identify security weaknesses in systems and applications before they can be exploited by attackers.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">Scan System</button>
-                    </div>
-                </div>
-
-                <!-- Data Encryption -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Data Encryption</h3>
+                        <h3 class="h5 mb-3">Website Scanner</h3>
                         <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">Encrypt Files</button>
+                        <a href="/website" class="btn btn-sm btn-outline-info mt-3">Scan Websites</a>
                     </div>
                 </div>
 
-                <!-- Threat Intelligence -->
+                <!-- Site down check-->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-brain"></i>
+                            <i class="fas fa-globe"></i>
                         </div>
-                        <h3 class="h5 mb-3">Threat Intelligence</h3>
-                        <p>Stay ahead of emerging threats with real-time intelligence feeds and comprehensive threat databases.</p>
-                        <button class="btn btn-sm btn-outline-info mt-3">View Threats</button>
+                        <h3 class="h5 mb-3">Site Down Check</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <a href="/site" class="btn btn-sm btn-outline-info mt-3">Chack Site</a>
+                    </div>
+                </div>
+
+                <!-- Email Checker -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Email Checker</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <a href="/email" class="btn btn-sm btn-outline-info mt-3">Check Email</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bootstrap and other scripts -->
+    
+    
+     <!--Bootstrap and other scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         // Simple interaction for robot check
@@ -289,5 +215,180 @@
             checkbox.checked = !checkbox.checked;
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const urlInput = document.getElementById('phishingUrl');
+        const robotCheck = document.getElementById('robot');
+
+        function validateURL(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger mt-3';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${message}`;
+            form.insertBefore(errorDiv, form.firstChild);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const url = urlInput.value.trim();
+
+            // Clear any existing error messages
+            const existingErrors = form.querySelectorAll('.alert');
+            existingErrors.forEach(error => error.remove());
+
+            // Validate URL
+            if (!url) {
+                showError('Please enter a URL to analyze');
+                return;
+            }
+
+            if (!validateURL(url)) {
+                showError('Please enter a valid URL (e.g., https://example.com)');
+                return;
+            }
+
+            // Validate robot check
+            if (!robotCheck.checked) {
+                showError('Please confirm you are not a robot');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Analyzing URL...
+            `;
+
+            // Submit the form
+            form.submit();
+        });
+
+        // Add URL validation feedback as user types
+        urlInput.addEventListener('input', function() {
+            const url = this.value.trim();
+            if (url && !validateURL(url)) {
+                this.classList.add('is-invalid');
+                if (!this.nextElementSibling?.classList.contains('invalid-feedback')) {
+                    const feedback = document.createElement('div');
+                    feedback.className = 'invalid-feedback';
+                    feedback.textContent = 'Please enter a valid URL (e.g., https://example.com)';
+                    this.parentNode.appendChild(feedback);
+                }
+            } else {
+                this.classList.remove('is-invalid');
+                const feedback = this.nextElementSibling;
+                if (feedback?.classList.contains('invalid-feedback')) {
+                    feedback.remove();
+                }
+            }
+        });
+    });
+    </script>
+     <section class="stats">
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                  <span class="counter" data-target="99.9">0</span><span class="symbol">%</span>
+                  <p>Threat Detection Rate</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="500">0</span><span class="symbol">+</span>
+                  <p>Enterprise Clients</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="24">0</span><span class="symbol">/7</span>
+                  <p>Security Monitoring</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="10000000">0</span><span class="symbol">+</span>
+                  <p>Threats Blocked Monthly</p>
+                </div>
+              </div>             
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container h-container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                        <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="/about" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="/contact" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="/privacy" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="/terms" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
+                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <img src="/static/images/footer4.png" width="500px">
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const counters = document.querySelectorAll('.counter');
+      
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const current = +counter.innerText;
+            const increment = target / 200;
+      
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(updateCount, 10);
+            } else {
+              // For values like 99.9 or 10M, adjust format
+              counter.innerText = target >= 1000000 ? (target / 1000000) + "M" : target;
+            }
+          };
+      
+          updateCount();
+        });
+        
+      </script>
 </body>
 </html>
