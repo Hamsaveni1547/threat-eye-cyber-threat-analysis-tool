@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Security Scan Results | CyberShield</title>
+    <title>Website Security Scan Results | CyberSecurity Toolkit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/footer.css">
-    <link rel="stylesheet" href="/static/css/result/result.css">
+    <link rel="stylesheet" href="/static/css/result/results.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-shield-alt me-2"></i>CyberSecurity Toolkit
+            </a>
+        </div>
+    </nav>
+
     <div class="result-container">
         <div class="result-header">
             <h1><i class="fas fa-globe"></i> Website Security Scan Report</h1>
@@ -33,38 +43,75 @@
 
         <div class="result-actions">
             <button id="download-pdf" class="btn btn-primary">
-                <i class="fas fa-file-pdf"></i> Download PDF Report
+                <i class="fas fa-file-pdf"></i> Download Report
             </button>
             <button id="share-report" class="btn btn-info">
                 <i class="fas fa-share-alt"></i> Share Results
             </button>
+            <a href="/tools/website-scanner" class="btn btn-outline-secondary">
+                <i class="fas fa-search me-1"></i>Scan Another Site
+            </a>
         </div>
 
         <div class="result-section" id="report-content">
-            <div class="result-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-info-circle"></i> Website Information</h3>
-                </div>
-                <div class="card-body">
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">URL</div>
-                            <div class="info-value">{{ result.url }}</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-pie"></i> Security Analysis</h3>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Domain</div>
-                            <div class="info-value">{{ result.domain }}</div>
-                        </div>
-                        {% if result.categories %}
-                        <div class="info-item">
-                            <div class="info-label">Categories</div>
-                            <div class="info-value">
-                                {% for category, source in result.categories.items() %}
-                                    <span class="category-tag">{{ category }}</span>
-                                {% endfor %}
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="securityChart"></canvas>
+                            </div>
+                            <div class="security-stats">
+                                <div class="stat-item stat-malicious">
+                                    <div class="stat-count">{{ result.stats.malicious }}</div>
+                                    <div class="stat-label">Malicious</div>
+                                </div>
+                                <div class="stat-item stat-suspicious">
+                                    <div class="stat-count">{{ result.stats.suspicious }}</div>
+                                    <div class="stat-label">Suspicious</div>
+                                </div>
+                                <div class="stat-item stat-harmless">
+                                    <div class="stat-count">{{ result.stats.harmless }}</div>
+                                    <div class="stat-label">Harmless</div>
+                                </div>
+                                <div class="stat-item stat-undetected">
+                                    <div class="stat-count">{{ result.stats.undetected }}</div>
+                                    <div class="stat-label">Undetected</div>
+                                </div>
                             </div>
                         </div>
-                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Website Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">URL</div>
+                                    <div class="info-value">{{ result.url }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Domain</div>
+                                    <div class="info-value">{{ result.domain }}</div>
+                                </div>
+                                {% if result.categories %}
+                                <div class="info-item">
+                                    <div class="info-label">Categories</div>
+                                    <div class="info-value">
+                                        {% for category, source in result.categories.items() %}
+                                        <span class="category-tag">{{ category }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,22 +122,22 @@
                 </div>
                 <div class="card-body">
                     {% if result.vulnerabilities %}
-                        <div class="vulnerability-list">
-                            {% for vuln in result.vulnerabilities %}
-                                <div class="vulnerability-item vuln-{{ vuln.severity|lower }}">
-                                    <div class="vuln-severity">{{ vuln.severity }}</div>
-                                    <div class="vuln-details">
-                                        <div class="vuln-title">{{ vuln.title }}</div>
-                                        <div class="vuln-description">{{ vuln.description }}</div>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                    <div class="vulnerability-list">
+                        {% for vuln in result.vulnerabilities %}
+                        <div class="vulnerability-item vuln-{{ vuln.severity|lower }}">
+                            <div class="vuln-severity">{{ vuln.severity }}</div>
+                            <div class="vuln-details">
+                                <div class="vuln-title">{{ vuln.title }}</div>
+                                <div class="vuln-description">{{ vuln.description }}</div>
+                            </div>
                         </div>
+                        {% endfor %}
+                    </div>
                     {% else %}
-                        <div class="no-vuln-message">
-                            <i class="fas fa-check-circle"></i>
-                            <p>No significant vulnerabilities detected.</p>
-                        </div>
+                    <div class="no-vuln-message">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No significant vulnerabilities detected.</p>
+                    </div>
                     {% endif %}
                 </div>
             </div>
@@ -101,29 +148,29 @@
                 </div>
                 <div class="card-body">
                     {% if result.ssl_info.issuer != "N/A" %}
-                        <div class="ssl-info">
-                            <div class="ssl-item">
-                                <div class="ssl-label">Issuer</div>
-                                <div class="ssl-value">{{ result.ssl_info.issuer }}</div>
-                            </div>
-                            <div class="ssl-item">
-                                <div class="ssl-label">Valid From</div>
-                                <div class="ssl-value">{{ result.ssl_info.valid_from }}</div>
-                            </div>
-                            <div class="ssl-item">
-                                <div class="ssl-label">Valid Until</div>
-                                <div class="ssl-value">{{ result.ssl_info.valid_until }}</div>
-                            </div>
-                            <div class="ssl-item">
-                                <div class="ssl-label">Version</div>
-                                <div class="ssl-value">{{ result.ssl_info.version }}</div>
-                            </div>
+                    <div class="ssl-info">
+                        <div class="ssl-item">
+                            <div class="ssl-label">Issuer</div>
+                            <div class="ssl-value">{{ result.ssl_info.issuer }}</div>
                         </div>
+                        <div class="ssl-item">
+                            <div class="ssl-label">Valid From</div>
+                            <div class="ssl-value">{{ result.ssl_info.valid_from }}</div>
+                        </div>
+                        <div class="ssl-item">
+                            <div class="ssl-label">Valid Until</div>
+                            <div class="ssl-value">{{ result.ssl_info.valid_until }}</div>
+                        </div>
+                        <div class="ssl-item">
+                            <div class="ssl-label">Version</div>
+                            <div class="ssl-value">{{ result.ssl_info.version }}</div>
+                        </div>
+                    </div>
                     {% else %}
-                        <div class="no-ssl-message warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>No SSL certificate detected. This website may not use HTTPS encryption.</p>
-                        </div>
+                    <div class="no-ssl-message warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>No SSL certificate detected. This website may not use HTTPS encryption.</p>
+                    </div>
                     {% endif %}
                 </div>
             </div>
@@ -135,23 +182,23 @@
                 <div class="card-body">
                     <ul class="recommendations-list">
                         {% if result.risk_level == "High" %}
-                            <li>Avoid visiting or interacting with this website</li>
-                            <li>If this is your website, conduct a thorough security audit immediately</li>
-                            <li>Address all identified vulnerabilities and implement proper security measures</li>
-                            <li>Consider implementing Content Security Policy (CSP) headers</li>
+                        <li>Avoid visiting or interacting with this website</li>
+                        <li>If this is your website, conduct a thorough security audit immediately</li>
+                        <li>Address all identified vulnerabilities and implement proper security measures</li>
+                        <li>Consider implementing Content Security Policy (CSP) headers</li>
                         {% elif result.risk_level == "Medium" %}
-                            <li>Exercise caution when visiting this website</li>
-                            <li>Do not enter sensitive information unless necessary</li>
-                            <li>If this is your website, address the identified vulnerabilities</li>
-                            <li>Implement HTTPS if not already in use</li>
+                        <li>Exercise caution when visiting this website</li>
+                        <li>Do not enter sensitive information unless necessary</li>
+                        <li>If this is your website, address the identified vulnerabilities</li>
+                        <li>Implement HTTPS if not already in use</li>
                         {% else %}
-                            <li>This website appears safe, but always maintain good security practices</li>
-                            <li>Keep your browser and security tools updated</li>
-                            <li>Use strong, unique passwords for any accounts on this site</li>
+                        <li>This website appears safe, but always maintain good security practices</li>
+                        <li>Keep your browser and security tools updated</li>
+                        <li>Use strong, unique passwords for any accounts on this site</li>
                         {% endif %}
 
                         {% if result.vulnerabilities %}
-                            <li>Address specific vulnerabilities identified in the report</li>
+                        <li>Address specific vulnerabilities identified in the report</li>
                         {% endif %}
                     </ul>
                 </div>
@@ -160,83 +207,86 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('securityChart').getContext('2d');
-    const securityChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Malicious', 'Suspicious', 'Harmless', 'Undetected'],
-            datasets: [{
-                data: [
-                    {{ result.stats.malicious }},
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Chart
+            const ctx = document.getElementById('securityChart').getContext('2d');
+            const securityChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Malicious', 'Suspicious', 'Harmless', 'Undetected'],
+                    datasets: [{
+                        data: [
+                            {{ result.stats.malicious }},
                     {{ result.stats.suspicious }},
-                    {{ result.stats.harmless }},
-                    {{ result.stats.undetected }}
-                ],
-                backgroundColor: [
-                    '#ef4444',
-                    '#f59e0b',
-                    '#10b981',
-                    '#8892b0'
-                ],
-                borderWidth: 0
-            }]
-        },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#e6f1ff'
-                            }
-                        }
+                            {{ result.stats.harmless }},
+            {{ result.stats.undetected }}
+                        ],
+            backgroundColor: [
+            '#ff4757',
+            '#ffc107',
+            '#36b37e',
+            '#8892b0'
+        ],
+            borderWidth: 0
+                    }]
+                },
+            options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#e6f1ff'
                     }
                 }
+            }
+        }
             });
 
-            // PDF download functionality
-            document.getElementById('download-pdf').addEventListener('click', function() {
-                const { jsPDF } = window.jspdf;
-                const reportContent = document.getElementById('report-content');
+        // PDF download functionality
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const reportContent = document.getElementById('report-content');
 
-                html2canvas(reportContent).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const width = pdf.internal.pageSize.getWidth();
-                    const height = canvas.height * width / canvas.width;
+            html2canvas(reportContent).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const width = pdf.internal.pageSize.getWidth();
+                const height = canvas.height * width / canvas.width;
 
-                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-                    pdf.save('website_scan_{{ result.domain }}.pdf');
-                });
+                pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                pdf.save('website_scan_{{ result.domain }}.pdf');
             });
+        });
 
-            // Share functionality
-            document.getElementById('share-report').addEventListener('click', function() {
-                const shareData = {
-                    title: 'Website Security Scan Report',
-                    text: 'Website Security Scan for {{ result.url }} - Risk Level: {{ result.risk_level }}',
-                    url: window.location.href
-                };
 
-                if (navigator.share && navigator.canShare(shareData)) {
-                    navigator.share(shareData)
-                        .catch(err => {
-                            console.log('Error sharing:', err);
-                            alert('Sharing failed. You can manually copy the URL from your browser address bar.');
-                        });
-                } else {
-                    // Fallback for browsers that don't support Web Share API
-                    const tempInput = document.createElement('input');
-                    tempInput.value = window.location.href;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    alert('URL copied to clipboard! You can share it manually.');
-                }
-            });
+        // Share functionality
+        document.getElementById('share-report').addEventListener('click', function () {
+            const shareData = {
+                title: 'Website Security Scan Report',
+                text: 'Website Security Scan for {{ result.url }} - Risk Level: {{ result.risk_level }}',
+                url: window.location.href
+            };
+
+            if (navigator.share && navigator.canShare(shareData)) {
+                navigator.share(shareData)
+                    .catch(err => {
+                        console.log('Error sharing:', err);
+                        alert('Sharing failed. You can manually copy the URL from your browser address bar.');
+                    });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const tempInput = document.createElement('input');
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('URL copied to clipboard! You can share it manually.');
+            }
+        });
         });
     </script>
 </body>
+
 </html>

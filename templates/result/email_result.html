@@ -4,19 +4,379 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Data Breach Results | CyberShield</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/footer.css">
-    <link rel="stylesheet" href="/static/css/result/result.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-dark: #0a1929;
+            --secondary-dark: #172a45;
+            --accent-blue: #00bcd4;
+            --accent-green: #36b37e;
+            --accent-red: #ff4757;
+            --accent-yellow: #ffc107;
+            --text-light: #e6f1ff;
+            --text-muted: #8892b0;
+        }
+        
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .result-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 2rem;
+            background-color: var(--secondary-dark);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-header h1 {
+            color: var(--accent-blue);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .timestamp {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .result-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            background-color: rgba(10, 25, 41, 0.7);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .summary-item .label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .summary-item .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .summary-status.status-high .value {
+            color: var(--accent-red);
+        }
+        
+        .summary-status.status-medium .value {
+            color: var(--accent-yellow);
+        }
+        
+        .summary-status.status-low .value {
+            color: var(--accent-green);
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-blue);
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 188, 212, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: #00a0b7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 188, 212, 0.3);
+        }
+        
+        .btn-info {
+            background-color: rgba(0, 188, 212, 0.2);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        
+        .btn-info:hover {
+            background-color: rgba(0, 188, 212, 0.3);
+            color: var(--text-light);
+        }
+        
+        .result-card {
+            background-color: rgba(10, 25, 41, 0.5);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            background-color: rgba(10, 25, 41, 0.7);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .breach-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .breach-item {
+            background-color: rgba(10, 25, 41, 0.7);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .breach-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--accent-red);
+        }
+        
+        .breach-source {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .breach-year {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .breach-data {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-label {
+            color: var(--text-muted);
+            margin-right: 0.5rem;
+        }
+        
+        .data-types {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .no-breach-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: var(--accent-green);
+            gap: 1rem;
+        }
+        
+        .no-breach-message i {
+            font-size: 3rem;
+        }
+        
+        .risk-meter {
+            background-color: rgba(10, 25, 41, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .risk-level.risk-high {
+            background-color: var(--accent-red);
+            color: #fff;
+        }
+        
+        .risk-level.risk-medium {
+            background-color: var(--accent-yellow);
+            color: #000;
+        }
+        
+        .risk-level.risk-low {
+            background-color: var(--accent-green);
+            color: #fff;
+        }
+        
+        .risk-description {
+            line-height: 1.6;
+        }
+        
+        .recommendations-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .recommendations-list li {
+            background-color: rgba(10, 25, 41, 0.7);
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommendations-list li::before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--accent-blue);
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .result-summary {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+            }
+            
+            .result-container {
+                margin: 20px 10px;
+                padding: 1rem;
+            }
+        }
+        
+        /* Animated pulse for high risk */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .risk-level.risk-high {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Enhanced breach visualization */
+        .category-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: rgba(0, 188, 212, 0.2);
+            color: var(--accent-blue);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Password strength meter */
+        .password-strength {
+            margin-top: 1.5rem;
+        }
+        
+        .strength-meter {
+            height: 6px;
+            border-radius: 3px;
+            background-color: var(--primary-dark);
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .strength-progress {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .strength-weak {
+            background-color: var(--accent-red);
+            width: 33%;
+        }
+        
+        .strength-medium {
+            background-color: var(--accent-yellow);
+            width: 66%;
+        }
+        
+        .strength-strong {
+            background-color: var(--accent-green);
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="result-container">
         <div class="result-header">
-            <h1><i class="fas fa-envelope-open-text"></i> Email Data Breach Report</h1>
+            <h1><i class="fas fa-envelope-open-text me-2"></i> Email Data Breach Report</h1>
             <div class="timestamp">Generated on: {{ result.timestamp }}</div>
         </div>
 
@@ -33,17 +393,20 @@
 
         <div class="result-actions">
             <button id="download-pdf" class="btn btn-primary">
-                <i class="fas fa-file-pdf"></i> Download PDF Report
+                <i class="fas fa-file-pdf me-2"></i> Download PDF Report
             </button>
             <button id="share-report" class="btn btn-info">
-                <i class="fas fa-share-alt"></i> Share Results
+                <i class="fas fa-share-alt me-2"></i> Share Results
             </button>
+            <a href="/email" class="btn btn-outline-secondary">
+                <i class="fas fa-search me-2"></i> Check Another Email
+            </a>
         </div>
 
         <div class="result-section" id="report-content">
             <div class="result-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-info-circle"></i> Email Information</h3>
+                    <h3><i class="fas fa-info-circle me-2"></i> Email Information</h3>
                 </div>
                 <div class="card-body">
                     <div class="info-grid">
@@ -69,7 +432,7 @@
 
             <div class="result-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Detected Breaches</h3>
+                    <h3><i class="fas fa-exclamation-triangle me-2"></i> Detected Breaches</h3>
                 </div>
                 <div class="card-body">
                     {% if result.breaches %}
@@ -83,7 +446,11 @@
                                     <div class="breach-year">{{ breach.year }}</div>
                                     <div class="breach-data">
                                         <span class="data-label">Exposed data:</span>
-                                        <span class="data-types">{{ breach.data_types|join(", ") }}</span>
+                                        <span class="data-types">
+                                            {% for data_type in breach.data_types %}
+                                                <span class="category-tag">{{ data_type }}</span>
+                                            {% endfor %}
+                                        </span>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -99,7 +466,7 @@
 
             <div class="result-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-shield-alt"></i> Risk Assessment</h3>
+                    <h3><i class="fas fa-shield-alt me-2"></i> Risk Assessment</h3>
                 </div>
                 <div class="card-body">
                     <div class="risk-meter">
@@ -108,11 +475,11 @@
                         </div>
                         <div class="risk-description">
                             {% if result.risk_level == "High" %}
-                                This email address has been found in multiple data breaches. Your personal information is likely exposed and at risk of being used for identity theft, phishing, or other malicious activities.
+                                This email has been found in multiple data breaches. Your personal information may be exposed and at risk of being used for identity theft, targeted phishing attacks, or account takeovers.
                             {% elif result.risk_level == "Medium" %}
-                                This email address has been found in at least one data breach. Some of your personal information may be exposed to unauthorized parties.
+                                This email has been found in at least one data breach. Some of your personal information may be exposed to potential attackers.
                             {% else %}
-                                This email address has not been found in any known data breaches. However, continue to practice good security habits.
+                                This email has not been found in any known data breaches. However, this doesn't guarantee complete security as not all breaches are publicly known.
                             {% endif %}
                         </div>
                     </div>
@@ -121,42 +488,72 @@
 
             <div class="result-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-check-circle"></i> Recommendations</h3>
+                    <h3><i class="fas fa-check-circle me-2"></i> Recommendations</h3>
                 </div>
                 <div class="card-body">
                     <ul class="recommendations-list">
-                        {% for recommendation in result.recommendations %}
-                            <li>{{ recommendation }}</li>
-                        {% endfor %}
+                        {% if result.risk_level == "High" %}
+                            <li>Change your password immediately on all accounts associated with this email</li>
+                            <li>Enable two-factor authentication wherever possible</li>
+                            <li>Check for suspicious activity on your accounts</li>
+                            <li>Consider using a different email for sensitive accounts</li>
+                            <li>Use a password manager to generate and store strong, unique passwords</li>
+                        {% elif result.risk_level == "Medium" %}
+                            <li>Change your password on accounts associated with this email</li>
+                            <li>Enable two-factor authentication on sensitive accounts</li>
+                            <li>Monitor your accounts for suspicious activity</li>
+                            <li>Use unique passwords for each account</li>
+                        {% else %}
+                            <li>Continue maintaining good security practices</li>
+                            <li>Use strong, unique passwords for each account</li>
+                            <li>Consider enabling two-factor authentication for added security</li>
+                            <li>Regularly check for data breaches involving your accounts</li>
+                        {% endif %}
                     </ul>
+
+                    <div class="password-strength mt-4">
+                        <h5>Password Security Tips:</h5>
+                        <ul class="mt-2">
+                            <li>Use a combination of uppercase and lowercase letters, numbers, and special characters</li>
+                            <li>Make passwords at least 12 characters long</li>
+                            <li>Avoid using personal information in your passwords</li>
+                            <li>Use a different password for each account</li>
+                            <li>Consider using a password manager to generate and store secure passwords</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // PDF download functionality
             document.getElementById('download-pdf').addEventListener('click', function() {
-                const { jsPDF } = window.jspdf;
                 const reportContent = document.getElementById('report-content');
+                const opt = {
+                    margin: 10,
+                    filename: 'email_breach_report_{{ result.email }}.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
 
-                html2canvas(reportContent).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const width = pdf.internal.pageSize.getWidth();
-                    const height = canvas.height * width / canvas.width;
-
-                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-                    pdf.save('email_breach_report_{{ result.email }}.pdf');
-                });
+                html2pdf().set(opt).from(reportContent).save();
             });
 
             // Share functionality
             document.getElementById('share-report').addEventListener('click', function() {
                 const shareData = {
                     title: 'Email Data Breach Report',
-                    text: 'Email Data Breach Report for {{ result.email }} - Risk Level: {{ result.risk_level }}',
+                    text: 'Email Data Breach Results for {{ result.email }} - Risk Level: {{ result.risk_level }}',
                     url: window.location.href
                 };
 

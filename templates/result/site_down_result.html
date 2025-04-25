@@ -2,79 +2,771 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Status Report</title>
+  <title>Website Status Report | CyberSecurity Toolkit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/header.css">
+  <link rel="stylesheet" href="/static/css/footer.css">
+  <link rel="stylesheet" href="/static/css/result/results.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    body {
-      background-color: #0f1b2d;
-      color: #ffffff;
+    /* Additional styles for Site Down Checker - to be added to your existing results.css */
+
+/* Terminal-style header for cybersecurity theme */
+.terminal-header {
+    display: flex;
+    background-color: var(--primary-dark);
+    border-radius: 8px 8px 0 0;
+    padding: 8px 12px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--accent-blue);
+    align-items: center;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+    margin-right: 15px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot-red {
+    background-color: #ff5f56;
+}
+
+.dot-yellow {
+    background-color: #ffbd2e;
+}
+
+.dot-green {
+    background-color: #27c93f;
+}
+
+.terminal-title {
+    color: var(--terminal-green);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* Status indicator improvements */
+.status-indicator-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.status-indicator {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.indicator-online {
+    background-color: rgba(54, 179, 126, 0.1);
+    border: 2px solid var(--accent-green);
+}
+
+.indicator-offline {
+    background-color: rgba(255, 71, 87, 0.1);
+    border: 2px solid var(--accent-red);
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--accent-green);
+    opacity: 0.8;
+    animation: pulse-animation 2s infinite;
+}
+
+.pulse-dot {
+    width: 15px;
+    height: 15px;
+    background-color: var(--accent-green);
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.indicator-text {
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+.indicator-online .indicator-text {
+    color: var(--accent-green);
+}
+
+.indicator-offline .indicator-text {
+    color: var(--accent-red);
+}
+
+.indicator-cross {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-top: 8px;
+}
+
+.indicator-cross:before,
+.indicator-cross:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-red);
+    top: 50%;
+    left: 0;
+}
+
+.indicator-cross:before {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.indicator-cross:after {
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
     }
-
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #152a43;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    50% {
+        transform: scale(1.2);
+        opacity: 0.2;
     }
-
-    .status-up { color: #00ff88; }
-    .status-down { color: #ff4e4e; }
-
-    .performance-Excellent { background-color: #00c896; color: #000; }
-    .performance-Good { background-color: #6ac5f4; color: #000; }
-    .performance-Fair { background-color: #ffc107; color: #000; }
-    .performance-Poor { background-color: #ff6f61; color: #000; }
-
-    .badge {
-      padding: 6px 12px;
-      border-radius: 12px;
+    100% {
+        transform: scale(0.8);
+        opacity: 0.8;
     }
+}
+
+/* Glow effect for cards */
+.glow-effect {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.glow-effect:hover {
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+}
+
+.glow-effect:hover::before {
+    opacity: 1;
+}
+
+.glow-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--accent-blue), transparent);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* HTTP Status styling */
+.http-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+}
+
+.status-ok {
+    background-color: rgba(54, 179, 126, 0.2);
+    color: var(--accent-green);
+}
+
+.status-error {
+    background-color: rgba(255, 71, 87, 0.2);
+    color: var(--accent-red);
+}
+
+.status-redirect {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: var(--accent-yellow);
+}
+
+.status-other {
+    background-color: rgba(0, 188, 212, 0.2);
+    color: var(--accent-blue);
+}
+
+/* Error card styling */
+.error-card {
+    border-left: 4px solid var(--accent-red);
+}
+
+.error-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.error-code {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent-red);
+}
+
+.error-description {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.terminal-output {
+    background-color: var(--primary-dark);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-family: 'Courier New', monospace;
+    color: var(--text-light);
+}
+
+.terminal-line {
+    padding: 4px 0;
+}
+
+.terminal-line::before {
+    content: ">";
+    color: var(--accent-blue);
+    margin-right: 8px;
+}
+
+.error-line {
+    color: var(--accent-red);
+}
+
+/* Nameservers list styling */
+.nameservers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nameserver {
+    display: flex;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* Highlight text colors */
+.highlight-success {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.highlight-danger {
+    color: var(--accent-red);
+    font-weight: 600;
+}
+
+.highlight-info {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.highlight-excellent {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.highlight-good {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.highlight-fair {
+    color: var(--accent-yellow);
+    font-weight: 600;
+}
+
+.highlight-poor {
+    color: var(--accent-red);
+    font-weight: 600;
+}
+
+/* Cybersecurity signature */
+.cybersecurity-signature {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: rgba(10, 25, 41, 0.7);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.signature-text {
+    font-family: 'Courier New', monospace;
+}
+
+.signature-line {
+    color: var(--terminal-green);
+    font-weight: 600;
+}
+
+.signature-time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.binary-decoration {
+    font-family: 'Courier New', monospace;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* Share modal styling */
+.modal-content {
+    background-color: var(--secondary-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.share-options {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.share-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.share-twitter {
+    background-color: #1da1f2;
+    color: white;
+}
+
+.share-linkedin {
+    background-color: #0077b5;
+    color: white;
+}
+
+.share-email {
+    background-color: #ea4335;
+    color: white;
+}
+
+/* Responsive adjustments for the report page */
+@media (max-width: 768px) {
+    .status-indicator-container {
+        margin: 1rem 0;
+    }
+    
+    .result-actions {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .result-actions button,
+    .result-actions a,
+    .result-actions .dropdown {
+        flex: 1 0 calc(50% - 0.5rem);
+    }
+    
+    .cybersecurity-signature {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2><i class="fas fa-shield-alt"></i> Website Status Report</h2>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-shield-alt me-2"></i>CyberSecurity Toolkit
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/tools"><i class="fas fa-tools me-1"></i>Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <p><strong>URL:</strong> {{ result.url }}</p>
-    <p><strong>Status:</strong>
-      {% if result.is_up %}
-        <span class="status-up">Online ✅</span>
-      {% else %}
-        <span class="status-down">Offline ❌</span>
+  <div class="result-container" id="report-container">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="terminal-title">root@cybersec:~# ./site-status-report.sh</div>
+    </div>
+    
+    <div class="result-header">
+      <h1><i class="fas fa-signal"></i> Website Status Report</h1>
+      <div class="timestamp"><i class="far fa-clock me-1"></i>Generated on: {{ result.timestamp }}</div>
+    </div>
+
+    <div class="result-summary">
+      <div class="summary-item summary-target">
+        <span class="label">Target URL:</span>
+        <span class="value">{{ result.url }}</span>
+      </div>
+      <div class="summary-item summary-status {{ 'status-low' if result.is_up else 'status-high' }}">
+        <span class="label">Status:</span>
+        <span class="value">
+          {% if result.is_up %}
+            <span class="status-up"><i class="fas fa-check-circle me-1"></i>Online</span>
+          {% else %}
+            <span class="status-down"><i class="fas fa-times-circle me-1"></i>Offline</span>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    <div class="status-indicator-container">
+      <div class="status-indicator {{ 'indicator-online' if result.is_up else 'indicator-offline' }}">
+        {% if result.is_up %}
+          <div class="pulse-ring"></div>
+          <div class="pulse-dot"></div>
+          <div class="indicator-text">ONLINE</div>
+        {% else %}
+          <div class="indicator-text">OFFLINE</div>
+          <div class="indicator-cross"></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="generatePDF()">
+        <i class="fas fa-file-pdf me-1"></i>Download PDF
+      </button>
+      <button class="btn btn-info" onclick="shareResults()">
+        <i class="fas fa-share-alt me-1"></i>Share Results
+      </button>
+      <div class="dropdown d-inline-block">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-download me-1"></i>Export As
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+          <li><a class="dropdown-item" href="#" onclick="generatePDF()"><i class="far fa-file-pdf me-2"></i>PDF</a></li>
+          <li><a class="dropdown-item" href="#" onclick="downloadImage()"><i class="far fa-file-image me-2"></i>Image</a></li>
+          <li><a class="dropdown-item" href="#" onclick="downloadCSV()"><i class="far fa-file-csv me-2"></i>CSV</a></li>
+        </ul>
+      </div>
+      <a href="site" class="btn btn-outline-secondary">
+        <i class="fas fa-globe me-1"></i>Check Another Site
+      </a>
+    </div>
+
+    <div class="result-section" id="report-content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="result-card glow-effect">
+            <div class="card-header">
+              <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">Response Time</div>
+                  <div class="info-value d-flex align-items-center">
+                    {{ result.response_time }} ms
+                    {% if result.performance %}
+                      <span class="badge performance-{{ result.performance }} ms-2">{{ result.performance }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="progress mt-2">
+                    <div class="progress-bar 
+                      {% if result.performance == 'Excellent' %}bg-success w-25
+                      {% elif result.performance == 'Good' %}bg-info w-50
+                      {% elif result.performance == 'Fair' %}bg-warning w-75
+                      {% elif result.performance == 'Poor' %}bg-danger w-100
+                      {% else %}bg-secondary w-50{% endif %}" 
+                      role="progressbar">
+                    </div>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Status Code</div>
+                  <div class="info-value">
+                    <span class="http-status 
+                      {% if result.status_code == 200 %}status-ok
+                      {% elif result.status_code >= 400 %}status-error
+                      {% elif result.status_code >= 300 %}status-redirect
+                      {% else %}status-other{% endif %}">
+                      {{ result.status_code }}
+                    </span>
+                    <small class="text-muted ms-1">({{ result.status_category or 'N/A' }})</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="result-card glow-effect">
+            <div class="card-header">
+              <h3><i class="fas fa-network-wired"></i> DNS Information</h3>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">IP Address</div>
+                  <div class="info-value">{{ result.dns_resolution.ip_address if result.dns_resolution else 'N/A' }}</div>
+                </div>
+                {% if result.dns_resolution and result.dns_resolution.hostname %}
+                <div class="info-item">
+                  <div class="info-label">Hostname</div>
+                  <div class="info-value">{{ result.dns_resolution.hostname }}</div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card glow-effect">
+        <div class="card-header">
+          <h3><i class="fas fa-user-shield"></i> WHOIS Information</h3>
+        </div>
+        <div class="card-body">
+          {% if result.whois_info %}
+            <div class="ssl-info">
+              <div class="ssl-item">
+                <div class="ssl-label">Registrar</div>
+                <div class="ssl-value">{{ result.whois_info.registrar }}</div>
+              </div>
+              <div class="ssl-item">
+                <div class="ssl-label">Created</div>
+                <div class="ssl-value">{{ result.whois_info.creation_date }}</div>
+              </div>
+              <div class="ssl-item">
+                <div class="ssl-label">Expires</div>
+                <div class="ssl-value">{{ result.whois_info.expiration_date }}</div>
+              </div>
+              {% if result.whois_info.name_servers %}
+              <div class="ssl-item">
+                <div class="ssl-label">Name Servers</div>
+                <div class="ssl-value nameservers-list">
+                  {% for ns in result.whois_info.name_servers %}
+                    <div class="nameserver"><i class="fas fa-server me-2"></i>{{ ns }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="no-ssl-message warning">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>WHOIS data unavailable for this domain.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if result.error %}
+        <div class="result-card error-card">
+          <div class="card-header">
+            <h3><i class="fas fa-exclamation-triangle"></i> Error Details</h3>
+          </div>
+          <div class="card-body">
+            <div class="error-details">
+              <div class="error-code">ERROR {{ result.status_code if result.status_code else 'UNKNOWN' }}</div>
+              <div class="error-description">{{ result.error }}</div>
+              <div class="terminal-output">
+                <div class="terminal-line">$ curl -I {{ result.url }}</div>
+                <div class="terminal-line error-line">curl: ({{ result.status_code if result.status_code else 'XX' }}) {{ result.error }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       {% endif %}
-    </p>
 
-    <p><strong>Response Time:</strong> {{ result.response_time }} ms
-      {% if result.performance %}
-        <span class="badge performance-{{ result.performance }}">{{ result.performance }}</span>
-      {% endif %}
-    </p>
+      <div class="result-card glow-effect">
+        <div class="card-header">
+          <h3><i class="fas fa-check-circle"></i> Summary & Recommendations</h3>
+        </div>
+        <div class="card-body">
+          <ul class="recommendations-list">
+            {% if result.is_up %}
+              <li>The website is currently <span class="highlight-success">online</span> and functioning properly.</li>
+              <li>Response time is <span class="highlight-info">{{ result.response_time }} ms</span>, which is <span class="highlight-{{ result.performance|lower }}">{{ result.performance|lower }}</span>.</li>
+            {% else %}
+              <li>The website is currently experiencing <span class="highlight-danger">downtime</span> or connectivity issues.</li>
+              <li>This could be due to server maintenance, high traffic, or technical problems.</li>
+              <li>Consider trying again later or contact the website administrator.</li>
+            {% endif %}
+            
+            {% if result.status_code and result.status_code != 200 %}
+              <li>The HTTP status code {{ result.status_code }} indicates a potential issue.</li>
+            {% endif %}
+            
+            <li>Regular monitoring is recommended to ensure consistent availability.</li>
+          </ul>
+        </div>
+      </div>
 
-    <p><strong>Status Code:</strong> {{ result.status_code }} ({{ result.status_category or 'N/A' }})</p>
-    <p><strong>IP Address:</strong> {{ result.dns_resolution.ip_address if result.dns_resolution }}</p>
-
-    <h5 class="mt-4"><i class="fas fa-user-shield"></i> WHOIS Info</h5>
-    {% if result.whois_info %}
-      <ul>
-        <li><strong>Registrar:</strong> {{ result.whois_info.registrar }}</li>
-        <li><strong>Created:</strong> {{ result.whois_info.creation_date }}</li>
-        <li><strong>Expires:</strong> {{ result.whois_info.expiration_date }}</li>
-      </ul>
-    {% else %}
-      <p>WHOIS data unavailable.</p>
-    {% endif %}
-
-    <p><strong>Checked At:</strong> {{ result.timestamp }}</p>
-
-    {% if result.error %}
-      <p class="text-warning"><i class="fas fa-triangle-exclamation"></i> {{ result.error }}</p>
-    {% endif %}
+      <div class="cybersecurity-signature">
+        <div class="signature-text">
+          <div class="signature-line">-- SECURITY REPORT COMPLETE --</div>
+          <div class="signature-time">{{ result.timestamp }}</div>
+        </div>
+        <div class="binary-decoration">01001100</div>
+      </div>
+    </div>
   </div>
+
+  <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareModalLabel"><i class="fas fa-share-alt me-2"></i>Share Results</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="shareLink" class="form-label">Report Link</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="shareLink" value="https://cybersec-toolkit.com/reports/{{ result.report_id }}" readonly>
+              <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('#shareLink')">
+                <i class="far fa-clipboard"></i>
+              </button>
+            </div>
+          </div>
+          <div class="share-options">
+            <button class="btn btn-sm share-btn share-twitter">
+              <i class="fab fa-twitter"></i> Twitter
+            </button>
+            <button class="btn btn-sm share-btn share-linkedin">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </button>
+            <button class="btn btn-sm share-btn share-email">
+              <i class="far fa-envelope"></i> Email
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function generatePDF() {
+      const element = document.getElementById('report-content');
+      const reportTitle = 'Website_Status_Report_{{ result.url|replace("https://", "")|replace("http://", "")|replace("/", "_") }}';
+      
+      // Remove unnecessary elements before generating PDF
+      const actionButtons = document.querySelector('.result-actions');
+      actionButtons.style.display = 'none';
+      
+      const pdfOptions = {
+        margin: 10,
+        filename: reportTitle + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      
+      // Generate PDF
+      html2pdf().from(element).set(pdfOptions).save().then(() => {
+        // Restore elements
+        actionButtons.style.display = 'flex';
+      });
+    }
+    
+    function downloadImage() {
+      const element = document.getElementById('report-container');
+      
+      html2canvas(element).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Website_Status_Report_{{ result.url|replace("https://", "")|replace("http://", "")|replace("/", "_") }}.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+    
+    function downloadCSV() {
+      // Create CSV content
+      let csvContent = 'data:text/csv;charset=utf-8,';
+      csvContent += 'URL,Status,Response Time,Status Code,IP Address\n';
+      csvContent += '{{ result.url }},{{ "Online" if result.is_up else "Offline" }},{{ result.response_time }} ms,{{ result.status_code }},{{ result.dns_resolution.ip_address if result.dns_resolution else "N/A" }}';
+      
+      // Create download link
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'Website_Status_Report_{{ result.url|replace("https://", "")|replace("http://", "")|replace("/", "_") }}.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    function shareResults() {
+      const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+      shareModal.show();
+    }
+    
+    function copyToClipboard(element) {
+      const copyText = document.querySelector(element);
+      copyText.select();
+      document.execCommand("copy");
+      
+      // Show copied notification
+      const button = document.querySelector('.input-group button');
+      const originalHTML = button.innerHTML;
+      button.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+      }, 2000);
+    }
+  </script>
 </body>
 </html>

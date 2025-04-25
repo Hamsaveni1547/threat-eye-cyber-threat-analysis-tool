@@ -58,33 +58,14 @@ def privacy():
 def terms():
     return render_template('terms.html')
 
-@app.route('/email')
-def email():
-    return render_template('/tools/email_checker.html') 
-
-@app.route('/virus')
-def virus():
-    return render_template('/tools/file_virus.html')
-
-@app.route('/website')
-def website():
-    return render_template('/tools/website_scanner.html')
-
-@app.route('/network')
-def network():
-    return render_template('/tools/network_traffic.html')
-
 @app.route('/site')
 def site():
     return render_template('/tools/site_down_check.html')
 
-@app.route('/ip')
-def ip():
-    return render_template('/tools/ip_address.html')
-
 @app.route('/password')
 def password():
     return render_template('/tools/password.html')
+
 
 # Add these routes to your app.py
 # Virus Total API KEy
@@ -221,64 +202,10 @@ def download_phishing_report():
         return jsonify({'error': str(e)}), 500
 
 
-# IP Address Analyzer Routes
-@app.route('/tools/ip-analyzer', methods=['GET'])
-def ip_analyzer():
-    return render_template('tools/ip_address.html')
-
-
-@app.route('/analyze_ip', methods=['POST'])
-def process_ip():
-    ip_address = request.form.get('ip_address')
-    if not ip_address:
-        return jsonify({"error": "IP address is required"}), 400
-
-    try:
-        result = analyze_ip(ip_address, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
-        if "error" in result:
-            # Still render the template but with error information
-            return render_template('result/ip_result.html', result=result)
-        return render_template('result/ip_result.html', result=result)
-    except Exception as e:
-        error_result = {
-            "error": str(e),
-            "ip_address": ip_address,
-            "country": "Unknown",
-            "asn": "Unknown",
-            "as_owner": "Unknown",
-            "malicious_count": 0,
-            "suspicious_count": 0,
-            "harmless_count": 0,
-            "undetected_count": 0,
-            "reputation": 0,
-            "risk_level": "Error",
-            "risk_color": "danger",
-            "security_score": 0,
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        }
-        return render_template('result/ip_result.html', result=error_result)
-
-# Website Scanner Routes
-@app.route('/tools/website-scanner', methods=['GET'])
-def website_scanner():
-    return render_template('tools/website_scanner.html')
-
-
-@app.route('/scan_website', methods=['POST'])
-def process_website():
-    url = request.form.get('url')
-    if not url:
-        return jsonify({"error": "URL is required"}), 400
-
-    result = scan_website(url, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
-    return render_template('result/website_result.html', result=result, url=url)
-
-
 # File Virus Checker Routes
-@app.route('/tools/file-scanner', methods=['GET'])
-def file_scanner():
-    return render_template('tools/file_virus.html')
-
+@app.route('/virus')
+def virus():
+    return render_template('/tools/file_virus.html')
 
 import os
 from werkzeug.utils import secure_filename
@@ -286,7 +213,7 @@ from datetime import datetime
 
 # Add these configurations at the top of your app.py after creating the Flask app
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
@@ -297,7 +224,6 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# ...existing code...
 
 # Add or update this constant at the top of your file with other configurations
 VIRUSTOTAL_API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
@@ -344,10 +270,12 @@ def process_file():
 
     return jsonify({"error": "File type not allowed"}), 400
 
+
+
 # Email Checker Routes
-@app.route('/tools/email-checker', methods=['GET'])
-def email_checker():
-    return render_template('tools/email_checker.html')
+@app.route('/email')
+def email():
+    return render_template('/tools/email_checker.html')
 
 
 @app.route('/check_email', methods=['POST'])
@@ -392,6 +320,60 @@ def download_report(tool_type):
 
     return send_file(report_path, as_attachment=True)
 
+
+# Website Scanner Routes
+@app.route('/website')
+def website():
+    return render_template('/tools/website_scanner.html')
+
+
+@app.route('/scan_website', methods=['POST'])
+def process_website():
+    url = request.form.get('url')
+    if not url:
+        return jsonify({"error": "URL is required"}), 400
+
+    result = scan_website(url, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
+    return render_template('result/website_result.html', result=result, url=url)
+
+
+# IP Address Analyzer Routes
+@app.route('/ip')
+def ip():
+    return render_template('/tools/ip_address.html')
+
+
+@app.route('/analyze_ip', methods=['POST'])
+def process_ip():
+    ip_address = request.form.get('ip_address')
+    if not ip_address:
+        return jsonify({"error": "IP address is required"}), 400
+
+    try:
+        result = analyze_ip(ip_address, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
+        if "error" in result:
+            # Still render the template but with error information
+            return render_template('result/ip_result.html', result=result)
+        return render_template('result/ip_result.html', result=result)
+    except Exception as e:
+        error_result = {
+            "error": str(e),
+            "ip_address": ip_address,
+            "country": "Unknown",
+            "asn": "Unknown",
+            "as_owner": "Unknown",
+            "malicious_count": 0,
+            "suspicious_count": 0,
+            "harmless_count": 0,
+            "undetected_count": 0,
+            "reputation": 0,
+            "risk_level": "Error",
+            "risk_color": "danger",
+            "security_score": 0,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        return render_template('result/ip_result.html', result=error_result)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
-

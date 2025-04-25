@@ -12,11 +12,101 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="/static/css/template/index.css" rel="stylesheet">
+    <style>
+        /* Background Video Styling */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            opacity: 0.15; /* Adjust opacity to make it visible lightly */
+        }
+        
+        /* Add an overlay to improve text readability */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: -1;
+        }
+    </style>
 </head>
 
 <body>
 
-    {% include 'header.html' %}
+    <!-- Video Background -->
+    <div class="video-background">
+        <div class="video-overlay"></div>
+        <video autoplay muted loop playsinline>
+            <source src="/static/images/video.mp4" type="video/mp4">
+            <!-- Fallback message if video doesn't load -->
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Advanced Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container h-container">
+            <!-- Logo and Website Name with Cyber-Inspired Design -->
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
+                <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span>
+            </a>
+
+            <!-- Responsive Navigation Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="mx-3">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/tool">
+                            <i class="fas fa-tools me-2"></i>Tools
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="/get">
+                            <i class="fas fa-rocket me-2"></i>Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -141,7 +231,7 @@
         </div>
     </section>
 
-    {% include 'footer.html' %}
+    
 
     <script>
         // Create floating particles for background effect
@@ -171,7 +261,99 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<!-- Bootstrap Bundle with Popper -->
+    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Stats section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                  <span class="counter" data-target="99.9">0</span><span class="symbol">%</span>
+                  <p>Threat Detection Rate</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="500">0</span><span class="symbol">+</span>
+                  <p>Enterprise Clients</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="24">0</span><span class="symbol">/7</span>
+                  <p>Security Monitoring</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="10000000">0</span><span class="symbol">+</span>
+                  <p>Threats Blocked Monthly</p>
+                </div>
+              </div>             
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container h-container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                        <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="/about" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="/contact" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="/privacy" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="/terms" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href=" https://x.com/ThreatEye_25?s=08" class="nav-link p-0" target="_blank"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="https://www.facebook.com/share/19YnBWK1ab/" class="nav-link p-0" target="_blank"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="https://www.instagram.com/threateye_official?utm_source=qr&igsh=d2tjemt2eGw5aW02" class="nav-link p-0" target="_blank"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <img src="/static/images/footer4.png" width="500px">
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const counters = document.querySelectorAll('.counter');
+      
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const current = +counter.innerText;
+            const increment = target / 200;
+      
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(updateCount, 10);
+            } else {
+              // For values like 99.9 or 10M, adjust format
+              counter.innerText = target >= 1000000 ? (target / 1000000) + "M" : target;
+            }
+          };
+      
+          updateCount();
+        });
+        
+      </script>
+
 </body>
 </html>

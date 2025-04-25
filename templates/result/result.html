@@ -3,216 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Analysis Results | ThreatEye</title>
+    <title>Phishing Analysis Results | CyberShield</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/static/css/result/result.css" rel="stylesheet">
-    
     <style>
+        :root {
+            --primary-dark: #0a1929;
+            --secondary-dark: #172a45;
+            --accent-blue: #00bcd4;
+            --accent-green: #36b37e;
+            --accent-red: #ff4757;
+            --accent-yellow: #ffc107;
+            --text-light: #e6f1ff;
+            --text-muted: #8892b0;
+        }
+        
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .result-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 2rem;
+            background-color: var(--secondary-dark);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-header h1 {
+            color: var(--accent-blue);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .timestamp {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .result-card {
+            background-color: rgba(10, 25, 41, 0.5);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
         .risk-meter {
             height: 20px;
             border-radius: 10px;
-            background: linear-gradient(to right, #2ecc71, #f1c40f, #e74c3c);
+            background: linear-gradient(to right, var(--accent-green), var(--accent-yellow), var(--accent-red));
             position: relative;
             margin: 20px 0;
         }
+        
         .risk-indicator {
             width: 20px;
-            height: 20px;
+            height: 30px;
             background-color: #fff;
-            border: 2px solid #333;
+            border: 2px solid #000;
             border-radius: 50%;
             position: absolute;
             top: -5px;
             transform: translateX(-50%);
             transition: left 0.5s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-        .result-card {
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+        
+        .btn-primary {
+            background-color: var(--accent-blue);
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 188, 212, 0.2);
         }
-        .result-card:hover {
-            transform: translateY(-5px);
+        
+        .btn-primary:hover {
+            background-color: #00a0b7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 188, 212, 0.3);
         }
+        
+        .btn-outline-secondary {
+            color: var(--text-light);
+            border-color: var(--text-muted);
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        
         .security-recommendation {
-            background-color: #f8f9fa;
-            border-left: 4px solid #4361ee;
+            background-color: rgba(0, 188, 212, 0.1);
+            border-left: 4px solid var(--accent-blue);
             padding: 15px;
             margin: 10px 0;
             border-radius: 0 8px 8px 0;
         }
+        
         .scan-details {
             font-size: 0.9rem;
-            color: #6c757d;
+            color: var(--text-muted);
+        }
+        
+        .badge {
+            padding: 0.5rem 0.75rem;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        
+        .bg-danger {
+            background-color: var(--accent-red) !important;
+        }
+        
+        .bg-warning {
+            background-color: var(--accent-yellow) !important;
+            color: #000 !important;
+        }
+        
+        .bg-success {
+            background-color: var(--accent-green) !important;
+        }
+        
+        .badge.bg-primary {
+            background-color: var(--accent-blue) !important;
+        }
+        
+        .url-info {
+            background-color: rgba(10, 25, 41, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        
+        .list-group-item {
+            background-color: rgba(10, 25, 41, 0.7);
+            color: var(--text-light);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .actions {
+                flex-direction: column;
+            }
+            
+            .result-container {
+                margin: 20px 10px;
+                padding: 1rem;
+            }
+        }
+        
+        /* Animated pulse for high risk */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .alert-danger {
+            animation: pulse 2s infinite;
+        }
+
+        .date{
+            color: #e6f1ff;
         }
     </style>
 </head>
 <body>
-    {% include 'header.html' %}
+    <div class="result-container">
+        <div class="result-header">
+            <h1><i class="fas fa-shield-alt me-2"></i> Phishing Analysis Results</h1>
+            <div class="timestamp">Generated on: {{ result.timestamp }}</div>
+        </div>
+        
+        <div class="url-info mb-4">
+            <h4>Analyzed URL</h4>
+            <p class="text-break">
+                <i class="fas fa-link me-2 text-muted"></i>
+                {{ result.url }}
+            </p>
+        </div>
 
-    <div class="container-fluid my-5" style="padding: 150px;">
-        <div class="row">
-            <div class="col-12">
-                <div class="result-card p-4 mb-4">
-                    <h2 class="mb-4">
-                        <i class="fas fa-shield-alt text-primary me-2"></i>
-                        Phishing Analysis Results
-                    </h2>
-                    
-                    <div class="url-info mb-4">
-                        <h4>Analyzed URL</h4>
-                        <p class="text-break">
-                            <i class="fas fa-link me-2 text-secondary"></i>
-                            {{ result.url }}
-                        </p>
+        <div class="actions mt-4">
+            <button class="btn btn-primary" onclick="downloadReport('{{ result.url }}')">
+                <i class="fas fa-download me-2"></i> Download Report
+            </button>
+            <button class="btn btn-primary" onclick="shareResults()">
+                <i class="fas fa-share-alt me-2"></i> Share Results
+            </button>
+            <a href="/phishing" class="btn btn-outline-secondary">
+                <i class="fas fa-redo me-2"></i> Scan Another URL
+            </a>
+        </div>
+        <br><br>
+
+        <div class="result-card">
+            <div class="card-header">
+                <h3><i class="fas fa-chart-pie me-2"></i> Risk Assessment</h3>
+            </div>
+            <div class="card-body">
+                <div class="risk-meter">
+                    <div class="risk-indicator" style="left: {{ result.phishing_score }}%;"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Safe</span>
+                    <span>Moderate</span>
+                    <span>High Risk</span>
+                </div>
+                
+                <div class="alert {% if result.phishing_score >= 30 %}alert-danger{% elif result.phishing_score >= 25 %}alert-warning{% else %}alert-success{% endif %} mt-3">
+                    <h5 class="alert-heading">
+                        {% if result.phishing_score >= 30 %}
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                        {% elif result.phishing_score >= 25 %}
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                        {% else %}
+                            <i class="fas fa-check-circle me-2"></i>
+                        {% endif %}
+                        {{ result.classification }}
+                    </h5>
+                    <p class="mb-0">Risk Score: {{ result.phishing_score }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div class="card-header">
+                <h3><i class="fas fa-search-plus me-2"></i> URL Analysis</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-globe me-2"></i> Domain</span>
+                                <span class="badge bg-primary">{{ result.domain }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-virus me-2"></i> Malicious Detections</span>
+                                <span class="badge bg-danger">{{ result.malicious }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-exclamation-triangle me-2"></i> Suspicious Detections</span>
+                                <span class="badge bg-warning">{{ result.suspicious }}</span>
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="risk-assessment mb-4">
-                        <h4>Risk Assessment</h4>
-                        <div class="risk-meter">
-                            <div class="risk-indicator" style="left: {{ result.phishing_score }}%;"></div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Safe</span>
-                            <span>Moderate</span>
-                            <span>High Risk</span>
-                        </div>
-                        
-                        <div class="alert {% if result.phishing_score >= 30 %}alert-danger{% elif result.phishing_score >= 25 %}alert-warning{% else %}alert-success{% endif %} mt-3">
-                            <h5 class="alert-heading">
-                                {% if result.phishing_score >= 30 %}
-                                    <i class="fas fa-exclamation-triangle me-2"></i>
-                                {% elif result.phishing_score >= 25 %}
-                                    <i class="fas fa-exclamation-circle me-2"></i>
-                                {% else %}
-                                    <i class="fas fa-check-circle me-2"></i>
-                                {% endif %}
-                                {{ result.classification }}
-                            </h5>
-                            <p class="mb-0">Risk Score: {{ result.phishing_score }}%</p>
-                        </div>
-                    </div>
-
-                    
-                    <div class="url-analysis mb-4">
-                        <h4>URL Analysis</h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Domain
-                                        <span class="badge bg-primary">{{ result.domain }}</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Malicious Detections
-                                        <span class="badge bg-danger">{{ result.malicious }}</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Suspicious Detections
-                                        <span class="badge bg-warning">{{ result.suspicious }}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Harmless Detections
-                                        <span class="badge bg-success">{{ result.harmless }}</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Undetected
-                                        <span class="badge bg-secondary">{{ result.undetected }}</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Total Scans
-                                        <span class="badge bg-info">{{ result.total_scans }}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if result.url_analysis.suspicious_patterns %}
-                    <div class="suspicious-patterns mb-4">
-                        <h4>Suspicious Patterns Detected</h4>
-                        <div class="alert alert-warning">
-                            <ul class="mb-0">
-                                {% for pattern in result.url_analysis.suspicious_patterns %}
-                                <li>{{ pattern }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <div class="security-recommendations mb-4">
-                        <h4>Security Recommendations</h4>
-                        {% for recommendation in result.recommendations %}
-                        <div class="security-recommendation text-primary">
-                            <i class="fas fa-info-circle me-2 text-primary"></i>
-                            {{ recommendation }}
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="scan-details text-muted">
-                        <p>Scan completed on: {{ result.timestamp }}</p>
-                    </div>
-
-                    <div class="actions mt-4">
-                        <button class="btn btn-primary me-2" onclick="downloadReport('{{ result.url }}')">
-                            <i class="fas fa-download me-2"></i>Download Report
-                        </button>
-                        <a href="/phishing" class="btn btn-outline-secondary">
-                            <i class="fas fa-redo me-2"></i>Scan Another URL
-                        </a>
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-check-circle me-2"></i> Harmless Detections</span>
+                                <span class="badge bg-success">{{ result.harmless }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-question-circle me-2"></i> Undetected</span>
+                                <span class="badge bg-secondary">{{ result.undetected }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-search me-2"></i> Total Scans</span>
+                                <span class="badge bg-info">{{ result.total_scans }}</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {% include 'footer.html' %}
+        {% if result.url_analysis.suspicious_patterns %}
+        <div class="result-card">
+            <div class="card-header">
+                <h3><i class="fas fa-exclamation-triangle me-2"></i> Suspicious Patterns Detected</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <ul class="mb-0">
+                        {% for pattern in result.url_analysis.suspicious_patterns %}
+                        <li>{{ pattern }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="result-card">
+            <div class="card-header">
+                <h3><i class="fas fa-shield-alt me-2"></i> Security Recommendations</h3>
+            </div>
+            <div class="card-body">
+                {% for recommendation in result.recommendations %}
+                <div class="security-recommendation">
+                    <i class="fas fa-info-circle me-2"></i>
+                    {{ recommendation }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="scan-details text-muted mt-3 mb-4">
+            <p><i class="fas fa-clock me-2 date"></i> <span class="date"> completed on: {{ result.timestamp }}</span></p>
+        </div>
+    </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JavaScript -->
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
         function downloadReport(url) {
-            fetch('/download-report/phishing', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    url: url,
-                    result: JSON.parse('{{ result | tojson | safe}}'),
-                    format: 'pdf'
+            const { jsPDF } = window.jspdf;
+            const reportContent = document.querySelector('.result-container');
+
+            html2canvas(reportContent).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('phishing-analysis-report.pdf');
+            });
+        }
+
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Phishing Analysis Results',
+                    text: 'Check out this phishing analysis for {{ result.url }} - Risk Score: {{ result.phishing_score }}%',
+                    url: window.location.href,
                 })
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'phishing-analysis-report.pdf';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error sharing:', error);
+                    fallbackShare();
+                });
+            } else {
+                fallbackShare();
+            }
+        }
+
+        function fallbackShare() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('URL copied to clipboard! You can share it manually.');
         }
 
         // Add animation for risk indicator
         document.addEventListener('DOMContentLoaded', function() {
-            const score = {{ result.phishing_score }};
             const indicator = document.querySelector('.risk-indicator');
-            indicator.style.left = score + '%';
+            indicator.style.left = '{{ result.phishing_score }}%';
         });
     </script>
 </body>

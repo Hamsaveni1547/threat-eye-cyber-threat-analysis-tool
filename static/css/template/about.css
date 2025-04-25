@@ -150,9 +150,6 @@
         }
 
         .team-card:hover {
-            transform: translateY
-
-        .team-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
             border-color: var(--accent-color);
@@ -230,8 +227,8 @@
             text-align: center;
             margin-bottom: 60px;
         }
-        }
 
+        
         .section-header h2 {
             color: var(--accent-color);
             font-weight: 700;
@@ -254,8 +251,4 @@
         .container {
             position: relative;
             z-index: 1;
-        }
-
-        .threat{
-            color:white;
         }

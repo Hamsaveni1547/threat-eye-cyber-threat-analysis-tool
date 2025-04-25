@@ -3,17 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberShield | IP Risk Scanner</title>
+    <title>CyberShThreatEyeield | IP Risk Scanner</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    <link href="/static/css/tools/tools.css" rel="stylesheet">
+    <!--Font-Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/tools/phishing.css">
 
 </head>
 <body>
-    {% include 'header.html' %}
+    
+    <!-- Advanced Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container h-container">
+            <!-- Logo and Website Name with Cyber-Inspired Design -->
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
+                <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span>
+            </a>
+
+            <!-- Responsive Navigation Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="mx-3">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/tool">
+                            <i class="fas fa-tools me-2"></i>Tools
+                        </a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="/get">
+                            <i class="fas fa-rocket me-2"></i>Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
     <!-- Main Container -->
     <div class="main-container">
@@ -67,11 +115,192 @@
             </div>
         </div>
     </div>
-
-
-    {% include 'tools.html' %}
-
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Tools -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Advanced Cyber Security Tools</h2>
+            <div class="row g-4">
+
+                <!-- Malware Detection(File) -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Malware Detection (File)</h3>
+                        <p>Identify and analyze malicious software, viruses, worms, and trojans using advanced heuristic scanning.</p>
+                        <a href="/virus" class="btn btn-sm btn-outline-info mt-3">Check Files</a>
+                    </div>
+                </div>
+ 
+                <!-- Phishing Analysis -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-link-slash"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Phishing Analysis</h3>
+                        <p>Detect fraudulent attempts to obtain sensitive information through deceptive websites and emails.</p>
+                        <a href="/phishing" class="btn btn-sm btn-outline-info mt-3">Check URL</a>
+                    </div>
+                </div>
+
+                <!-- IP Risk Analyzer -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="h5 mb-3">IP Risk Analyzer</h3>
+                        <p>Stay ahead of emerging threats with real-time intelligence feeds and comprehensive threat databases.</p>
+                        <a href="/ip" class="btn btn-sm btn-outline-info mt-3">Analyze IP</a>
+                    </div>
+                </div>
+
+                <!-- Password Strength Checker -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Password Strength Checker</h3>
+                        <p>Identify security weaknesses in systems and applications before they can be exploited by attackers.</p>
+                        <a href="/password" class="btn btn-sm btn-outline-info mt-3">Analyze Password</a>
+                    </div>
+                </div>
+
+                <!-- Website Scanner -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Website Scanner</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <a href="/website" class="btn btn-sm btn-outline-info mt-3">Scan Websites</a>
+                    </div>
+                </div>
+
+                <!-- Site down check-->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Site Down Check</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <a href="/site" class="btn btn-sm btn-outline-info mt-3">Chack Site</a>
+                    </div>
+                </div>
+
+                <!-- Email Checker -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Email Checker</h3>
+                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <a href="/email" class="btn btn-sm btn-outline-info mt-3">Check Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                  <span class="counter" data-target="99.9">0</span><span class="symbol">%</span>
+                  <p>Threat Detection Rate</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="500">0</span><span class="symbol">+</span>
+                  <p>Enterprise Clients</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="24">0</span><span class="symbol">/7</span>
+                  <p>Security Monitoring</p>
+                </div>
+                <div class="stat">
+                  <span class="counter" data-target="10000000">0</span><span class="symbol">+</span>
+                  <p>Threats Blocked Monthly</p>
+                </div>
+              </div>             
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container h-container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
+                        <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span></h4>
+                    <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="/about" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="/contact" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="/privacy" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="/terms" class="nav-link p-0">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Follow Us On</h5>
+                    <div class="d-flex gap-3 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"> <a href=" https://x.com/ThreatEye_25?s=08" class="nav-link p-0" target="_blank"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="https://www.facebook.com/share/19YnBWK1ab/" class="nav-link p-0" target="_blank"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="https://www.instagram.com/threateye_official?utm_source=qr&igsh=d2tjemt2eGw5aW02" class="nav-link p-0" target="_blank"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <img src="/static/images/footer4.png" width="500px">
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-3 mb-md-0 text-center">
+                    <p class="mb-0">© 2025 ThreatEye. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const counters = document.querySelectorAll('.counter');
+      
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const current = +counter.innerText;
+            const increment = target / 200;
+      
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(updateCount, 10);
+            } else {
+              // For values like 99.9 or 10M, adjust format
+              counter.innerText = target >= 1000000 ? (target / 1000000) + "M" : target;
+            }
+          };
+      
+          updateCount();
+        });
+        
+      </script>
+
 </body>
 </html>
