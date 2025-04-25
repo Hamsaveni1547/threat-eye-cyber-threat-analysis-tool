@@ -127,3 +127,4 @@ def analyze_ip(ip_address, api_key):
             "security_score": 0,  # Add this line
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
+    

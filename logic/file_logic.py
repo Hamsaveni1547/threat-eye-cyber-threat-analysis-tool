@@ -3,18 +3,89 @@ import json
 import hashlib
 import time
 from datetime import datetime
-import os
+import os.path
+import pathlib
 
 
 def scan_file(file_path, api_key):
+    """
+    Scans a file using VirusTotal API and returns the results.
+    
+    Args:
+        file_path: Path to the file to scan
+        api_key: VirusTotal API key
+        
+    Returns:
+        Dictionary with scan results or error information
+    """
+    # Clean and normalize the file path
     try:
+        file_path = str(pathlib.Path(file_path).resolve())
+    except Exception:
+        error_response['message'] = 'Invalid file path'
+        return error_response
+
+    # Set up default error response structure
+    error_response = {
+        'filename': os.path.basename(file_path) if file_path else 'Unknown',
+        'status': 'error',
+        'message': 'Unknown error',
+        'threat_level': 'unknown',
+        'positives': 0,
+        'total': 0,
+        'scans': {},
+        'scan_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    }
+    
+    try:
+        # Validate file_path
+        if not file_path:
+            error_response['message'] = 'File path is empty'
+            return error_response
+        
+        # Use pathlib to check if file exists and is readable
+        file_path_obj = pathlib.Path(file_path)
+        if not file_path_obj.is_file():
+            error_response['message'] = f'File not found: {file_path}'
+            return error_response
+            
+        # Check file size using pathlib
+        file_size = file_path_obj.stat().st_size
+        if file_size == 0:
+            error_response['message'] = 'File is empty'
+            return error_response
+            
+        # Validate API key
+        if not api_key:
+            error_response['message'] = 'API key is required'
+            return error_response
+        
         # First, upload the file to VirusTotal
         url = "https://www.virustotal.com/vtapi/v2/file/scan"
-        files = {'file': open(file_path, 'rb')}
-        params = {'apikey': api_key}
         
-        response = requests.post(url, files=files, params=params)
-        upload_result = response.json()
+        # Using with statement for proper file handling
+        with open(str(file_path_obj), 'rb') as file_obj:
+            files = {'file': file_obj}
+            params = {'apikey': api_key}
+            
+            response = requests.post(url, files=files, params=params)
+            
+            # Check if request was successful
+            if response.status_code != 200:
+                error_response['message'] = f'API request failed with status code: {response.status_code}'
+                return error_response
+            
+            # Parse response as JSON
+            try:
+                upload_result = response.json()
+            except json.JSONDecodeError:
+                error_response['message'] = 'Failed to parse API response'
+                return error_response
+            
+            # Check if response has the expected 'resource' field
+            if 'resource' not in upload_result:
+                error_response['message'] = 'Invalid API response: missing resource'
+                return error_response
         
         # Get the scan results using the resource
         url = "https://www.virustotal.com/vtapi/v2/file/report"
@@ -24,7 +95,53 @@ def scan_file(file_path, api_key):
         }
         
         response = requests.get(url, params=params)
-        result = response.json()
+        if response.status_code != 200:
+            error_response['message'] = f'Failed to get scan results, status code: {response.status_code}'
+            return error_response
+        
+        # Parse result as JSON
+        try:
+            result = response.json()
+        except json.JSONDecodeError:
+            error_response['message'] = 'Failed to parse scan results'
+            return error_response
+        
+        # Process results - handle the case where response_code is not 1
+        if result.get('response_code') != 1:
+            # File not found in VirusTotal database
+            return {
+                'filename': os.path.basename(file_path),
+                'scan_id': result.get('scan_id', ''),
+                'resource': result.get('resource', ''),
+                'response_code': result.get('response_code', 0),
+                'scan_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'permalink': result.get('permalink', ''),
+                'positives': 0,
+                'total': 0,
+                'scans': {},
+                'status': 'pending',
+                'threat_level': 'unknown',
+                'message': 'File submitted for scanning. Results not available yet.'
+            }
+        
+        # Calculate default threat level based on positives
+        positives = result.get('positives', 0)
+        total = result.get('total', 0)
+        
+        # Avoid division by zero when calculating threat percentage
+        threat_percentage = 0
+        if total > 0:
+            threat_percentage = (positives / total) * 100
+        
+        # Determine threat level
+        threat_level = 'clean'
+        if threat_percentage > 0:
+            if threat_percentage <= 5:
+                threat_level = 'low'
+            elif threat_percentage <= 20:
+                threat_level = 'medium'
+            else:
+                threat_level = 'high'
         
         # Format the response in the expected structure
         scan_result = {
@@ -32,31 +149,32 @@ def scan_file(file_path, api_key):
             'scan_id': result.get('scan_id', ''),
             'resource': result.get('resource', ''),
             'response_code': result.get('response_code', 0),
-            'scan_date': result.get('scan_date', ''),
+            'scan_date': result.get('scan_date', datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
             'permalink': result.get('permalink', ''),
-            'positives': result.get('positives', 0),
-            'total': result.get('total', 0),
+            'positives': positives,
+            'total': total,
+            'threat_percentage': threat_percentage,
             'scans': result.get('scans', {}),
             'status': 'completed',
-            'threat_level': 'clean' if result.get('positives', 0) == 0 else 'malicious',
+            'threat_level': threat_level,
             'message': 'File scan completed successfully'
         }
         
         return scan_result
 
+    except FileNotFoundError:
+        error_response['message'] = f'File not found: {file_path}'
+        return error_response
+    except PermissionError:
+        error_response['message'] = f'Permission denied: {file_path}'
+        return error_response
+    except IsADirectoryError:
+        error_response['message'] = f'Expected a file, got a directory: {file_path}'
+        return error_response
     except Exception as e:
-        # Return a properly structured error response
-        return {
-            'filename': os.path.basename(file_path),
-            'status': 'error',
-            'message': str(e),
-            'threat_level': 'unknown',
-            'positives': 0,
-            'total': 0,
-            'scans': {},
-            'scan_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        }
-
+        error_response['message'] = str(e)
+        return error_response
+    
 
 def calculate_file_hash(file_path):
     """Calculate MD5 hash of a file"""

@@ -19,7 +19,7 @@ ALLOWED_FILE_TYPES = {
     'txt', 'pdf', 'doc', 'docx', 'xls', 'xlsx',
     'png', 'jpg', 'jpeg', 'gif', 'zip', 'rar'
 }
-MAX_FILE_SIZE = 16 * 1024 * 1024  # 16MB
+MAX_FILE_SIZE = 100 * 1024 * 1024  # 16MB
 
 # Scanning Configuration
 PHISHING_SCORE_THRESHOLD = {

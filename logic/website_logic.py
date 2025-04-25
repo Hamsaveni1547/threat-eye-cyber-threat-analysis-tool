@@ -196,3 +196,4 @@ def scan_website(url, api_key):
             "url": url,
             "domain": ""
         }
+    

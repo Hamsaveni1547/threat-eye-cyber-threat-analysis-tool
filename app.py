@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, send_file, jsonify
 import requests
 import os
+import io
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+
 # Add these imports at the top of the file
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -11,11 +18,6 @@ from logic.file_logic import scan_file
 from logic.email_logic import check_email
 from logic.site_down_checker import check_site_status
 
-import io
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 app = Flask(__name__)
 
@@ -67,7 +69,6 @@ def password():
     return render_template('/tools/password.html')
 
 
-# Add these routes to your app.py
 # Virus Total API KEy
 API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
 
@@ -207,9 +208,7 @@ def download_phishing_report():
 def virus():
     return render_template('/tools/file_virus.html')
 
-import os
-from werkzeug.utils import secure_filename
-from datetime import datetime
+
 
 # Add these configurations at the top of your app.py after creating the Flask app
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -221,57 +220,120 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 # Create uploads directory if it doesn't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
+# Expand the allowed file types
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'zip', 'exe', 'dll'}
+
 def allowed_file(filename):
+    """
+    Checks if the provided filename has an allowed extension.
+    
+    Args:
+        filename: The filename to check
+        
+    Returns:
+        Boolean indicating if the file type is allowed
+    """
+    if not filename:
+        return False
+        
+    # Check if the filename contains a dot and the extension is in our allowed list
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-# Add or update this constant at the top of your file with other configurations
-VIRUSTOTAL_API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
-
 @app.route('/scan_file', methods=['POST'])
 def process_file():
+    """
+    Process a file upload, scan it for viruses, and return the results.
+    """
+    # Check if a file was included in the request
     if 'file' not in request.files:
-        return jsonify({"error": "No file part in the request"}), 400
+        error_result = {
+            "status": "error",
+            "message": "No file part in the request",
+            "threat_level": "unknown",
+            "filename": "No file",
+            "positives": 0,
+            "total": 0
+        }
+        return render_template('result/file_result.html', result=error_result, filename="No file")
     
     file = request.files['file']
     
+    # Check if a filename was provided
     if file.filename == '':
-        return jsonify({"error": "No file selected"}), 400
+        error_result = {
+            "status": "error",
+            "message": "No file selected",
+            "threat_level": "unknown",
+            "filename": "No file",
+            "positives": 0,
+            "total": 0
+        }
+        return render_template('result/file_result.html', result=error_result, filename="No file")
 
-    if file and allowed_file(file.filename):
-        try:
-            filename = secure_filename(file.filename)
-            temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    # Create uploads directory if it doesn't exist
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    
+    filename = secure_filename(file.filename)
+    temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    try:
+        # Check file type
+        if not allowed_file(filename):
+            error_result = {
+                "status": "error",
+                "message": "File type not allowed",
+                "threat_level": "unknown",
+                "filename": filename,
+                "positives": 0,
+                "total": 0
+            }
+            return render_template('result/file_result.html', result=error_result, filename=filename)
+        
+        # Save the file
+        file.save(temp_path)
+        
+        # Check if file was saved successfully
+        if not os.path.exists(temp_path) or os.path.getsize(temp_path) == 0:
+            error_result = {
+                "status": "error",
+                "message": "Failed to save file or file is empty",
+                "threat_level": "unknown",
+                "filename": filename,
+                "positives": 0,
+                "total": 0
+            }
+            return render_template('result/file_result.html', result=error_result, filename=filename)
+        
+        # Scan the file
+        scan_result = scan_file(temp_path, API_KEY)
+        
+        # Clean up temporary file
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
             
-            # Save the file
-            file.save(temp_path)
-
+        return render_template('result/file_result.html', result=scan_result, filename=filename)
+        
+    except Exception as e:
+        # Clean up on error
+        if os.path.exists(temp_path):
             try:
-                # Pass the API key to scan_file function
-                scan_result = scan_file(temp_path, VIRUSTOTAL_API_KEY)
+                os.remove(temp_path)
+            except:
+                pass  # Ignore errors during cleanup
                 
-                # Clean up temporary file
-                if os.path.exists(temp_path):
-                    os.remove(temp_path)
-                
-                return render_template('result/file_result.html', 
-                                    result=scan_result,
-                                    filename=filename)
-            except Exception as e:
-                # Clean up on error
-                if os.path.exists(temp_path):
-                    os.remove(temp_path)
-                raise e
-
-        except Exception as e:
-            return jsonify({
-                "error": f"Error processing file: {str(e)}"
-            }), 500
-
-    return jsonify({"error": "File type not allowed"}), 400
-
-
-
+        error_result = {
+            "status": "error",
+            "message": f"Error processing file: {str(e)}",
+            "threat_level": "unknown",
+            "filename": filename,
+            "positives": 0,
+            "total": 0
+        }
+        return render_template('result/file_result.html', result=error_result, filename=filename)
+    
+    
 # Email Checker Routes
 @app.route('/email')
 def email():
@@ -284,10 +346,11 @@ def process_email():
     if not email:
         return jsonify({"error": "Email is required"}), 400
 
-    result = check_email(email, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
+    result = check_email(email, API_KEY)
     return render_template('result/email_result.html', result=result, email=email)
 
 
+#Site down check
 @app.route('/check_site_status', methods=['POST'])
 def check_site():
     url = request.form.get('url')
@@ -333,7 +396,7 @@ def process_website():
     if not url:
         return jsonify({"error": "URL is required"}), 400
 
-    result = scan_website(url, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
+    result = scan_website(url, API_KEY)
     return render_template('result/website_result.html', result=result, url=url)
 
 
@@ -350,7 +413,7 @@ def process_ip():
         return jsonify({"error": "IP address is required"}), 400
 
     try:
-        result = analyze_ip(ip_address, "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050")
+        result = analyze_ip(ip_address, API_KEY)
         if "error" in result:
             # Still render the template but with error information
             return render_template('result/ip_result.html', result=result)
