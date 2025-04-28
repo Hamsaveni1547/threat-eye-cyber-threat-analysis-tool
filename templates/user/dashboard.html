@@ -1,0 +1,159 @@
+<!-- This is users dashoard with tools, activities, settings options and the data should be displayed from the database and if user doesn't logged in redirect them to login page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatEye | Dashboard</title>
+    
+    <!-- CSS Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/user/dashboard.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <img src="/static/images/logo.png" alt="ThreatEye Logo" class="logo">
+            <span class="brand-name">Threat<span class="eye">Eye</span></span>
+        </div>
+        <nav>
+            <ul>
+                <li class="active">
+                    <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#tools"><i class="fas fa-tools"></i> Security Tools</a>
+                </li>
+                <li>
+                    <a href="#activities"><i class="fas fa-history"></i> Activities</a>
+                </li>
+                <li>
+                    <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <!-- <button id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div> -->
+                <div class="user-menu">
+                    <!-- <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div> -->
+                    <div class="user-info">
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{ user.username }}</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Welcome Section -->
+            <div class="welcome-section glass-card">
+                <h1>Welcome back, {{ user.username }}!</h1>
+                <p>Your security dashboard overview</p>
+            </div>
+
+
+            <!-- Tools Section -->
+            <div class="tools-section glass-card">
+                <h2><i class="fas fa-tools"></i> Security Tools</h2>
+                <div class="tools-grid">
+                    <a href="{{ url_for('phishing') }}" class="tool-card">
+                        <i class="fas fa-link-slash"></i>
+                        <h4>Phishing Detector</h4>
+                    </a>
+                    <a href="{{ url_for('website') }}" class="tool-card">
+                        <i class="fas fa-globe"></i>
+                        <h4>Website Scanner</h4>
+                    </a>
+                    <a href="{{ url_for('email') }}" class="tool-card">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email Checker</h4>
+                    </a>
+                    <a href="{{ url_for('ip') }}" class="tool-card">
+                        <i class="fas fa-network-wired"></i>
+                        <h4>IP Analyzer</h4>
+                    </a>
+                    <a href="{{ url_for('virus') }}" class="tool-card">
+                        <i class="fas fa-virus"></i>
+                        <h4>Virus Scanner</h4>
+                    </a>
+                    <a href="{{ url_for('site') }}" class="tool-card">
+                        <i class="fas fa-server"></i>
+                        <h4>Site Status</h4>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="activities-section glass-card">
+                <h2><i class="fas fa-history"></i> Recent Activities</h2>
+                <div class="activity-list">
+                    <!-- Activity items will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal">
+        <div class="modal-dialog">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-cog"></i> Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="settingsForm">
+                        <div class="mb-3">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" value="{{ user.fname }}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" value="{{ user.lname }}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label>New Password</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label>Confirm New Password</label>
+                            <input type="password" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/user/dashboard.js') }}"></script>
+</body>
+</html>

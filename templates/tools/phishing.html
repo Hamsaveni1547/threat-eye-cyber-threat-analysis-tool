@@ -64,7 +64,20 @@
             </div>
         </div>
     </header>
-    
+
+    <div class="container mt-5 pt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
     <div class="main-container">
         <div class="container">
             <div class="row align-items-center">
@@ -88,7 +101,7 @@
                             <i class="bi bi-shield-slash"></i>
                             Phishing URL Detector
                         </h3>
-                        <form action="/check" method="post">
+                        <form id="phishing-form">
                             <div class="mb-4">
                                 <label for="phishingUrl" class="form-label">Enter URL to Check</label>
                                 <input type="url" class="form-control" id="phishingUrl" name="url"
@@ -393,6 +406,66 @@
         });
         
       </script>
+
+      <script>
+document.getElementById('phishing-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    fetch('/check', {
+        method: 'POST',
+        body: new FormData(this)
+    })
+    .then(response => {
+        if (response.headers.get('content-type').includes('application/json')) {
+            return response.json().then(data => {
+                // Show error in modal
+                const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+                document.getElementById('errorMessage').textContent = data.message;
+                modal.show();
+            });
+        } else {
+            // For HTML response (success case), replace the page content
+            return response.text().then(html => {
+                document.documentElement.innerHTML = html;
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while processing your request.');
+    });
+});
+</script>
+
+<!-- Add Modal HTML -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+                <h5 class="modal-title">Notice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            bootstrap.Alert.getOrCreateInstance(alert).close();
+        });
+    }, 5000);
+});
+</script>
 
 </body>
 </html>

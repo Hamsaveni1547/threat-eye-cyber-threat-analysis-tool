@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="/static/css/template/index.css" rel="stylesheet">
+    
     <style>
         /* Background Video Styling */
         .video-background {
@@ -179,7 +180,7 @@
                     <div class="service-icon">🔗</div>
                     <h3 class="service-title">Phishing URL Detector</h3>
                     <p class="feature-description">Identify and block malicious URLs and websites before they can harm your systems.</p>
-                    <a href="/phishing" class="service-btn">Access Tool</a>
+                    <a href="{{ url_for('phishing') }}" class="service-btn">Access Tool</a>
                 </div>
 
                 <!-- Service 2 -->
@@ -233,7 +234,16 @@
         </div>
     </section>
 
-    
+    <div class="tool-links">
+    {% if 'user_email' in session %}
+        <!-- Your tool links -->
+    {% else %}
+        <!-- Show login prompt or disabled state -->
+        <div class="login-prompt">
+            Please <a href="{{ url_for('login') }}">login</a> to access our security tools
+        </div>
+    {% endif %}
+</div>
 
     <script>
         // Create floating particles for background effect

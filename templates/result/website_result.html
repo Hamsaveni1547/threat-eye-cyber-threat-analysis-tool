@@ -50,63 +50,174 @@
         </div>
 
         <div class="result-section" id="report-content">
-            <div class="row">
+            <!-- Security Score Card -->
+            <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="result-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-chart-pie"></i> Security Analysis</h3>
+                            <h3><i class="fas fa-shield-alt"></i> Security Score</h3>
                         </div>
                         <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="securityChart"></canvas>
+                            <div class="security-score-circle" 
+                                 data-score="{{ result.security_score }}">
+                                <div class="score">{{ result.security_score }}/100</div>
                             </div>
-                            <div class="security-stats">
-                                <div class="stat-item stat-malicious">
-                                    <div class="stat-count">{{ result.stats.malicious }}</div>
-                                    <div class="stat-label">Malicious</div>
+                            <div class="score-breakdown mt-4">
+                                <h4>Score Deductions:</h4>
+                                <ul class="deductions-list">
+                                    {% for deduction in result.score_deductions %}
+                                    <li>
+                                        <span class="deduction-reason">{{ deduction[0] }}</span>
+                                        <span class="deduction-points">{{ deduction[1] }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-server"></i> Site Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">Domain</div>
+                                    <div class="info-value">{{ result.domain }}</div>
                                 </div>
-                                <div class="stat-item stat-suspicious">
-                                    <div class="stat-count">{{ result.stats.suspicious }}</div>
-                                    <div class="stat-label">Suspicious</div>
+                                <div class="info-item">
+                                    <div class="info-label">IP Address</div>
+                                    <div class="info-value">
+                                        {% if result.dns_records and result.dns_records.A %}
+                                            {{ result.dns_records.A[0] }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="stat-item stat-harmless">
-                                    <div class="stat-count">{{ result.stats.harmless }}</div>
-                                    <div class="stat-label">Harmless</div>
-                                </div>
-                                <div class="stat-item stat-undetected">
-                                    <div class="stat-count">{{ result.stats.undetected }}</div>
-                                    <div class="stat-label">Undetected</div>
+                                <div class="info-item">
+                                    <div class="info-label">Server Location</div>
+                                    <div class="info-value">
+                                        {% if result.whois_info and result.whois_info.country != "Unknown" %}
+                                            {{ result.whois_info.country }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Technologies & SSL Info -->
+            <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="result-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-info-circle"></i> Website Information</h3>
+                            <h3><i class="fas fa-code"></i> Technologies Detected</h3>
                         </div>
                         <div class="card-body">
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <div class="info-label">URL</div>
-                                    <div class="info-value">{{ result.url }}</div>
+                            {% if result.technologies %}
+                            <div class="tech-grid">
+                                {% for tech_type, tech_name in result.technologies %}
+                                <div class="tech-item">
+                                    <span class="tech-type">{{ tech_type }}</span>
+                                    <span class="tech-name">{{ tech_name }}</span>
                                 </div>
-                                <div class="info-item">
-                                    <div class="info-label">Domain</div>
-                                    <div class="info-value">{{ result.domain }}</div>
-                                </div>
-                                {% if result.categories %}
-                                <div class="info-item">
-                                    <div class="info-label">Categories</div>
-                                    <div class="info-value">
-                                        {% for category, source in result.categories.items() %}
-                                        <span class="category-tag">{{ category }}</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                {% endif %}
+                                {% endfor %}
                             </div>
+                            {% else %}
+                            <p class="no-data">No technologies detected</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-lock"></i> SSL Certificate</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if result.ssl_info.has_ssl %}
+                            <div class="ssl-info">
+                                <div class="ssl-item">
+                                    <div class="ssl-label">Issuer</div>
+                                    <div class="ssl-value">{{ result.ssl_info.issuer.O }}</div>
+                                </div>
+                                <div class="ssl-item">
+                                    <div class="ssl-label">Expires</div>
+                                    <div class="ssl-value">{{ result.ssl_info.expires }}</div>
+                                </div>
+                                <div class="ssl-item">
+                                    <div class="ssl-label">Version</div>
+                                    <div class="ssl-value">{{ result.ssl_info.version }}</div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="no-ssl-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>No SSL certificate detected!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Headers & Open Ports -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shield-alt"></i> Security Headers</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="headers-grid">
+                                {% for header, value in result.security_headers.items() %}
+                                <div class="header-item {{ 'missing' if value == 'Not Set' else 'present' }}">
+                                    <span class="header-name">{{ header }}</span>
+                                    <span class="header-status">
+                                        {% if value == 'Not Set' %}
+                                        <i class="fas fa-times-circle"></i>
+                                        {% else %}
+                                        <i class="fas fa-check-circle"></i>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-network-wired"></i> Open Ports</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if result.open_ports %}
+                            <div class="ports-grid">
+                                {% for port in result.open_ports %}
+                                <div class="port-item {{ 'risky' if port in [21, 23, 3389] }}">
+                                    <span class="port-number">{{ port }}</span>
+                                    <span class="port-service">
+                                        {{ {21: 'FTP', 22: 'SSH', 23: 'Telnet', 
+                                            80: 'HTTP', 443: 'HTTPS', 3389: 'RDP'
+                                           }.get(port, 'Unknown') }}
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="no-data">No open ports detected</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -133,39 +244,6 @@
                     <div class="no-vuln-message">
                         <i class="fas fa-check-circle"></i>
                         <p>No significant vulnerabilities detected.</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="result-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-lock"></i> SSL Certificate Information</h3>
-                </div>
-                <div class="card-body">
-                    {% if result.ssl_info.issuer != "N/A" %}
-                    <div class="ssl-info">
-                        <div class="ssl-item">
-                            <div class="ssl-label">Issuer</div>
-                            <div class="ssl-value">{{ result.ssl_info.issuer }}</div>
-                        </div>
-                        <div class="ssl-item">
-                            <div class="ssl-label">Valid From</div>
-                            <div class="ssl-value">{{ result.ssl_info.valid_from }}</div>
-                        </div>
-                        <div class="ssl-item">
-                            <div class="ssl-label">Valid Until</div>
-                            <div class="ssl-value">{{ result.ssl_info.valid_until }}</div>
-                        </div>
-                        <div class="ssl-item">
-                            <div class="ssl-label">Version</div>
-                            <div class="ssl-value">{{ result.ssl_info.version }}</div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="no-ssl-message warning">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>No SSL certificate detected. This website may not use HTTPS encryption.</p>
                     </div>
                     {% endif %}
                 </div>
@@ -282,6 +360,79 @@
             }
         });
         });
+    </script>
+
+    <!-- Add this to your existing CSS -->
+    <style>
+    .security-score-circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 0 auto;
+        position: relative;
+        background: conic-gradient(
+            var(--score-color) calc(var(--score) * 3.6deg),
+            #2a2a2a 0deg
+        );
+    }
+
+    .score {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2em;
+        font-weight: bold;
+    }
+
+    .tech-grid, .ports-grid, .headers-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .tech-item, .port-item, .header-item {
+        padding: 0.8rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .port-item.risky {
+        background: rgba(255, 0, 0, 0.2);
+    }
+
+    .header-item.missing {
+        background: rgba(255, 0, 0, 0.2);
+    }
+
+    .deductions-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .deductions-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    </style>
+
+    <!-- Add this JavaScript to initialize the security score circle -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scoreCircle = document.querySelector('.security-score-circle');
+        const score = parseInt(scoreCircle.dataset.score);
+        
+        scoreCircle.style.setProperty('--score', score);
+        
+        // Set color based on score
+        let color;
+        if (score >= 80) color = '#00ff00';
+        else if (score >= 60) color = '#ffff00';
+        else color = '#ff0000';
+        
+        scoreCircle.style.setProperty('--score-color', color);
+    });
     </script>
 </body>
 

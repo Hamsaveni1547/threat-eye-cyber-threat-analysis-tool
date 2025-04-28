@@ -56,7 +56,7 @@
                         </a>
                     </li>
                     <li class="mx-3">
-                        <a class="nav-link" href="/tools">
+                        <a class="nav-link" href="/tool">
                             <i class="fas fa-tools me-2"></i>Tools
                         </a>
                     </li>
@@ -78,6 +78,18 @@
     <!-- Main Content -->
     <div class="main-container">
         <div class="container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
             <div class="auth-card mx-auto">
                 <div class="auth-tabs">
                     <div class="auth-tab active" id="login-tab" onclick="showTab('login')">Sign In</div>
@@ -89,29 +101,14 @@
                     <h3 class="auth-title animated-glow">
                         <i class="fas fa-lock"></i> Secure Login
                     </h3>
-
-                    <div class="social-login">
-                        <a href="#" class="social-btn">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-btn">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="social-btn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-
-                    <div class="auth-divider">
-                        <span>OR CONTINUE WITH EMAIL</span>
-                    </div>
-
-                    <form>
+                    
+                    <form action="{{ url_for('signin') }}" method="POST">
+                        <input type="hidden" name="next" value="{{ request.args.get('next', '/dashboard') }}">
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Email Address" required>
+                            <input name="email" type="email" class="form-control" placeholder="Email Address" required>
                         </div>
                         <div class="mb-4 password-field">
-                            <input type="password" class="form-control" id="password" placeholder="Password" required>
+                            <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
                             <span class="toggle-password" onclick="togglePassword('password')">
                                 <i class="far fa-eye"></i>
                             </span>
@@ -139,20 +136,20 @@
                         <i class="fas fa-user-plus"></i> Create Account
                     </h3>
 
-                    <form>
+                    <form action="{{ url_for('add_user') }}" method="POST" id="registerForm">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" placeholder="First Name" required>
+                                <input type="text" name="fname" class="form-control" placeholder="First Name" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" placeholder="Last Name" required>
+                                <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Email Address" required>
+                            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
                         </div>
                         <div class="mb-3 password-field">
-                            <input type="password" class="form-control" id="reg-password" placeholder="Password" required onkeyup="checkPasswordStrength()">
+                            <input type="password" name="password" class="form-control" id="reg-password" placeholder="Password" required onkeyup="checkPasswordStrength()">
                             <span class="toggle-password" onclick="togglePassword('reg-password')">
                                 <i class="far fa-eye"></i>
                             </span>
@@ -163,8 +160,9 @@
                         <div class="password-feedback" id="password-feedback">
                             Use 8+ characters with a mix of letters, numbers & symbols
                         </div>
-                        <div class="mb-4 password-field">
-                            <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" required>
+                        <div class="mb-3 password-field">
+                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" 
+                                   placeholder="Confirm Password" required>
                             <span class="toggle-password" onclick="togglePassword('confirm-password')">
                                 <i class="far fa-eye"></i>
                             </span>
@@ -383,6 +381,26 @@
                 feedback.style.color = 'var(--success-color)';
             }
         }
+
+        // Auto-hide flash messages and handle registration success
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-hide flash messages
+            setTimeout(function() {
+                let alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    let bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+
+            // Handle registration success redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('registration') === 'success' || document.querySelector('.alert-success')) {
+                setTimeout(function() {
+                    showTab('login');
+                }, 5000);
+            }
+        });
     </script>
 </body>
 </html>

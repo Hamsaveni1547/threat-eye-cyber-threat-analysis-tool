@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify
+from flask import Flask, render_template, request, send_file, jsonify, redirect, flash, session, url_for
 import requests
 import os
 import io
@@ -6,7 +6,9 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-
+import sqlite3
+from functools import wraps
+from utils import check_tool_limit, get_tool_usage
 
 # Add these imports at the top of the file
 from werkzeug.utils import secure_filename
@@ -19,7 +21,101 @@ from logic.email_logic import check_email
 from logic.site_down_checker import check_site_status
 
 
+
 app = Flask(__name__)
+
+DATABASE = 'threateye_db.db'
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row  # to return rows like dictionaries
+    return conn
+
+# User authentication routes
+@app.route('/add', methods=['POST'])
+def add_user():
+    try:
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+
+        # Validate password match
+        if password != confirm_password:
+            flash('Passwords do not match', 'error')
+            return redirect(url_for('login'))
+
+        # Check if user already exists
+        conn = get_db_connection()
+        existing_user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+        
+        if existing_user:
+            flash('Email already registered', 'error')
+            return redirect(url_for('login'))
+
+        # Add new user
+        conn.execute("INSERT INTO users (fname, lname, email, password) VALUES (?, ?, ?, ?)",
+                    (fname, lname, email, password))
+        conn.commit()
+        conn.close()
+
+        flash('Registration successful! Please login.', 'success')
+        return redirect(url_for('login', registration='success'))
+
+    except Exception as e:
+        flash('An error occurred during registration', 'error')
+        return redirect(url_for('login'))
+
+# Protected routes that require login
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Please login first', 'error')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    if 'user_email' not in session:
+        flash('Please login first', 'error')
+        return redirect(url_for('login'))
+    return render_template('user/dashboard.html', user={'username': session.get('user_name', 'User')})
+
+@app.route('/signin', methods=['POST'])
+def signin():
+    try:
+        email = request.form['email']
+        password = request.form['password']
+        next_url = request.form.get('next', '/dashboard')
+
+        conn = get_db_connection()
+        user = conn.execute("SELECT id, fname, lname, email FROM users WHERE email = ? AND password = ?",
+                          (email, password)).fetchone()
+        conn.close()
+
+        if user:
+            session['user_id'] = user['id']  # Store user_id in session
+            session['user_email'] = user['email']
+            session['user_name'] = f"{user['fname']} {user['lname']}"
+            flash('Login successful!', 'success')
+            return redirect(next_url)
+        else:
+            flash('Invalid email or password', 'error')
+            return redirect(url_for('login', next=next_url))
+
+    except Exception as e:
+        flash('An error occurred during login', 'error')
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out', 'info')
+    return redirect(url_for('login'))
+
 
 app.secret_key = "your_secret_key_here"  # Change this to a secure random key
 
@@ -61,10 +157,12 @@ def terms():
     return render_template('terms.html')
 
 @app.route('/site')
+@login_required
 def site():
     return render_template('/tools/site_down_check.html')
 
 @app.route('/password')
+@login_required
 def password():
     return render_template('/tools/password.html')
 
@@ -75,41 +173,42 @@ API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
 
 #PHISHING
 @app.route('/phishing')
+@login_required
 def phishing():
     """Render the main page with the URL input form."""
     return render_template('tools/phishing.html')
 
 
+# Add tool usage endpoint
+@app.route('/tool/usage')
+@login_required
+def tool_usage():
+    usage = get_tool_usage(session['user_id'])
+    return jsonify({'usage': usage})
+
+# Update phishing check route
 @app.route('/check', methods=['POST'])
+@login_required
 def check():
     """Handle form submission and check the URL for phishing."""
     url = request.form.get('url')
 
     if not url:
-        return render_template('result/result.html', 
-                             result={
-                                 'error': True,
-                                 'message': 'Please provide a URL to analyze',
-                                 'classification': 'Error',
-                                 'phishing_score': 0,
-                                 'url': '',
-                                 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                             })
+        flash('Please provide a URL to analyze', 'error')
+        return redirect(url_for('phishing'))
+
+    # Check usage limit
+    can_use, message = check_tool_limit(session['user_id'], 'phishing_check', url)
+    if not can_use:
+        flash(message, 'error')
+        return redirect(url_for('phishing'))
 
     try:
         phishing_data = detect_phishing(url, API_KEY)
         return render_template('result/result.html', result=phishing_data)
     except Exception as e:
-        error_message = str(e) if str(e) else "An unexpected error occurred"
-        return render_template('result/result.html', 
-                             result={
-                                 'error': True,
-                                 'message': f"Error analyzing URL: {error_message}",
-                                 'classification': 'Error',
-                                 'phishing_score': 0,
-                                 'url': url,
-                                 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                             })
+        flash(f"Error analyzing URL: {str(e)}", 'error')
+        return redirect(url_for('phishing'))
 
 @app.route('/download-report/phishing', methods=['POST'])
 def download_phishing_report():
@@ -205,6 +304,7 @@ def download_phishing_report():
 
 # File Virus Checker Routes
 @app.route('/virus')
+@login_required
 def virus():
     return render_template('/tools/file_virus.html')
 
@@ -242,22 +342,21 @@ def allowed_file(filename):
 
 
 @app.route('/scan_file', methods=['POST'])
+@login_required
 def process_file():
     """
     Process a file upload, scan it for viruses, and return the results.
     """
     # Check if a file was included in the request
     if 'file' not in request.files:
-        error_result = {
-            "status": "error",
-            "message": "No file part in the request",
-            "threat_level": "unknown",
-            "filename": "No file",
-            "positives": 0,
-            "total": 0
-        }
-        return render_template('result/file_result.html', result=error_result, filename="No file")
-    
+        return render_template('result/file_result.html', 
+                             result={"status": "error", "message": "No file part"})
+
+    can_use, message = check_tool_limit(session['user_id'], 'file_scan', '')
+    if not can_use:
+        return render_template('result/file_result.html', 
+                             result={"status": "error", "message": message})
+
     file = request.files['file']
     
     # Check if a filename was provided
@@ -336,15 +435,21 @@ def process_file():
     
 # Email Checker Routes
 @app.route('/email')
+@login_required
 def email():
     return render_template('/tools/email_checker.html')
 
 
 @app.route('/check_email', methods=['POST'])
+@login_required
 def process_email():
     email = request.form.get('email')
     if not email:
         return jsonify({"error": "Email is required"}), 400
+
+    can_use, message = check_tool_limit(session['user_id'], 'email_check', email)
+    if not can_use:
+        return jsonify({"error": message}), 429
 
     result = check_email(email, API_KEY)
     return render_template('result/email_result.html', result=result, email=email)
@@ -352,10 +457,16 @@ def process_email():
 
 #Site down check
 @app.route('/check_site_status', methods=['POST'])
+@login_required
 def check_site():
     url = request.form.get('url')
     if not url:
         return jsonify({"error": "URL is required"}), 400
+
+    can_use, message = check_tool_limit(session['user_id'], 'site_check', url)
+    if not can_use:
+        return jsonify({"error": message}), 429
+
     result = check_site_status(url)
 
     return render_template('result/site_down_result.html', result=result, url=url)
@@ -386,15 +497,21 @@ def download_report(tool_type):
 
 # Website Scanner Routes
 @app.route('/website')
+@login_required
 def website():
     return render_template('/tools/website_scanner.html')
 
 
 @app.route('/scan_website', methods=['POST'])
+@login_required
 def process_website():
     url = request.form.get('url')
     if not url:
         return jsonify({"error": "URL is required"}), 400
+
+    can_use, message = check_tool_limit(session['user_id'], 'website_scan', url)
+    if not can_use:
+        return jsonify({"error": message}), 429
 
     result = scan_website(url, API_KEY)
     return render_template('result/website_result.html', result=result, url=url)
@@ -402,15 +519,21 @@ def process_website():
 
 # IP Address Analyzer Routes
 @app.route('/ip')
+@login_required
 def ip():
     return render_template('/tools/ip_address.html')
 
 
 @app.route('/analyze_ip', methods=['POST'])
+@login_required
 def process_ip():
     ip_address = request.form.get('ip_address')
     if not ip_address:
         return jsonify({"error": "IP address is required"}), 400
+
+    can_use, message = check_tool_limit(session['user_id'], 'ip_analysis', ip_address)
+    if not can_use:
+        return jsonify({"error": message}), 429
 
     try:
         result = analyze_ip(ip_address, API_KEY)
