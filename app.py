@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify, redirect, flash, session, url_for
+from flask import Flask, render_template, request, send_file, jsonify, redirect, flash, session, url_for, g
 import requests
 import os
 import io
@@ -9,6 +9,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 import sqlite3
 from functools import wraps
 from utils import check_tool_limit, get_tool_usage
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Add these imports at the top of the file
 from werkzeug.utils import secure_filename
@@ -53,9 +54,12 @@ def add_user():
             flash('Email already registered', 'error')
             return redirect(url_for('login'))
 
+        # Hash the password AFTER validation
+        hashed_password = generate_password_hash(password)
+
         # Add new user
         conn.execute("INSERT INTO users (fname, lname, email, password) VALUES (?, ?, ?, ?)",
-                    (fname, lname, email, password))
+                    (fname, lname, email, hashed_password))
         conn.commit()
         conn.close()
 
@@ -64,6 +68,33 @@ def add_user():
 
     except Exception as e:
         flash('An error occurred during registration', 'error')
+        return redirect(url_for('login'))
+
+        # Also fix the signin route to use check_password_hash
+@app.route('/signin', methods=['POST'])
+def signin():
+    try:
+        email = request.form['email']
+        password = request.form['password']
+        next_url = request.form.get('next', '/dashboard')
+
+        conn = get_db_connection()
+        user = conn.execute("SELECT id, fname, lname, email, password FROM users WHERE email = ?",
+                          (email,)).fetchone()
+        conn.close()
+
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = user['id']  # Store user_id in session
+            session['user_email'] = user['email']
+            session['user_name'] = f"{user['fname']} {user['lname']}"
+            flash('Login successful!', 'success')
+            return redirect(next_url)
+        else:
+            flash('Invalid email or password', 'error')
+            return redirect(url_for('login', next=next_url))
+
+    except Exception as e:
+        flash(f'An error occurred during login: {str(e)}', 'error')
         return redirect(url_for('login'))
 
 # Protected routes that require login
@@ -84,31 +115,74 @@ def dashboard():
         return redirect(url_for('login'))
     return render_template('user/dashboard.html', user={'username': session.get('user_name', 'User')})
 
-@app.route('/signin', methods=['POST'])
-def signin():
-    try:
-        email = request.form['email']
-        password = request.form['password']
-        next_url = request.form.get('next', '/dashboard')
+@app.route('/help')
+def help():
+    return render_template('user/help_support.html')
 
-        conn = get_db_connection()
-        user = conn.execute("SELECT id, fname, lname, email FROM users WHERE email = ? AND password = ?",
-                          (email, password)).fetchone()
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    user_id = session['user_id']
+    conn = get_db_connection()
+
+    if request.method == 'POST':
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['email']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        # Check if password fields are filled
+        if new_password or confirm_password:
+            if new_password != confirm_password:
+                flash('New password and confirm password do not match.', 'danger')
+                conn.close()
+                return redirect(url_for('settings'))
+
+            # Update password along with other fields
+            conn.execute(
+                "UPDATE users SET fname = ?, lname = ?, email = ?, password = ? WHERE id = ?",
+                (fname, lname, email, new_password, user_id)
+            )
+        else:
+            # Update without changing password
+            conn.execute(
+                "UPDATE users SET fname = ?, lname = ?, email = ? WHERE id = ?",
+                (fname, lname, email, user_id)
+            )
+
+        conn.commit()
         conn.close()
 
-        if user:
-            session['user_id'] = user['id']  # Store user_id in session
-            session['user_email'] = user['email']
-            session['user_name'] = f"{user['fname']} {user['lname']}"
-            flash('Login successful!', 'success')
-            return redirect(next_url)
-        else:
-            flash('Invalid email or password', 'error')
-            return redirect(url_for('login', next=next_url))
+        session['user_email'] = email
+        session['user_name'] = f"{fname} {lname}"
 
-    except Exception as e:
-        flash('An error occurred during login', 'error')
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('settings'))
+
+    else:
+        user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+        conn.close()
+        return render_template('user/settings.html', user=user)
+
+
+@app.route('/activities')
+@login_required
+def activities():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('Unauthorized access. Please login.', 'error')
         return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    activities = conn.execute(
+        "SELECT id, input_data, tool_name, usage_date FROM tool_usage WHERE user_id = ? ORDER BY usage_date DESC", 
+        (user_id,)
+    ).fetchall()
+    conn.close()
+
+    return render_template('user/activities.html', activities=activities)
+
 
 @app.route('/logout')
 def logout():
@@ -176,8 +250,7 @@ API_KEY = "d6ce35993adbeb65730cf2f38fcbe2ae2a6ea08024385504d037b65563f01050"
 @login_required
 def phishing():
     """Render the main page with the URL input form."""
-    return render_template('tools/phishing.html')
-
+    return render_template('/tools/phishing.html')
 
 # Add tool usage endpoint
 @app.route('/tool/usage')
@@ -322,7 +395,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 # Expand the allowed file types
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'zip', 'exe', 'dll'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx', 'xlsx'}
 
 def allowed_file(filename):
     """

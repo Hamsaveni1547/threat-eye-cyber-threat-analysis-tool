@@ -417,16 +417,7 @@
 </head>
 <body>
 
-  <div class="result-container" id="report-container">
-    <div class="terminal-header">
-      <div class="terminal-dots">
-        <span class="dot dot-red"></span>
-        <span class="dot dot-yellow"></span>
-        <span class="dot dot-green"></span>
-      </div>
-      <div class="terminal-title">root@cybersec:~# ./site-status-report.sh</div>
-    </div>
-    
+  <div class="result-container" id="report-container">    
     <div class="result-header">
       <h1><i class="fas fa-signal"></i> Website Status Report</h1>
       <div class="timestamp"><i class="far fa-clock me-1"></i>Generated on: {{ result.timestamp }}</div>
@@ -469,16 +460,6 @@
       <button class="btn btn-info" onclick="shareResults()">
         <i class="fas fa-share-alt me-1"></i>Share Results
       </button>
-      <div class="dropdown d-inline-block">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-download me-1"></i>Export As
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
-          <li><a class="dropdown-item" href="#" onclick="generatePDF()"><i class="far fa-file-pdf me-2"></i>PDF</a></li>
-          <li><a class="dropdown-item" href="#" onclick="downloadImage()"><i class="far fa-file-image me-2"></i>Image</a></li>
-          <li><a class="dropdown-item" href="#" onclick="downloadCSV()"><i class="far fa-file-csv me-2"></i>CSV</a></li>
-        </ul>
-      </div>
       <a href="site" class="btn btn-outline-secondary">
         <i class="fas fa-globe me-1"></i>Check Another Site
       </a>
@@ -550,45 +531,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="result-card glow-effect">
-        <div class="card-header">
-          <h3><i class="fas fa-user-shield"></i> WHOIS Information</h3>
-        </div>
-        <div class="card-body">
-          {% if result.whois_info %}
-            <div class="ssl-info">
-              <div class="ssl-item">
-                <div class="ssl-label">Registrar</div>
-                <div class="ssl-value">{{ result.whois_info.registrar }}</div>
-              </div>
-              <div class="ssl-item">
-                <div class="ssl-label">Created</div>
-                <div class="ssl-value">{{ result.whois_info.creation_date }}</div>
-              </div>
-              <div class="ssl-item">
-                <div class="ssl-label">Expires</div>
-                <div class="ssl-value">{{ result.whois_info.expiration_date }}</div>
-              </div>
-              {% if result.whois_info.name_servers %}
-              <div class="ssl-item">
-                <div class="ssl-label">Name Servers</div>
-                <div class="ssl-value nameservers-list">
-                  {% for ns in result.whois_info.name_servers %}
-                    <div class="nameserver"><i class="fas fa-server me-2"></i>{{ ns }}</div>
-                  {% endfor %}
-                </div>
-              </div>
-              {% endif %}
-            </div>
-          {% else %}
-            <div class="no-ssl-message warning">
-              <i class="fas fa-exclamation-triangle"></i>
-              <p>WHOIS data unavailable for this domain.</p>
-            </div>
-          {% endif %}
         </div>
       </div>
 

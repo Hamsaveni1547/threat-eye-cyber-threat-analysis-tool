@@ -2,240 +2,257 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Shield - Settings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="/static/css/user/settings.css" rel="stylesheet">
+    <title>Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+    <style>
+        /* Global Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #0a192f;
+            --secondary-color: #112240;
+            --accent-color: #4361ee;
+            --accent-hover: #3a56d4;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --transition: all 0.3s ease;
+            --box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Form Styling */
+        .form-control {
+            background-color: rgba(10, 25, 47, 0.5);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 14px;
+            height: auto;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+            outline: none;
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Alert Styling */
+        .alert {
+            border-radius: 6px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .alert-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .btn-close {
+            filter: invert(1);
+            opacity: 0.7;
+            padding: 0.25rem;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        /* Settings Page Specific */
+        h2 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .mt-5 {
+            margin-top: 2rem;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 30px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            .btn-primary {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Main Content -->
-            <div class="col-lg-9 col-xl-10 content-wrapper">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1>Account Settings</h1>
-                    <div class="d-flex align-items-center">
-                        <span class="badge-pulse"></span>
-                        <span>System Status: Secure</span>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <!-- Profile Settings -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Profile Settings</h5>
-                            </div>
-                            <div class="card-body">
-                                <form>
-                                    <div class="text-center mb-4">
-                                        <div class="avatar-upload">
-                                            <img src="/api/placeholder/150/150" alt="Profile Picture" class="img-fluid">
-                                            <div class="avatar-edit">
-                                                <i class="fas fa-camera"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+<div class="container mt-5">
+    <h2 class="mb-4">Settings</h2>
 
-                                    <div class="mb-3">
-                                        <label for="fullName" class="form-label">Full Name</label>
-                                        <input type="text" class="form-control" id="fullName" value="John Doe">
-                                    </div>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" value="{{ user['fname'] }}" required>
+        </div>
 
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="email" value="john.doe@example.com">
-                                    </div>
+        <div class="mb-3">
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" value="{{ user['lname'] }}" required>
+        </div>
 
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
-                                    </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user['email'] }}" required>
+        </div>
 
-                                    <div class="mb-3">
-                                        <label for="company" class="form-label">Company</label>
-                                        <input type="text" class="form-control" id="company" value="Cyber Solutions Inc.">
-                                    </div>
-
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Save Profile</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Security Settings -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Security Settings</h5>
-                            </div>
-                            <div class="card-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="currentPassword" class="form-label">Current Password</label>
-                                        <input type="password" class="form-control" id="currentPassword">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="newPassword" class="form-label">New Password</label>
-                                        <input type="password" class="form-control" id="newPassword">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                                        <input type="password" class="form-control" id="confirmPassword">
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
-                                            <label class="form-check-label" for="twoFactorAuth">Enable Two-Factor Authentication</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Update Security Settings</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- API Access -->
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h5 class="mb-0">API Access</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="apiKey" class="form-label">API Key</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="apiKey" value="sk_live_51HGzBkKxM5aTGk8qT" readonly>
-                                        <button class="btn btn-outline-primary" type="button">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button type="button" class="btn btn-outline-primary">Generate New API Key</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Notification Settings -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Notification Settings</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="emailAlerts" checked>
-                                        <label class="form-check-label" for="emailAlerts">Email Alerts</label>
-                                    </div>
-                                    <small class="text-muted">Receive email notifications for security threats and scan results</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="smsAlerts" checked>
-                                        <label class="form-check-label" for="smsAlerts">SMS Alerts</label>
-                                    </div>
-                                    <small class="text-muted">Receive text messages for critical security incidents</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="weeklyReport" checked>
-                                        <label class="form-check-label" for="weeklyReport">Weekly Security Report</label>
-                                    </div>
-                                    <small class="text-muted">Receive a summary of all security activities every week</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="dataBreachAlerts" checked>
-                                        <label class="form-check-label" for="dataBreachAlerts">Data Breach Alerts</label>
-                                    </div>
-                                    <small class="text-muted">Get notified when your email appears in a data breach</small>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button type="button" class="btn btn-primary">Save Notification Preferences</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Privacy Settings -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Privacy Settings</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Data Retention</label>
-                                    <select class="form-select">
-                                        <option>30 days</option>
-                                        <option>60 days</option>
-                                        <option selected>90 days</option>
-                                        <option>180 days</option>
-                                        <option>1 year</option>
-                                    </select>
-                                    <small class="text-muted">How long we keep your scan data and activity logs</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="anonymousAnalytics" checked>
-                                        <label class="form-check-label" for="anonymousAnalytics">Anonymous Analytics Sharing</label>
-                                    </div>
-                                    <small class="text-muted">Help improve our threat detection by sharing anonymous data</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="marketingEmails">
-                                        <label class="form-check-label" for="marketingEmails">Marketing Communications</label>
-                                    </div>
-                                    <small class="text-muted">Receive updates about new features and offers</small>
-                                </div>
-
-                                <div class="d-grid gap-2">
-                                    <button type="button" class="btn btn-primary">Save Privacy Settings</button>
-                                    <button type="button" class="btn btn-outline-danger">Delete Account</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="mb-3">
+            <label for="new_password" class="form-label">New Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter new password">
+                <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword">
+                    <i class="bi bi-eye"></i>
+                </button>
             </div>
         </div>
-    </div>
+        
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm New Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm new password">
+                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+        </div>
+        
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Responsive sidebar toggle functionality
-            const handleResize = () => {
-                if (window.innerWidth <= 768) {
-                    document.querySelector('.sidebar').classList.add('collapsed');
-                } else {
-                    document.querySelector('.sidebar').classList.remove('collapsed');
-                }
-            };
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
 
-            window.addEventListener('resize', handleResize);
-            handleResize();
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"></script>
+
+<script>
+    function togglePasswordVisibility(buttonId, inputId) {
+        const button = document.getElementById(buttonId);
+        const input = document.getElementById(inputId);
+        button.addEventListener('click', function () {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
         });
-    </script>
+    }
+
+    togglePasswordVisibility('toggleNewPassword', 'new_password');
+    togglePasswordVisibility('toggleConfirmPassword', 'confirm_password');
+</script>
+
+
 </body>
 </html>

@@ -1,752 +1,251 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Tools - Activity History</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>User Activities</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Variables */
+:root {
+    --primary-color: #0a192f;
+    --secondary-color: #112240;
+    --accent-color: #4361ee;
+    --accent-hover: #3a56d4;
+    --text-primary: #e6f1ff;
+    --text-secondary: #8892b0;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --transition: all 0.3s ease;
+    --box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    --border-color: rgba(255, 255, 255, 0.05);
+}
 
-    <link href="/static/css/user/activities.css" rel="stylesheet">
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    transition: all 0.3s ease;
+}
 
+body {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    background-color: rgba(17, 34, 64, 0.8);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    max-width: 1200px;
+    backdrop-filter: blur(10px);
+}
+
+/* Page Title */
+h2 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 60px;
+    background-color: var(--accent-color);
+}
+
+/* Table Styling */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.table {
+    margin-bottom: 0;
+    color: var(--text-primary);
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-bordered {
+    border: 1px solid var(--border-color);
+}
+
+.table thead th {
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    font-weight: 600;
+    padding: 15px;
+    border-bottom: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.table-dark {
+    background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+}
+
+.table tbody td {
+    padding: 15px;
+    border-color: var(--border-color);
+    vertical-align: middle;
+    background-color: rgba(10, 25, 47, 0.7);
+    color: var(--text-secondary);
+}
+
+.table tbody tr:hover td {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--text-primary);
+}
+
+.table tbody tr {
+    transition: var(--transition);
+}
+
+/* Alert Styling */
+.alert {
+    padding: 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--accent-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+  
+    h2 {
+        font-size: 24px;
+    }
+  
+    .table thead th, .table tbody td {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+  
+    h2 {
+        font-size: 20px;
+    }
+  
+    .table thead th, .table tbody td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+/* Add Back Button */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.back-btn:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.back-btn i {
+    margin-right: 8px;
+}
+
+/* Empty State Styling */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+    </style>
 </head>
 <body>
-<!--    &lt;!&ndash; Hexagon background pattern &ndash;&gt;-->
-<!--    <div class="hexagon-bg"></div>-->
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-shield-alt me-2"></i>
-                CyberShield
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-history me-1"></i> Activity History</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tools me-1"></i> Security Tools</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i> Reports</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-bell me-1"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-exclamation-triangle text-danger me-2"></i> Critical vulnerability detected!</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-shield-alt text-warning me-2"></i> Phishing attempt blocked</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-info-circle text-info me-2"></i> System scan completed</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Manage notifications</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i> Rajesh Kumar
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<div class="container mt-5">
+    <h2 class="mb-4">Your Activity History</h2>
 
-    <!-- Main Content -->
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- User Profile -->
-                <div class="user-profile mb-4">
-                    <img src="/api/placeholder/400/400" alt="User Profile" class="mb-3">
-                    <h5 class="mb-1">Rajesh Kumar</h5>
-                    <p class="text-muted mb-2">Security Analyst</p>
-                    <span class="badge bg-success mb-3">Premium User</span>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-primary btn-sm"><i class="fas fa-edit me-1"></i> Edit Profile</button>
-                    </div>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="dashboard-stats">
-                    <div class="stats-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>127</h3>
-                    <p>Total Security Checks</p>
-                </div>
-
-                <div class="dashboard-stats">
-                    <div class="stats-icon">
-                        <i class="fas fa-bug"></i>
-                    </div>
-                    <h3>18</h3>
-                    <p>Threats Detected</p>
-                </div>
-
-                <div class="dashboard-stats">
-                    <div class="stats-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>94%</h3>
-                    <p>Security Score</p>
-                </div>
-
-                <!-- Tools Quick Access -->
-                <div class="cyber-card">
-                    <div class="card-header">
-                        <i class="fas fa-tools me-2"></i> Quick Access
-                    </div>
-                    <div class="card-body">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-search me-1"></i> Phishing URL Scanner</button>
-                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-globe me-1"></i> Website Scanner</button>
-                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-network-wired me-1"></i> IP Analyzer</button>
-                            <button class="btn btn-outline-primary btn-sm mb-2"><i class="fas fa-file-alt me-1"></i> File Scanner</button>
-                            <button class="btn btn-outline-primary btn-sm"><i class="fas fa-key me-1"></i> Password Strength Check</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <!-- Page Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2><i class="fas fa-history me-2"></i> Activity History</h2>
-                        <p class="text-muted">Track all your security tool usage and scan results</p>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exportModal">
-                            <i class="fas fa-file-export me-1"></i> Export
-                        </button>
-                        <div class="btn-group">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-filter me-1"></i> Filter
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">All Activities</a></li>
-                                <li><a class="dropdown-item" href="#">Phishing URL Scanner</a></li>
-                                <li><a class="dropdown-item" href="#">Website Scanner</a></li>
-                                <li><a class="dropdown-item" href="#">IP Analyzer</a></li>
-                                <li><a class="dropdown-item" href="#">File Scanner</a></li>
-                                <li><a class="dropdown-item" href="#">Password Checker</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
-                                <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Activity Timeline -->
-                <div class="cyber-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-calendar-alt me-2"></i> Today (24 March 2025)</span>
-                        <span class="badge bg-primary">5 activities</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-timeline">
-                            <!-- Timeline Item 1 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-danger cyber-pulse">
-                                    <i class="fas fa-bug"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-danger text-white">
-                                            <i class="fas fa-search me-1"></i> Phishing URL Scanner
-                                        </span>
-                                        <span class="text-muted small">10:45 AM</span>
-                                    </div>
-                                    <h5>Malicious URL Detected</h5>
-                                    <p>Scanned URL: <code>https://banking-secure-login.example.com</code></p>
-                                    <p class="text-danger mb-2"><i class="fas fa-exclamation-triangle me-1"></i> This URL exhibits phishing characteristics targeting banking credentials.</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#detailsModal">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 2 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-success">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-success text-white">
-                                            <i class="fas fa-key me-1"></i> Password Strength Check
-                                        </span>
-                                        <span class="text-muted small">09:30 AM</span>
-                                    </div>
-                                    <h5>Password Evaluation</h5>
-                                    <p>Analyzed password strength for account: <strong>Corporate Email</strong></p>
-                                    <div class="progress mb-2" style="height: 10px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-success mb-2"><i class="fas fa-shield-alt me-1"></i> Strong password - Would take approximately 2 years to crack.</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 3 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-primary">
-                                    <i class="fas fa-globe"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-primary text-white">
-                                            <i class="fas fa-globe me-1"></i> Website Scanner
-                                        </span>
-                                        <span class="text-muted small">08:15 AM</span>
-                                    </div>
-                                    <h5>Website Security Analysis</h5>
-                                    <p>Scanned website: <strong>www.company-portal.com</strong></p>
-                                    <div class="d-flex mb-3">
-                                        <div class="me-3">
-                                            <span class="badge bg-success">SSL: Valid</span>
-                                        </div>
-                                        <div class="me-3">
-                                            <span class="badge bg-warning">CSRF: Warning</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-success">XSS: Protected</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-warning mb-2"><i class="fas fa-exclamation-circle me-1"></i> 2 security warnings detected. Consider reviewing CSRF protections.</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Yesterday's Activities -->
-                <div class="cyber-card mt-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-calendar-alt me-2"></i> Yesterday (23 March 2025)</span>
-                        <span class="badge bg-primary">7 activities</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-timeline">
-                            <!-- Timeline Item 1 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-info">
-                                    <i class="fas fa-network-wired"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-info text-white">
-                                            <i class="fas fa-network-wired me-1"></i> IP Analyzer
-                                        </span>
-                                        <span class="text-muted small">4:20 PM</span>
-                                    </div>
-                                    <h5>IP Address Analysis</h5>
-                                    <p>Analyzed IP: <code>103.43.112.76</code></p>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Location
-                                                    <span>Mumbai, India</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    ISP
-                                                    <span>Airtel Broadband</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Reputation
-                                                    <span class="text-success">Good</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Open Ports
-                                                    <span>3 (80, 443, 8080)</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 2 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-warning">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-warning text-white">
-                                            <i class="fas fa-file-alt me-1"></i> File Scanner
-                                        </span>
-                                        <span class="text-muted small">2:45 PM</span>
-                                    </div>
-                                    <h5>File Security Analysis</h5>
-                                    <p>Scanned file: <strong>quarterly_report.pdf</strong></p>
-                                    <p class="text-success mb-2"><i class="fas fa-check-circle me-1"></i> No malware detected. File appears to be safe.</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 3 -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-secondary">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-secondary text-white">
-                                            <i class="fas fa-search me-1"></i> Site DIWB Check
-                                        </span>
-                                        <span class="text-muted small">11:30 AM</span>
-                                    </div>
-                                    <h5>Domain Information & Whois Check</h5>
-                                    <p>Analyzed domain: <strong>tech-innovations.in</strong></p>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Registrar
-                                                    <span>GoDaddy.com, LLC</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Created
-                                                    <span>12-Jun-2022</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Expires
-                                                    <span>12-Jun-2026</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Status
-                                                    <span class="text-success">Active</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Show More Button -->
-                        <div class="text-center mt-3">
-                            <button class="btn btn-outline-primary">
-                                <i class="fas fa-plus-circle me-1"></i> Show More Activities
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Last Week -->
-                <div class="cyber-card mt-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-calendar-alt me-2"></i> Last Week (17-23 March 2025)</span>
-                        <span class="badge bg-primary">23 activities</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-timeline">
-                            <!-- Timeline Item 1 - Last Week -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-danger">
-                                    <i class="fas fa-virus"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-danger text-white">
-                                            <i class="fas fa-file-alt me-1"></i> File Scanner
-                                        </span>
-                                        <span class="text-muted small">22 Mar, 3:15 PM</span>
-                                    </div>
-                                    <h5>Malware Detection Alert</h5>
-                                    <p>Scanned file: <strong>invoice_march2025.docx</strong></p>
-                                    <p class="text-danger mb-2"><i class="fas fa-exclamation-triangle me-1"></i> Trojan detected: Potential ransomware signature identified.</p>
-                                    <div class="alert alert-danger" role="alert">
-                                        <i class="fas fa-shield-alt me-1"></i> The file has been quarantined automatically. No action required.
-                                    </div>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 2 - Last Week -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-info">
-                                    <i class="fas fa-globe"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-info text-white">
-                                            <i class="fas fa-globe me-1"></i> Website Scanner
-                                        </span>
-                                        <span class="text-muted small">20 Mar, 11:45 AM</span>
-                                    </div>
-                                    <h5>SSL Certificate Analysis</h5>
-                                    <p>Scanned website: <strong>www.shoppingmart.co.in</strong></p>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <div class="card border-success mb-2">
-                                                <div class="card-body p-2">
-                                                    <h6 class="mb-1"><i class="fas fa-lock text-success me-1"></i> SSL Valid</h6>
-                                                    <p class="mb-0 small">Expires: 15 Oct 2025</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card border-warning mb-2">
-                                                <div class="card-body p-2">
-                                                    <h6 class="mb-1"><i class="fas fa-cookie text-warning me-1"></i> Cookie Issues</h6>
-                                                    <p class="mb-0 small">Missing secure attributes</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-primary mb-2"><i class="fas fa-info-circle me-1"></i> Overall security score: 85/100 (Good)</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Timeline Item 3 - Last Week -->
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-warning">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="tool-badge bg-warning text-white">
-                                            <i class="fas fa-search me-1"></i> Phishing URL Scanner
-                                        </span>
-                                        <span class="text-muted small">18 Mar, 2:30 PM</span>
-                                    </div>
-                                    <h5>Suspicious URL Analysis</h5>
-                                    <p>Scanned URL: <code>https://secure-login-paymentportal.com</code></p>
-                                    <div class="progress mb-2" style="height: 10px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-warning mb-2"><i class="fas fa-exclamation-circle me-1"></i> Suspicious URL - Domain registered within last 24 hours. Exercise caution.</p>
-                                    <div class="d-flex mt-3">
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-info-circle me-1"></i> View Details
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary me-2">
-                                            <i class="fas fa-share-alt me-1"></i> Share Report
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Show More Button -->
-                        <div class="text-center mt-3">
-                            <button class="btn btn-outline-primary">
-                                <i class="fas fa-plus-circle me-1"></i> Show More Activities
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
-                <nav aria-label="Activity navigation" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+    {% if activities %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Input Data</th>
+                    <th>Used Tool</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in activities %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ activity[1] }}</td> <!-- input_data -->
+                    <td>{{ activity[2] }}</td> <!-- used_tool -->
+                    <td>{{ activity[3] }}</td> <!-- date -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
-    <!-- Export Modal -->
-    <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exportModalLabel"><i class="fas fa-file-export me-2"></i> Export Activity Report</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="reportName" class="form-label">Report Name</label>
-                            <input type="text" class="form-control" id="reportName" value="Security_Activity_Report_March2025">
-                        </div>
-                        <div class="mb-3">
-                            <label for="dateRange" class="form-label">Date Range</label>
-                            <select class="form-select" id="dateRange">
-                                <option selected>Last 7 days</option>
-                                <option>Last 30 days</option>
-                                <option>Current month</option>
-                                <option>Custom range</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Include Activities</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="allActivities" checked>
-                                <label class="form-check-label" for="allActivities">
-                                    All Activities
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="phishingURL" checked>
-                                <label class="form-check-label" for="phishingURL">
-                                    Phishing URL Scanner
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="websiteScanner" checked>
-                                <label class="form-check-label" for="websiteScanner">
-                                    Website Scanner
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="ipAnalyzer" checked>
-                                <label class="form-check-label" for="ipAnalyzer">
-                                    IP Analyzer
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="fileScanning" checked>
-                                <label class="form-check-label" for="fileScanning">
-                                    File Scanning
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="passwordCheck" checked>
-                                <label class="form-check-label" for="passwordCheck">
-                                    Password Strength Check
-                                </label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exportFormat" class="form-label">Format</label>
-                            <select class="form-select" id="exportFormat">
-                                <option selected>PDF</option>
-                                <option>Excel (XLSX)</option>
-                                <option>CSV</option>
-                                <option>JSON</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-download me-1"></i> Export</button>
-                </div>
-            </div>
+    {% else %}
+        <div class="alert alert-info">
+            No activities found.
         </div>
-    </div>
+    {% endif %}
+</div>
 
-    <!-- Details Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel"><i class="fas fa-search me-2"></i> Phishing URL Analysis Report</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
-                        <h5><i class="fas fa-exclamation-triangle me-2"></i> High Risk Detection</h5>
-                        <p class="mb-0">This URL has been identified as a potential phishing attempt targeting banking credentials.</p>
-                    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-                    <div class="card mb-3">
-                        <div class="card-header bg-dark text-white">
-                            <i class="fas fa-link me-2"></i> URL Information
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Analyzed URL</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="https://banking-secure-login.example.com" readonly>
-                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-copy"></i></button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Domain Age:</strong> <span class="text-danger">2 days</span></p>
-                                    <p><strong>SSL Certificate:</strong> <span class="text-warning">Self-signed</span></p>
-                                    <p><strong>Registrar:</strong> NameCheap, Inc.</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong>IP Address:</strong> 191.234.56.78</p>
-                                    <p><strong>Location:</strong> Kiev, Ukraine</p>
-                                    <p><strong>Blacklist Status:</strong> <span class="text-danger">Listed on 3 blacklists</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header bg-dark text-white">
-                            <i class="fas fa-shield-alt me-2"></i> Threat Analysis
-                        </div>
-                        <div class="card-body">
-                            <h6>Risk Factors</h6>
-                            <ul class="list-group mb-3">
-                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Domain name mimics legitimate banking website</li>
-                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Recently registered domain (less than 3 days old)</li>
-                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Uses self-signed SSL certificate</li>
-                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Domain hosted on suspicious IP range</li>
-                                <li class="list-group-item text-danger"><i class="fas fa-times-circle me-2"></i> Contains form fields requesting sensitive information</li>
-                            </ul>
-
-                            <h6>Risk Score</h6>
-                            <div class="progress mb-2" style="height: 25px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92/100</div>
-                            </div>
-                            <p class="text-muted small">Risk scores above 80 indicate high probability of phishing.</p>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header bg-dark text-white">
-                            <i class="fas fa-clipboard-list me-2"></i> Recommendation
-                        </div>
-                        <div class="card-body">
-                            <p><i class="fas fa-ban text-danger me-2"></i> <strong>Do not visit this website or enter any personal information.</strong></p>
-                            <p>This URL shows multiple high-risk indicators consistent with phishing attempts. The domain appears designed to mimic a legitimate banking website but is not affiliated with any known financial institution.</p>
-                            <h6>Actions Taken:</h6>
-                            <ul>
-                                <li>URL added to your personal blocklist</li>
-                                <li>Phishing report submitted to relevant authorities</li>
-                                <li>Added to CyberShield community database</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-file-pdf me-1"></i> Download Report</button>
-                    <button type="button" class="btn btn-danger"><i class="fas fa-exclamation-triangle me-1"></i> Report False Positive</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>

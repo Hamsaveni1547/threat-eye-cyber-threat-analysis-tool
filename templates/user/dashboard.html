@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreatEye | Dashboard</title>
-    
+    <link rel="icon" href="/static/images/logo.png" type="logo/png">
+    <link rel="stylesheet" href="/static/css/tools/phishing.css">
     <!-- CSS Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/user/dashboard.css') }}" rel="stylesheet">
+    <link href="/static/css/user/dashboard.css" rel="stylesheet">
 </head>
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
@@ -24,13 +26,13 @@
                     <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="#tools"><i class="fas fa-tools"></i> Security Tools</a>
+                    <a href="/activities"><i class="fas fa-history"></i> Activities</a>
                 </li>
                 <li>
-                    <a href="#activities"><i class="fas fa-history"></i> Activities</a>
+                    <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
                 </li>
-                <li>
-                    <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                <li> 
+                    <a href="/help"><i class="fas fa-question-circle"></i>Help & Support</a>
                 </li>
                 <li>
                     <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -99,14 +101,6 @@
                         <i class="fas fa-server"></i>
                         <h4>Site Status</h4>
                     </a>
-                </div>
-            </div>
-
-            <!-- Recent Activities -->
-            <div class="activities-section glass-card">
-                <h2><i class="fas fa-history"></i> Recent Activities</h2>
-                <div class="activity-list">
-                    <!-- Activity items will be populated dynamically -->
                 </div>
             </div>
         </div>

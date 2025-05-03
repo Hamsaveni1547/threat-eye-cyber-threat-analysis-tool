@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 def check_tool_limit(user_id, tool_name, input_data=""):
-    DAILY_LIMIT = 4  
+    DAILY_LIMIT = 30
     
     try:
         conn = sqlite3.connect("threateye_db.db")

@@ -204,6 +204,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="result-container">
         <div class="result-header">
@@ -237,14 +238,8 @@
                 <h3><i class="fas fa-chart-pie me-2"></i> Risk Assessment</h3>
             </div>
             <div class="card-body">
-                <div class="risk-meter">
-                    <div class="risk-indicator" style="left: {{ result.phishing_score }}%;"></div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>Safe</span>
-                    <span>Moderate</span>
-                    <span>High Risk</span>
-                </div>
+                
+                
                 
                 <div class="alert {% if result.phishing_score >= 30 %}alert-danger{% elif result.phishing_score >= 25 %}alert-warning{% else %}alert-success{% endif %} mt-3">
                     <h5 class="alert-heading">
@@ -349,50 +344,18 @@
     <script>
         function downloadReport(url) {
             const { jsPDF } = window.jspdf;
-            const reportContent = document.querySelector('.result-container');
-
-            html2canvas(reportContent).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save('phishing-analysis-report.pdf');
-            });
+            const doc = new jsPDF();
+            doc.text("Phishing Analysis Report", 20, 20);
+            doc.text("URL: " + url, 20, 30);
+            doc.save("phishing_report.pdf");
         }
 
         function shareResults() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Phishing Analysis Results',
-                    text: 'Check out this phishing analysis for {{ result.url }} - Risk Score: {{ result.phishing_score }}%',
-                    url: window.location.href,
-                })
-                .catch(error => {
-                    console.error('Error sharing:', error);
-                    fallbackShare();
-                });
-            } else {
-                fallbackShare();
-            }
+            const url = "{{ result.url }}";
+            const text = "Check out this phishing analysis result: " + url;
+            navigator.share({ title: 'Phishing Analysis Result', text: text, url: url });
         }
-
-        function fallbackShare() {
-            const tempInput = document.createElement('input');
-            tempInput.value = window.location.href;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('URL copied to clipboard! You can share it manually.');
-        }
-
-        // Add animation for risk indicator
-        document.addEventListener('DOMContentLoaded', function() {
-            const indicator = document.querySelector('.risk-indicator');
-            indicator.style.left = '{{ result.phishing_score }}%';
-        });
     </script>
+    
 </body>
 </html>
