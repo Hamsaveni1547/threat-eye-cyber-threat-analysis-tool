@@ -26,6 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load Recent Activities
     loadRecentActivities();
+
+    // User dropdown functionality
+    const userInfoToggle = document.getElementById('userInfoToggle');
+    const userDropdown = document.querySelector('.user-dropdown');
+    
+    userInfoToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.classList.toggle('show');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!userDropdown.contains(e.target) && !userInfoToggle.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
+    });
 });
 
 function loadRecentActivities() {

@@ -45,23 +45,12 @@
     <div class="main-content">
         <!-- Header -->
         <header>
-            <div class="header-content">
-                <!-- <button id="sidebar-toggle"><i class="fas fa-bars"></i></button>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
-                </div> -->
-                <div class="user-menu">
-                    <!-- <div class="notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </div> -->
-                    <div class="user-info">
-                        <i class="fa-solid fa-user"></i>
-                        <span>{{ user.username }}</span>
-                    </div>
-                </div>
-            </div>
+            <div class="menu">
+                <a href="/" class="menu-item"><i class="fa fa-home"></i> Home</a>
+                <a href="/about" class="menu-item"><i class="fa fa-info-circle"></i> About</a>
+                <a href="/contact" class="menu-item"><i class="fa fa-envelope"></i> Contact</a>
+                <a href="/dashboard" class="menu-item"><i class="fa fa-user"></i> {{ user.username }}</a>
+              </div>
         </header>
 
         <!-- Dashboard Content -->

@@ -68,8 +68,8 @@ body {
     color: var(--text-primary);
 }
 
-.eye {
-    color: var(--accent-color);
+.eye{
+    color: #00BFFF;
 }
 
 .sidebar nav ul {
@@ -130,11 +130,62 @@ header {
     align-items: center;
 }
 
+.menu {
+    display: flex;
+    flex-direction: row; /* Makes them appear side by side */
+    justify-content: flex-end; /* Aligns to the right */
+    gap: 10px; /* Optional: Adds spacing between buttons */
+    padding: 10px 20px;
+    background-color: #0b1736;
+    position: relative;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #101e3b;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .menu-item i {
+    margin-right: 8px;
+  }
+  
+  
+.user-dropdown {
+    position: relative;
+  }
+
 .user-menu {
     display: flex;
     align-items: center;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #1b2a50;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    width: 220px;
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: #5ab4ff;
+    text-decoration: none;
+    display: block;
+    margin-top: 8px;
+  }
+  
 .user-info {
     display: flex;
     align-items: center;
@@ -334,7 +385,7 @@ header {
     .brand-name {
         display: none;
     }
-    
+
     .sidebar nav ul li a span {
         display: none;
     }

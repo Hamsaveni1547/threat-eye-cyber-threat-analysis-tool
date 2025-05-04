@@ -17,10 +17,18 @@ CREATE TABLE IF NOT EXISTS tool_usage (
 )
 """)
 
-# print data in the table
-# for row in cur.fetchall():
-#     print(row)
-    
+# Delete all records from tool_usage first (due to foreign key constraints)
+cur.execute("DELETE FROM tool_usage")
+print(f"Deleted {cur.rowcount} tool usage records")
+
+# Delete all records from users table
+cur.execute("DELETE FROM users")
+print(f"Deleted {cur.rowcount} user records")
+
+# Reset the SQLite sequence counter
+cur.execute("DELETE FROM sqlite_sequence WHERE name IN ('users', 'tool_usage')")
+print("Reset sequence counters for users and tool_usage tables")
+
 conn.commit()
 conn.close()
-print("Database initialized.")
+print("Database reset completed. New registrations will start from ID 1.")

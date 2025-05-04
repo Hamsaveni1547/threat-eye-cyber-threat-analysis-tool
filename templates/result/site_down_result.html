@@ -18,6 +18,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
+    /* Back button styling */
+    .back-button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-back:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--accent-blue);
+            transform: translateX(-3px);
+        }
+
     /* Additional styles for Site Down Checker - to be added to your existing results.css */
 
 /* Terminal-style header for cybersecurity theme */
@@ -418,8 +444,15 @@
 <body>
 
   <div class="result-container" id="report-container">    
+    <!-- Back Button -->
+    <div class="back-button">
+      <a href="/site" class="btn btn-back">
+          <i class="fas fa-arrow-left"></i> Back to Site Checker
+      </a>
+    </div>
+    
     <div class="result-header">
-      <h1><i class="fas fa-signal"></i> Website Status Report</h1>
+      <h1><i class="fas fa-globe"></i> Website Status Report</h1>
       <div class="timestamp"><i class="far fa-clock me-1"></i>Generated on: {{ result.timestamp }}</div>
     </div>
 

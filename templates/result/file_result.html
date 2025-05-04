@@ -12,12 +12,46 @@
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="stylesheet" href="/static/css/result/results.css">
+    <style>
+        /* Back button styling */
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-back:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--accent-blue);
+            transform: translateX(-3px);
+        }
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="result-container">
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="/file" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back to File Scanner
+            </a>
+        </div>
+
         <div class="result-header">
-            <h1><i class="fas fa-file-shield me-2"></i>File Scan Results</h1>
+            <h1><i class="fas fa-file"></i>File Scan Results</h1>
             <div class="timestamp">Generated on: {{ result.scan_date }}</div>
         </div>
         
