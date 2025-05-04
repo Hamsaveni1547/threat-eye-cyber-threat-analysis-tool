@@ -102,7 +102,7 @@
                             <i class="bi bi-shield-slash"></i>
                             Phishing URL Detector
                         </h3>
-                        <form id="phishing-form">
+                        <form id="phishing-form" method="POST" action="/check">
                             <div class="mb-4">
                                 <label for="phishingUrl" class="form-label">Enter URL to Check</label>
                                 <input type="url" class="form-control" id="phishingUrl" name="url"
@@ -316,6 +316,65 @@
             }
         });
     });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('phishing-form');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Analyzing URL...
+                `;
+
+                try {
+                    const formData = new FormData(this);
+                    const response = await fetch('/check', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    // Get the response HTML
+                    const html = await response.text();
+
+                    // Create a temporary div to parse the HTML
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Replace the entire page content with the new HTML
+                    document.documentElement.innerHTML = doc.documentElement.innerHTML;
+
+                    // Update the URL without refreshing
+                    window.history.pushState({html: html}, '', '/check');
+                    document.title = 'ThreatEye | Analysis Results';
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while analyzing the URL. Please try again.');
+                    
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            });
+
+            // Handle browser back/forward navigation
+            window.addEventListener('popstate', function(event) {
+                window.location.href = window.location.href;
+            });
+        });
     </script>
 
      <section class="stats">

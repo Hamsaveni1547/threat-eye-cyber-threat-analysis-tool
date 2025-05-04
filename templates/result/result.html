@@ -202,6 +202,32 @@
         .date{
             color: #e6f1ff;
         }
+
+        .risk-level {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 1rem 0;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .risk-level.risk-high {
+            background-color: var(--accent-red);
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+
+        .risk-level.risk-medium {
+            background-color: var(--accent-yellow);
+            color: #000;
+        }
+
+        .risk-level.risk-low {
+            background-color: var(--accent-green);
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -221,10 +247,10 @@
         </div>
 
         <div class="actions mt-4">
-            <button class="btn btn-primary" onclick="downloadReport('{{ result.url }}')">
+            <button class="btn btn-primary" id="download-pdf">
                 <i class="fas fa-download me-2"></i> Download Report
             </button>
-            <button class="btn btn-primary" onclick="shareResults()">
+            <button class="btn btn-primary" id="share-result">
                 <i class="fas fa-share-alt me-2"></i> Share Results
             </button>
             <a href="/phishing" class="btn btn-outline-secondary">
@@ -238,8 +264,17 @@
                 <h3><i class="fas fa-chart-pie me-2"></i> Risk Assessment</h3>
             </div>
             <div class="card-body">
-                
-                
+                <div class="text-center mb-4">
+                    <div class="risk-level risk-{% if result.phishing_score >= 30 %}high{% elif result.phishing_score >= 25 %}medium{% else %}low{% endif %}">
+                        {% if result.phishing_score >= 30 %}
+                            High Risk
+                        {% elif result.phishing_score >= 25 %}
+                            Medium Risk
+                        {% else %}
+                            Low Risk
+                        {% endif %}
+                    </div>
+                </div>
                 
                 <div class="alert {% if result.phishing_score >= 30 %}alert-danger{% elif result.phishing_score >= 25 %}alert-warning{% else %}alert-success{% endif %} mt-3">
                     <h5 class="alert-heading">
@@ -252,7 +287,35 @@
                         {% endif %}
                         {{ result.classification }}
                     </h5>
-                    <p class="mb-0">Risk Score: {{ result.phishing_score }}%</p>
+                    <p class="mb-0 risk-score">Risk Score: {{ "%.1f"|format(result.phishing_score) }}%</p>
+                </div>
+                
+                <!-- Scan Statistics -->
+                <div class="row mt-4">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-danger bg-opacity-10 rounded">
+                            <h6 class="text-danger">Malicious</h6>
+                            <h3>{{ result.malicious }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-warning bg-opacity-10 rounded">
+                            <h6 class="text-warning">Suspicious</h6>
+                            <h3>{{ result.suspicious }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                            <h6 class="text-success">Harmless</h6>
+                            <h3>{{ result.harmless }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-info bg-opacity-10 rounded">
+                            <h6 class="text-info">Undetected</h6>
+                            <h3>{{ result.undetected }}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -342,19 +405,97 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
-        function downloadReport(url) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text("Phishing Analysis Report", 20, 20);
-            doc.text("URL: " + url, 20, 30);
-            doc.save("phishing_report.pdf");
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle browser back/forward navigation
+            window.addEventListener('popstate', function(event) {
+                if (document.referrer.includes('/phishing')) {
+                    window.location.href = '/phishing';
+                }
+            });
 
-        function shareResults() {
-            const url = "{{ result.url }}";
-            const text = "Check out this phishing analysis result: " + url;
-            navigator.share({ title: 'Phishing Analysis Result', text: text, url: url });
-        }
+            // Download functionality
+            document.getElementById('download-pdf').addEventListener('click', function() {
+                const analysisData = {
+                    url: document.querySelector('.url-info p').textContent.trim(),
+                    result: {
+                        classification: '{{ result.classification|safe }}',
+                        phishing_score: {{ result.phishing_score }},
+                        malicious: {{ result.malicious }},
+                        suspicious: {{ result.suspicious }},
+                        harmless: {{ result.harmless }},
+                        undetected: {{ result.undetected }},
+                        total_scans: {{ result.total_scans }},
+                        url_analysis: JSON.parse('{{ result.url_analysis|tojson|safe }}'),
+                        recommendations: JSON.parse('{{ result.recommendations|tojson|safe }}'),
+                        timestamp: '{{ result.timestamp }}'
+                    }
+                };
+
+                fetch('/download-report/phishing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(analysisData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `phishing-analysis-report-${new Date().toISOString().slice(0,19).replace(/:/g, '')}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error generating report. Please try again.');
+                });
+            });
+
+            // Share functionality
+            document.getElementById('share-result').addEventListener('click', function() {
+                const shareData = {
+                    title: 'ThreatEye Phishing Analysis Results',
+                    text: generateShareText(),
+                    url: window.location.href
+                };
+
+                if (navigator.share && navigator.canShare(shareData)) {
+                    navigator.share(shareData).catch(err => {
+                        console.error('Error sharing:', err);
+                        fallbackShare();
+                    });
+                } else {
+                    fallbackShare();
+                }
+            });
+
+            function generateShareText() {
+                const url = document.querySelector('.url-info p').textContent.trim();
+                const classification = document.querySelector('.alert h5').textContent.trim();
+                const score = document.querySelector('.risk-score').textContent.trim();
+                return `ThreatEye Phishing Analysis Results\n\nAnalyzed URL: ${url}\n${classification}\n${score}`;
+            }
+
+            function fallbackShare() {
+                const shareText = generateShareText();
+                const tempInput = document.createElement('textarea');
+                tempInput.value = shareText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('Results copied to clipboard! You can now paste and share them.');
+            }
+        });
     </script>
     
 </body>

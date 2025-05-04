@@ -7,111 +7,134 @@ import base64
 
 
 def detect_phishing(url, api_key):
-    """
-    Detect if a URL is a phishing site using VirusTotal API
+    """Detect if a URL is a phishing site using VirusTotal API."""
+    try:
+        headers = {
+            "x-apikey": api_key,
+            "Accept": "application/json"
+        }
 
-    Args:
-        url (str): The URL to check
-        api_key (str): VirusTotal API key
+        # Basic URL analysis before API call
+        url_analysis = analyze_url_structure(url)
 
-    Returns:
-        dict: Analysis results
-    """
-    # Headers for the API request
-    headers = {
-        "x-apikey": api_key,
-        "Accept": "application/json"
-    }
+        # Extract domain for VirusTotal API
+        domain = extract_domain(url)
 
-    # Basic URL analysis before API call
-    url_analysis = analyze_url_structure(url)
-
-    # Extract domain for VirusTotal API
-    domain = extract_domain(url)
-
-    # Make request to VirusTotal
-    vt_url = f"https://www.virustotal.com/api/v3/domains/{domain}"
-    response = requests.get(vt_url, headers=headers)
-
-    if response.status_code != 200:
-        # If domain lookup fails, try URL lookup
-        url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
-        vt_url = f"https://www.virustotal.com/api/v3/urls/{url_id}"
+        # Make request to VirusTotal
+        vt_url = f"https://www.virustotal.com/api/v3/domains/{domain}"
         response = requests.get(vt_url, headers=headers)
 
         if response.status_code != 200:
-            raise Exception(f"API request failed with status code {response.status_code}: {response.text}")
+            # If domain lookup fails, try URL lookup
+            url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
+            vt_url = f"https://www.virustotal.com/api/v3/urls/{url_id}"
+            response = requests.get(vt_url, headers=headers)
 
-    data = response.json()
+            if response.status_code != 200:
+                raise Exception(f"API request failed with status code {response.status_code}: {response.text}")
 
-    # Process the response
-    result = {
-        'url': url,
-        'domain': domain,
-        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'url_analysis': url_analysis,
-        'harmless': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('harmless', 0),
-        'malicious': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('malicious', 0),
-        'suspicious': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('suspicious', 0),
-        'undetected': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('undetected', 0),
-        'total_scans': sum(data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).values()),
-        'engines': []
-    }
+        data = response.json()
 
-    # Process scan results from different security vendors
-    scans = data.get('data', {}).get('attributes', {}).get('last_analysis_results', {})
-    for engine_name, scan_data in scans.items():
-        result['engines'].append({
-            'name': engine_name,
-            'category': scan_data.get('category', 'Unknown'),
-            'result': scan_data.get('result', 'Unknown'),
-            'method': scan_data.get('method', 'Unknown')
-        })
+        # Process the response
+        result = {
+            'url': url,
+            'domain': domain,
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'url_analysis': url_analysis,
+            'harmless': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('harmless', 0),
+            'malicious': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('malicious', 0),
+            'suspicious': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('suspicious', 0),
+            'undetected': data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).get('undetected', 0),
+            'total_scans': sum(data.get('data', {}).get('attributes', {}).get('last_analysis_stats', {}).values()),
+            'engines': []
+        }
 
-    # Calculate phishing score (custom formula)
-    malicious_count = result['malicious']
-    suspicious_count = result['suspicious']
-    total_scans = result['total_scans']
-    url_risk_factor = url_analysis['risk_score'] / 100  # Convert to 0-1 scale
+        # Process scan results from different security vendors
+        scans = data.get('data', {}).get('attributes', {}).get('last_analysis_results', {})
+        for engine_name, scan_data in scans.items():
+            result['engines'].append({
+                'name': engine_name,
+                'category': scan_data.get('category', 'Unknown'),
+                'result': scan_data.get('result', 'Unknown'),
+                'method': scan_data.get('method', 'Unknown')
+            })
 
-    if total_scans > 0:
+        # Calculate phishing score (custom formula)
+        malicious_count = result['malicious']
+        suspicious_count = result['suspicious']
+        total_scans = result['total_scans'] or 1  # Prevent division by zero
+        url_risk_factor = url_analysis['risk_score'] / 100  # Convert to 0-1 scale
+
+        # Calculate base risk score from API results
         api_risk_score = ((malicious_count * 1.0) + (suspicious_count * 0.5)) / total_scans * 100
-    else:
-        api_risk_score = 0
 
-    # Combine API score with URL analysis score (70% API, 30% URL analysis)
-    phishing_score = (api_risk_score * 0.7) + (url_analysis['risk_score'] * 0.3)
-    result['phishing_score'] = round(phishing_score, 2)
+        # Combine API score with URL analysis score (70% API, 30% URL analysis)
+        phishing_score = (api_risk_score * 0.7) + (url_analysis['risk_score'] * 0.3)
+        
+        # Always include phishing score and ensure it's a number
+        result['phishing_score'] = round(max(0, min(100, phishing_score)), 2)
 
-    # Classification
-    if phishing_score >= 30:
-        result['classification'] = 'High Risk - Likely Phishing'
-        result['recommendations'] = [
-            "Do not visit this URL",
-            "Block this domain in your security systems",
-            "Report this URL to appropriate authorities"
-        ]
-    elif phishing_score >= 25:
-        result['classification'] = 'Medium Risk - Suspicious'
-        result['recommendations'] = [
-            "Exercise extreme caution if you must visit",
-            "Don't provide any personal information",
-            "Consider blocking access to this URL"
-        ]
-    elif phishing_score >= 20:
-        result['classification'] = 'Low Risk - Probably Safe'
-        result['recommendations'] = [
-            "Exercise normal caution",
-            "Verify the website's legitimacy before sharing sensitive information"
-        ]
-    else:
-        result['classification'] = 'Safe'
-        result['recommendations'] = [
-            "URL appears to be safe",
-            "Follow standard security practices"
-        ]
+        # Classify based on phishing score
+        if phishing_score >= 30:
+            result['classification'] = 'High Risk - Likely Phishing'
+            result['risk_level'] = 'High'
+            result['risk_color'] = 'danger'
+            result['recommendations'] = [
+                "Do not visit this URL",
+                "Block this domain in your security systems",
+                "Report this URL to appropriate authorities"
+            ]
+        elif phishing_score >= 25:
+            result['classification'] = 'Medium Risk - Suspicious'
+            result['risk_level'] = 'Medium'
+            result['risk_color'] = 'warning'
+            result['recommendations'] = [
+                "Exercise extreme caution if you must visit",
+                "Don't provide any personal information",
+                "Consider blocking access to this URL"
+            ]
+        elif phishing_score >= 20:
+            result['classification'] = 'Low Risk - Probably Safe'
+            result['risk_level'] = 'Low'
+            result['risk_color'] = 'info'
+            result['recommendations'] = [
+                "Exercise normal caution",
+                "Verify the website's legitimacy before sharing sensitive information"
+            ]
+        else:
+            result['classification'] = 'Safe'
+            result['risk_level'] = 'Safe'
+            result['risk_color'] = 'success'
+            result['recommendations'] = [
+                "URL appears to be safe",
+                "Follow standard security practices",
+                "Always verify website legitimacy before sharing sensitive information"
+            ]
 
-    return result
+        return result
+
+    except Exception as e:
+        return {
+            'error': str(e),
+            'url': url,
+            'domain': extract_domain(url),
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'phishing_score': 0,
+            'classification': 'Error',
+            'risk_level': 'Unknown',
+            'risk_color': 'secondary',
+            'malicious': 0,
+            'suspicious': 0,
+            'harmless': 0,
+            'undetected': 0,
+            'total_scans': 0,
+            'url_analysis': analyze_url_structure(url),
+            'recommendations': [
+                "An error occurred during analysis",
+                "Try scanning the URL again",
+                "If the error persists, the URL may be inaccessible"
+            ]
+        }
 
 
 def extract_domain(url):

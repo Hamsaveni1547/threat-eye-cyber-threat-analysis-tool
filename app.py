@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify, redirect, flash, session, url_for, g
+from flask import Flask, render_template, request, send_file, jsonify, redirect, flash, session, url_for, g, make_response
 import requests
 import os
 import io
@@ -265,31 +265,47 @@ def tool_usage():
 def check():
     """Handle form submission and check the URL for phishing."""
     url = request.form.get('url')
+    robot_check = request.form.get('robot')
 
     if not url:
-        flash('Please provide a URL to analyze', 'error')
-        return redirect(url_for('phishing'))
+        return jsonify({'error': 'Please provide a URL to analyze'}), 400
 
-    # Check usage limit
-    can_use, message = check_tool_limit(session['user_id'], 'phishing_check', url)
-    if not can_use:
-        flash(message, 'error')
-        return redirect(url_for('phishing'))
+    if not robot_check:
+        return jsonify({'error': 'Please confirm you are not a robot'}), 400
 
     try:
+        # Check usage limit
+        can_use, message = check_tool_limit(session['user_id'], 'phishing_check', url)
+        if not can_use:
+            return jsonify({'error': message}), 429
+
+        # Get phishing analysis results
         phishing_data = detect_phishing(url, API_KEY)
-        return render_template('result/result.html', result=phishing_data)
+        
+        # Render the template and create response
+        html = render_template('result/result.html', result=phishing_data)
+        response = make_response(html)
+        response.headers['Content-Type'] = 'text/html'
+        return response
+        
     except Exception as e:
-        flash(f"Error analyzing URL: {str(e)}", 'error')
-        return redirect(url_for('phishing'))
+        error_msg = f"Error analyzing URL: {str(e)}"
+        return jsonify({'error': error_msg}), 500
 
 @app.route('/download-report/phishing', methods=['POST'])
+@login_required
 def download_phishing_report():
     """Generate and download a PDF report for phishing analysis."""
     try:
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
         url = data.get('url')
         result = data.get('result')
+
+        if not url or not result:
+            return jsonify({'error': 'Invalid data format'}), 400
 
         # Create PDF buffer
         buffer = io.BytesIO()
@@ -301,16 +317,18 @@ def download_phishing_report():
         header_style = ParagraphStyle(
             'CustomHeader',
             parent=styles['Heading1'],
-            fontSize=16,
-            spaceAfter=30
+            fontSize=24,
+            spaceAfter=30,
+            textColor=colors.HexColor('#00bcd4')
         )
 
         # Add report header
-        elements.append(Paragraph("Phishing Analysis Report", header_style))
+        elements.append(Paragraph("ThreatEye Phishing Analysis Report", header_style))
         elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", styles['Normal']))
         elements.append(Spacer(1, 20))
 
         # Add URL information
+        elements.append(Paragraph("Target Information", styles['Heading2']))
         elements.append(Paragraph(f"Analyzed URL: {url}", styles['Normal']))
         elements.append(Spacer(1, 20))
 
@@ -320,7 +338,7 @@ def download_phishing_report():
         elements.append(Paragraph(f"Risk Score: {result['phishing_score']}%", styles['Normal']))
         elements.append(Spacer(1, 20))
 
-        # Add detection statistics
+        # Add detection statistics in a table
         stats_data = [
             ['Detection Type', 'Count'],
             ['Malicious', str(result['malicious'])],
@@ -331,7 +349,7 @@ def download_phishing_report():
         ]
         stats_table = Table(stats_data, colWidths=[200, 100])
         stats_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#00bcd4')),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
@@ -348,7 +366,7 @@ def download_phishing_report():
         elements.append(Spacer(1, 20))
 
         # Add suspicious patterns if any
-        if result.get('url_analysis', {}).get('suspicious_patterns'):
+        if result['url_analysis'].get('suspicious_patterns'):
             elements.append(Paragraph("Suspicious Patterns Detected", styles['Heading2']))
             for pattern in result['url_analysis']['suspicious_patterns']:
                 elements.append(Paragraph(f"• {pattern}", styles['Normal']))
@@ -359,6 +377,18 @@ def download_phishing_report():
             elements.append(Paragraph("Security Recommendations", styles['Heading2']))
             for rec in result['recommendations']:
                 elements.append(Paragraph(f"• {rec}", styles['Normal']))
+            elements.append(Spacer(1, 20))
+
+        # Add footer
+        elements.append(Spacer(1, 30))
+        footer_text = "This report was generated by ThreatEye - Advanced Cyber Threat Analysis Tool"
+        elements.append(Paragraph(footer_text, ParagraphStyle(
+            'Footer',
+            parent=styles['Normal'],
+            textColor=colors.gray,
+            fontSize=8,
+            alignment=1
+        )))
 
         # Generate PDF
         doc.build(elements)
@@ -380,7 +410,6 @@ def download_phishing_report():
 @login_required
 def virus():
     return render_template('/tools/file_virus.html')
-
 
 
 # Add these configurations at the top of your app.py after creating the Flask app
@@ -568,6 +597,113 @@ def download_report(tool_type):
     return send_file(report_path, as_attachment=True)
 
 
+# Report generation and download routes
+@app.route('/generate-report/<tool_type>', methods=['POST'])
+@login_required
+def generate_report(tool_type):
+    """Generate and download a report for any tool type"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        # Create PDF buffer
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        styles = getSampleStyleSheet()
+        elements = []
+
+        # Custom style for headers
+        header_style = ParagraphStyle(
+            'CustomHeader',
+            parent=styles['Heading1'],
+            fontSize=24,
+            spaceAfter=30,
+            textColor=colors.HexColor('#00bcd4')
+        )
+
+        # Add report header based on tool type
+        title_map = {
+            'ip': 'IP Analysis Report',
+            'website': 'Website Security Report',
+            'email': 'Email Security Report',
+            'password': 'Password Analysis Report',
+            'site-down': 'Website Status Report',
+            'phishing': 'Phishing Analysis Report'
+        }
+        
+        title = f"ThreatEye {title_map.get(tool_type, 'Security Analysis Report')}"
+        elements.append(Paragraph(title, header_style))
+        elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", styles['Normal']))
+        elements.append(Spacer(1, 20))
+
+        # Add result data
+        for section, content in data['result'].items():
+            if isinstance(content, dict):
+                elements.append(Paragraph(section.replace('_', ' ').title(), styles['Heading2']))
+                for key, value in content.items():
+                    elements.append(Paragraph(f"{key.replace('_', ' ').title()}: {value}", styles['Normal']))
+            elif isinstance(content, list):
+                elements.append(Paragraph(section.replace('_', ' ').title(), styles['Heading2']))
+                for item in content:
+                    elements.append(Paragraph(f"• {item}", styles['Normal']))
+            else:
+                elements.append(Paragraph(f"{section.replace('_', ' ').title()}: {content}", styles['Normal']))
+            elements.append(Spacer(1, 10))
+
+        # Add footer
+        elements.append(Spacer(1, 30))
+        footer_text = "This report was generated by ThreatEye - Advanced Cyber Threat Analysis Tool"
+        elements.append(Paragraph(footer_text, ParagraphStyle(
+            'Footer',
+            parent=styles['Normal'],
+            textColor=colors.gray,
+            fontSize=8,
+            alignment=1
+        )))
+
+        # Generate PDF
+        doc.build(elements)
+        buffer.seek(0)
+        
+        return send_file(
+            buffer,
+            download_name=f'{tool_type}-analysis-report-{datetime.now().strftime("%Y%m%d-%H%M%S")}.pdf',
+            as_attachment=True,
+            mimetype='application/pdf'
+        )
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Share report endpoint
+@app.route('/share-report/<tool_type>', methods=['POST'])
+@login_required
+def share_report(tool_type):
+    """Share a report via email"""
+    try:
+        data = request.get_json()
+        if not data or 'email' not in data:
+            return jsonify({'error': 'Email address is required'}), 400
+
+        # Generate report link (you would typically save the report and generate a unique URL)
+        report_link = url_for('view_report', 
+                            tool_type=tool_type, 
+                            report_id=data.get('report_id', ''), 
+                            _external=True)
+
+        # Here you would typically send an email with the report link
+        # For now, we'll just return the link
+        return jsonify({
+            'success': True,
+            'message': 'Report shared successfully',
+            'link': report_link
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # Website Scanner Routes
 @app.route('/website')
 @login_required
@@ -586,8 +722,13 @@ def process_website():
     if not can_use:
         return jsonify({"error": message}), 429
 
-    result = scan_website(url, API_KEY)
-    return render_template('result/website_result.html', result=result, url=url)
+    try:
+        result = scan_website(url, API_KEY)
+        if "error" in result:
+            return jsonify({"error": result["error"]}), 400
+        return render_template('result/website_result.html', result=result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 # IP Address Analyzer Routes
