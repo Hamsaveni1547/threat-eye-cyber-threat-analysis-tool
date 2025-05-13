@@ -351,48 +351,70 @@
         }
             });
 
-        // PDF download functionality
-        document.getElementById('download-pdf').addEventListener('click', function () {
-            const { jsPDF } = window.jspdf;
-            const reportContent = document.getElementById('report-content');
+        // Download functionality
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            const data = {
+                url: '{{ result.url }}',
+                result: {{ result|tojson|safe }}
+            };
 
-            html2canvas(reportContent).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const width = pdf.internal.pageSize.getWidth();
-                const height = canvas.height * width / canvas.width;
-
-                pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-                pdf.save('website_scan_{{ result.domain }}.pdf');
+            fetch('/download-report/website', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `website-security-report-${new Date().toISOString().slice(0,10)}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to download report. Please try again.');
             });
         });
 
+        // Share functionality 
+        document.getElementById('share-report').addEventListener('click', function() {
+            const email = prompt("Enter the email address to share the report:");
+            if (!email) return;
 
-        // Share functionality
-        document.getElementById('share-report').addEventListener('click', function () {
-            const shareData = {
-                title: 'Website Security Scan Report',
-                text: 'Website Security Scan for {{ result.url }} - Risk Level: {{ result.risk_level }}',
-                url: window.location.href
+            const data = {
+                email: email,
+                url: '{{ result.url }}',
+                result: {{ result|tojson|safe }}
             };
 
-            if (navigator.share && navigator.canShare(shareData)) {
-                navigator.share(shareData)
-                    .catch(err => {
-                        console.log('Error sharing:', err);
-                        alert('Sharing failed. You can manually copy the URL from your browser address bar.');
-                    });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                const tempInput = document.createElement('input');
-                tempInput.value = window.location.href;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                alert('URL copied to clipboard! You can share it manually.');
-            }
-        });
+            fetch('/share-report/website', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Report shared successfully! The recipient will receive a link to view the report.');
+                } else {
+                    alert(data.error || 'Failed to share report. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to share report. Please try again.');
+            });
         });
     </script>
 
@@ -469,5 +491,4 @@
     });
     </script>
 </body>
-
 </html>

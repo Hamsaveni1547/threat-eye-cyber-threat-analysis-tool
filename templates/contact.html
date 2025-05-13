@@ -6,29 +6,56 @@
     <title>ThreatEye | Contact Us</title>
 
     <link rel="icon" href="/static/images/logo.png" type="logo/png">
-
     <link href="/static/css/template/contact.css" rel="stylesheet">
-
-    <!--Header-->
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/static/css/header.css" rel="stylesheet">
-
-    <!--Footer-->
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="/static/css/footer.css" rel="stylesheet">
 
+    <style>
+        #loginRequiredModal .modal-content {
+            background-color: var(--secondary);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #loginRequiredModal .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #loginRequiredModal .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #loginRequiredModal .btn-close {
+            color: var(--text);
+        }
+    </style>
 </head>
 <body>
-
     {% include 'header.html' %}
+
+    <!-- Login Required Modal -->
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-lock me-2"></i>Login Required
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please login to send us a message. This helps us provide better support and keep track of your inquiries.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="/get" class="btn btn-primary">Login Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <div class="container">
@@ -43,22 +70,26 @@
                     <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Full Name</label>
-                            <input type="text" id="name" class="form-control" required>
+                            <input type="text" id="name" name="name" class="form-control" 
+                                value="{{ session.get('user_name', '') }}" 
+                                {% if session.get('user_id') %}readonly{% endif %} required>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" required>
+                            <input type="email" id="email" name="email" class="form-control" 
+                                value="{{ session.get('user_email', '') }}"
+                                {% if session.get('user_id') %}readonly{% endif %} required>
                         </div>
 
                         <div class="form-group">
                             <label for="company">Company Name</label>
-                            <input type="text" id="company" class="form-control">
+                            <input type="text" id="company" name="company" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <select id="subject" class="form-control">
+                            <select id="subject" name="subject" class="form-control" required>
                                 <option value="">Select a subject</option>
                                 <option value="incident-response">Incident Response</option>
                                 <option value="threat-analysis">Threat Analysis</option>
@@ -70,101 +101,68 @@
 
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
+                            <textarea id="message" name="message" class="form-control" required></textarea>
                         </div>
 
                         <div class="form-check">
-                            <input type="checkbox" id="secure-contact" checked>
-                            <label for="secure-contact">I prefer to be contacted through a secure channel. Our team will establish a secure communication method for sensitive information.</label>
+                            <input type="checkbox" id="secure-contact" name="secure-contact" checked>
+                            <label for="secure-contact">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                I prefer to be contacted through a secure channel. Our team will establish a secure communication method for sensitive information.
+                            </label>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
+                    <div id="formStatus" class="mt-3"></div>
                 </div>
 
                 <div class="contact-info">
-                    <h2 class="info-title">Get in Touch</h2>
-
+                    <h2 class="info-title">Contact Information</h2>
                     <ul class="info-list">
                         <li class="info-item">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
-                            </div>
+                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                             <div>
                                 <h3>Our Location</h3>
-                                <p>1250 Cybersecurity Blvd, Suite 500</p>
-                                <p>Arlington, VA 22209, USA</p>
+                                <p>Vidyanagar, Hubli, Karnataka 580021</p>
                             </div>
                         </li>
-
                         <li class="info-item">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                </svg>
-                            </div>
+                            <span class="icon"><i class="fas fa-phone"></i></span>
                             <div>
-                                <h3>Phone Number</h3>
-                                <a href="tel:+18005551337">+1 (800) 555-1337</a>
-                                <p>(24/7 Emergency Response)</p>
+                                <h3>Phone</h3>
+                                <a href="tel:+917483275564">+91 7483275564</a>
                             </div>
                         </li>
-
                         <li class="info-item">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                </svg>
-                            </div>
+                            <span class="icon"><i class="fas fa-envelope"></i></span>
                             <div>
-                                <h3>Email Address</h3>
-                                <a href="mailto:contact@cybershield.com">contact@cybershield.com</a>
-                                <p>For general inquiries</p>
-                                <a href="mailto:threatanalysis@cybershield.com">threatanalysis@cybershield.com</a>
-                                <p>For threat intelligence requests</p>
+                                <h3>Email</h3>
+                                <a href="mailto:threateye25@gmail.com">threateye25@gmail.com</a>
                             </div>
                         </li>
                     </ul>
 
                     <div class="social-links">
-                        <h3>Connect With Us</h3>
+                        <h3>Follow Us</h3>
                         <div class="social-icons">
-                            <a href="#" aria-label="Twitter">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                                </svg>
-                            </a>
-                            <a href="#" aria-label="LinkedIn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
-                            </a>
-                            <a href="#" aria-label="GitHub">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                                </svg>
-                            </a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
 
                     <div class="security-note">
                         <h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                            Secure Communication
+                            <i class="fas fa-shield-alt"></i>
+                            Security Notice
                         </h3>
-                        <p>For sensitive information, we recommend using our secure portal or encrypted communication methods. Our team can establish a secure channel upon initial contact.</p>
+                        <p>For sensitive security concerns, we recommend using our secure communication channel. Your information will be encrypted and handled with the utmost confidentiality.</p>
                     </div>
 
                     <div class="map">
-                        <img src="/api/placeholder/400/320" alt="Map location">
+                        <img src="/static/images/map.png" alt="Office Location Map">
                     </div>
                 </div>
             </div>
@@ -173,63 +171,84 @@
 
     {% include 'footer.html' %}
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const mobileMenuBtn = document.querySelector('.mobile-menu');
-            const navLinks = document.querySelector('.nav-links');
-
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                    mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-                });
-            }
-
-            // Form submission handling
             const contactForm = document.getElementById('contactForm');
+            const formStatus = document.getElementById('formStatus');
+            const isLoggedIn = {{ 'true' if session.get('user_id') else 'false' }};
+            const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+            const userEmail = "{{ session.get('user_email', '') }}";
+            const userName = "{{ session.get('user_name', '') }}";
 
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    // Here you would normally send the form data to your server
-                    // For demo purposes, we'll just show a success message
+                    if (!isLoggedIn) {
+                        loginModal.show();
+                        return;
+                    }
 
-                    const formFields = contactForm.querySelectorAll('input, textarea, select');
+                    // Validate that name and email match user's info
+                    const submittedName = document.getElementById('name').value.trim();
+                    const submittedEmail = document.getElementById('email').value.trim();
+
+                    if (submittedName !== userName || submittedEmail !== userEmail) {
+                        formStatus.innerHTML = '<div class="alert alert-danger">Please use your logged-in account information.</div>';
+                        return;
+                    }
+
+                    // Validate the form
+                    const formFields = contactForm.querySelectorAll('input[required], textarea[required]');
                     let valid = true;
 
                     formFields.forEach(field => {
-                        if (field.hasAttribute('required') && !field.value.trim()) {
-                            field.style.borderColor = 'var(--danger)';
+                        if (!field.value.trim()) {
+                            field.style.borderColor = 'var(--danger, #dc3545)';
                             valid = false;
                         } else {
                             field.style.borderColor = '';
                         }
                     });
 
-                    if (valid) {
-                        // Create a success message
-                        const successMsg = document.createElement('div');
-                        successMsg.style.backgroundColor = 'rgba(0, 204, 102, 0.1)';
-                        successMsg.style.color = 'var(--success)';
-                        successMsg.style.padding = '15px';
-                        successMsg.style.borderRadius = '4px';
-                        successMsg.style.marginTop = '20px';
-                        successMsg.innerHTML = '<strong>Thank you for your message!</strong> Our team will contact you shortly.';
-
-                        // Insert the message after the form
-                        contactForm.appendChild(successMsg);
-
-                        // Reset the form
-                        contactForm.reset();
-
-                        // Remove the message after 5 seconds
-                        setTimeout(() => {
-                            successMsg.remove();
-                        }, 5000);
+                    if (!valid) {
+                        formStatus.innerHTML = '<div class="alert alert-danger">Please fill in all required fields.</div>';
+                        return;
                     }
+
+                    // Show loading state
+                    formStatus.innerHTML = '<div class="alert alert-info">Sending your message...</div>';
+                    
+                    // Collect form data
+                    const formData = new FormData(contactForm);
+                    
+                    // Send data to server
+                    fetch('/api/submit-contact', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            formStatus.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+                            contactForm.reset();
+                            // Reset the form fields with user info
+                            document.getElementById('name').value = userName;
+                            document.getElementById('email').value = userEmail;
+                        } else {
+                            if (response.status === 401) {
+                                loginModal.show();
+                            } else {
+                                formStatus.innerHTML = '<div class="alert alert-danger">' + (data.message || 'An error occurred. Please try again.') + '</div>';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        formStatus.innerHTML = '<div class="alert alert-danger">An error occurred. Please try again later.</div>';
+                    });
                 });
             }
         });

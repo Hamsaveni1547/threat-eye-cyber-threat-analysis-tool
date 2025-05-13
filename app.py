@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, jsonify, redirect,
 import requests
 import os
 import io
+from datetime import datetime
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
@@ -24,6 +25,92 @@ from logic.site_down_checker import check_site_status
 
 
 app = Flask(__name__)
+
+# Database setup
+DATABASE = 'contact_submissions.db'
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    with app.app_context():
+        db = get_db_connection()
+        with open('schema.sql', 'r') as f:
+            db.executescript(f.read())
+        db.commit()
+        db.close()
+
+# Create the database tables if they don't exist
+if not os.path.exists(DATABASE):
+    with open('schema.sql', 'w') as f:
+        f.write('''
+        DROP TABLE IF EXISTS contact_submissions;
+        CREATE TABLE contact_submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            company TEXT,
+            subject TEXT,
+            message TEXT NOT NULL,
+            secure_contact BOOLEAN,
+            submission_date TIMESTAMP NOT NULL
+        );
+        ''')
+    init_db()
+
+@app.route('/contact', methods=['GET'])
+def contact_page():
+    return render_template('contact.html')
+
+@app.route('/api/submit-contact', methods=['POST'])
+def submit_contact():
+    try:
+        # Check if user is logged in
+        if 'user_id' not in session:
+            return jsonify({'success': False, 'message': 'Please login to contact us'}), 401
+            
+        # Get form data
+        name = request.form.get('name')
+        email = request.form.get('email')
+        company = request.form.get('company', '')
+        subject = request.form.get('subject', '')
+        message = request.form.get('message')
+        secure_contact = request.form.get('secure-contact') == 'on'
+        
+        # Validate that name and email match logged-in user
+        if name != session.get('user_name') or email != session.get('user_email'):
+            return jsonify({
+                'success': False, 
+                'message': 'The submitted name and email must match your account information'
+            }), 400
+        
+        # Validate required fields
+        if not name or not email or not message:
+            return jsonify({'success': False, 'message': 'Please fill in all required fields'}), 400
+        
+        # Insert into database
+        conn = get_db_connection()
+        conn.execute(
+            'INSERT INTO contact_submissions (name, email, company, subject, message, secure_contact, submission_date) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (name, email, company, subject, message, secure_contact, datetime.now())
+        )
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'success': True, 'message': 'Your message has been sent successfully!'})
+        
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'An error occurred: {str(e)}'}), 500
+
+# Optional: Admin route to view submissions
+@app.route('/admin/submissions', methods=['GET'])
+def view_submissions():
+    # In a real application, you would add authentication here
+    conn = get_db_connection()
+    submissions = conn.execute('SELECT * FROM contact_submissions ORDER BY submission_date DESC').fetchall()
+    conn.close()
+    return render_template('admin/submissions.html', submissions=submissions)
 
 DATABASE = 'threateye_db.db'
 def get_db_connection():
@@ -216,7 +303,7 @@ def tools():
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', session=session)
 
 @app.route('/get')
 def login():
