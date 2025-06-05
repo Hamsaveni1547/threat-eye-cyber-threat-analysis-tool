@@ -125,7 +125,7 @@
                 <h1 class="hero-heading">Protect Your Digital <span>Future</span> With Advanced Security</h1>
                 <p class="hero-subheading">Stay ahead of cyber threats with our innovative security solutions. Our enterprise-grade protection system ensures the safety of your data, prevents breaches, and keeps your business operations running smoothly.</p>
                 <div class="button-group">
-                    <a href="/tool" class="btn-primary">Get Started</a>
+                    <a href="/get" class="btn-primary">Get Started</a>
                     
                 </div>
             </div>
@@ -239,7 +239,7 @@
     {% else %}
         <!-- Show login prompt or disabled state -->
         <div class="login-prompt">
-            Please <a href="{{ url_for('login') }}">login</a> to access our security tools
+            <a href="{{ url_for('login') }}"></a>
         </div>
     {% endif %}
 </div>

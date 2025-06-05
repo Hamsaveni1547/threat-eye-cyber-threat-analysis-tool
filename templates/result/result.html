@@ -448,21 +448,25 @@
 
             // Download functionality
             document.getElementById('download-pdf').addEventListener('click', function() {
-                const analysisData = {
-                    url: document.querySelector('.url-info p').textContent.trim(),
-                    result: {
-                        classification: '{{ result.classification|safe }}',
-                        phishing_score: {{ result.phishing_score }},
-                        malicious: {{ result.malicious }},
-                        suspicious: {{ result.suspicious }},
-                        harmless: {{ result.harmless }},
-                        undetected: {{ result.undetected }},
-                        total_scans: {{ result.total_scans }},
-                        url_analysis: JSON.parse('{{ result.url_analysis|tojson|safe }}'),
-                        recommendations: JSON.parse('{{ result.recommendations|tojson|safe }}'),
-                        timestamp: '{{ result.timestamp }}'
+                console.log("[result.html] Download PDF button clicked.");
+                let analysisData;
+                let rawResultForDownload = ''; // For logging
+                try {
+                    rawResultForDownload = '{{ result|tojson|safe }}';
+                    console.log("[result.html] Raw result string from Jinja for PDF:", rawResultForDownload ? `"${rawResultForDownload.substring(0, 200)}..."` : "EMPTY_STRING_OR_NULL_FROM_JINJA");
+                    if (!rawResultForDownload || rawResultForDownload === 'null' || rawResultForDownload.trim() === '') {
+                        throw new Error("Result data from server is missing, null, or empty for PDF download.");
                     }
-                };
+                    analysisData = {
+                        url: '{{ result.url|safe }}', // Assuming result.url is directly available and simple
+                        result: JSON.parse(rawResultForDownload) // Parse the whole result object
+                    };
+                } catch (e) {
+                    console.error("[result.html] Error PARSING data for PDF download:", e.name, e.message, "Raw result was:", `"${rawResultForDownload}"`, "Type of rawResult:", typeof rawResultForDownload);
+                    alert("Could not parse data for download. Result data might be invalid. " + e.message);
+                    return;
+                }
+                console.log("[result.html] Data for PDF download:", JSON.stringify(analysisData, null, 2));
 
                 fetch('/download-report/phishing', {
                     method: 'POST',
@@ -472,8 +476,13 @@
                     body: JSON.stringify(analysisData)
                 })
                 .then(response => {
+                    console.log("[result.html] PDF Download Fetch Response Status:", response.status, response.statusText);
+                    console.log("[result.html] PDF Download Fetch Response Headers:", Object.fromEntries(response.headers.entries()));
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        return response.text().then(text => {
+                            console.error('[result.html] PDF Download SERVER ERROR. Status:', response.status, 'Response Text:', text);
+                            throw new Error('Network response was not ok. Status: ' + response.status + ". Message: " + text);
+                        });
                     }
                     return response.blob();
                 })
@@ -488,23 +497,36 @@
                     a.remove();
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('[result.html] Error during PDF download FETCH/BLOB processing:', error.name, error.message, error);
                     alert('Error generating report. Please try again.');
                 });
             });
 
             // Share functionality
             document.getElementById('share-result').addEventListener('click', function() {
+                console.log("[result.html] Share Result button clicked.");
                 const shareData = {
-                    title: 'ThreatEye Phishing Analysis Results',
-                    text: generateShareText(),
-                    url: window.location.href
+                    title: 'ThreatEye Phishing Analysis Results'
                 };
+                try {
+                    console.log("[result.html] Attempting to generate share text.");
+                    const generatedText = generateShareText();
+                    if (generatedText === null) { // Check if generateShareText indicated an error
+                        throw new Error("Failed to generate share text due to data issues.");
+                    }
+                    shareData.text = generatedText;
+                    shareData.url = window.location.href;
+                    console.log("[result.html] Share data prepared:", JSON.stringify(shareData, null, 2));
+                } catch (e) {
+                    console.error("[result.html] Error PREPARING share data:", e.name, e.message, e);
+                    alert("Could not prepare data for sharing. " + e.message);
+                    return;
+                }
 
                 if (navigator.share && navigator.canShare(shareData)) {
                     navigator.share(shareData).catch(err => {
                         console.error('Error sharing:', err);
-                        fallbackShare();
+                        fallbackShare(shareData.text);
                     });
                 } else {
                     fallbackShare();
@@ -512,14 +534,42 @@
             });
 
             function generateShareText() {
-                const url = document.querySelector('.url-info p').textContent.trim();
-                const classification = document.querySelector('.alert h5').textContent.trim();
-                const score = document.querySelector('.risk-score').textContent.trim();
-                return `ThreatEye Phishing Analysis Results\n\nAnalyzed URL: ${url}\n${classification}\n${score}`;
+                console.log("[result.html] generateShareText called.");
+                let rawResultForShare = ''; // For logging
+                try {
+                    rawResultForShare = '{{ result|tojson|safe }}';
+                    console.log("[result.html] Raw result string from Jinja for sharing:", rawResultForShare ? `"${rawResultForShare.substring(0, 200)}..."` : "EMPTY_STRING_OR_NULL_FROM_JINJA");
+                    if (!rawResultForShare || rawResultForShare === 'null' || rawResultForShare.trim() === '') {
+                        throw new Error("Result data for sharing is missing, null, or empty.");
+                    }
+                    const resultData = JSON.parse(rawResultForShare);
+                    const urlText = resultData.url || 'N/A';
+                    const classificationText = resultData.classification || 'N/A';
+                    const scoreText = `Risk Score: ${(resultData.phishing_score !== undefined ? resultData.phishing_score.toFixed(1) : 'N/A')}%`;
+                    return `ThreatEye Phishing Analysis Results\n\nAnalyzed URL: ${urlText}\n${classificationText}\n${scoreText}`;
+                } catch (e) {
+                    console.error("[result.html] Error in generateShareText (parsing or processing):", e.name, e.message, "Raw result was:", `"${rawResultForShare}"`);
+                    return null; // Indicate failure
+                }
             }
 
-            function fallbackShare() {
-                const shareText = generateShareText();
+            function fallbackShare(textToCopy) {
+                console.log("[result.html] fallbackShare called.");
+                let shareText = textToCopy;
+                if (!shareText) {
+                    console.warn("[result.html] fallbackShare: textToCopy is empty, attempting to generate again or using default.");
+                    try {
+                        shareText = generateShareText();
+                        if (shareText === null) {
+                            shareText = "Could not generate specific share text. Please copy the URL from your browser or the page content.";
+                            alert("Failed to generate detailed share text. You can copy the URL or page content manually.");
+                        }
+                    } catch (e) {
+                         shareText = "Could not generate specific share text due to an error. Please copy the URL from your browser or the page content.";
+                         alert("Error generating share text for fallback. You can copy the URL or page content manually.");
+                    }
+                }
+
                 const tempInput = document.createElement('textarea');
                 tempInput.value = shareText;
                 document.body.appendChild(tempInput);

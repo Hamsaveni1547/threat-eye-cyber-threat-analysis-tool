@@ -32,7 +32,7 @@
             <!-- Logo and Website Name with Cyber-Inspired Design -->
             <a class="navbar-brand" href="/">
                 <img src="/static/images/logo.png" alt="ThreatEye Logo" width="50" height="50" class="d-inline-block align-middle">
-                <span class="threat">Threat</span><span class="eye">Eye</span>
+                <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span>
             </a>
 
             <!-- Responsive Navigation Toggle -->
@@ -54,7 +54,7 @@
                         </a>
                     </li>
                     <li class="mx-3">
-                        <a class="nav-link" href="/tools">
+                        <a class="nav-link" href="/tool">
                             <i class="fas fa-tools me-2"></i>Tools
                         </a>
                     </li>
@@ -64,8 +64,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-light ms-2" href="/get-started">
-                            <i class="fas fa-rocket me-2"></i>Get Started
+                        <a class="btn btn-outline-light ms-2" href="/dashboard">
+                            <i class="fa-solid fa-user"></i>
                         </a>
                     </li>
                 </ul>
@@ -386,7 +386,7 @@ curl -X POST https://api.cybersentry.com/v1/auth \
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h4 class="logo mb-4"><img src="/static/images/logo.png" width="40px">
-                       Threat<span class="eye">Eye</span></h4>
+                        <span style="color: white;">Threat</span><span style="color: #00BFFF">Eye</span></h4>
                     <p>Advanced cyber threat analysis tool developed by IT Wizards, Bits Hi Tech College.</p>
                     <p class="mb-0"><i class="fas fa-envelope me-2"></i> threateye25@gmail.com</p>
                     <p><i class="fas fa-phone me-2"></i> +91 7483275564</p>
@@ -394,32 +394,25 @@ curl -X POST https://api.cybersentry.com/v1/auth \
                 <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
                     <h5 class="text-white mb-4">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Home</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">About Us</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Contact</a></li>
-                        <li class="mb-2"><a href="#" class="nav-link p-0">Privacy Policy</a></li>
-                        <li><a href="#" class="nav-link p-0">Terms & Conditions</a></li>
+                        <li class="mb-2"><a href="/" class="nav-link p-0">Home</a></li>
+                        <li class="mb-2"><a href="/about" class="nav-link p-0">About Us</a></li>
+                        <li class="mb-2"><a href="/contact" class="nav-link p-0">Contact</a></li>
+                        <li class="mb-2"><a href="/privacy" class="nav-link p-0">Privacy Policy</a></li>
+                        <li><a href="/terms" class="nav-link p-0">Terms & Conditions</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
                     <h5 class="text-white mb-4">Follow Us On</h5>
                     <div class="d-flex gap-3 mt-4">
                         <ul class="list-unstyled">
-                            <li class="mb-2"> <a href="#" class="nav-link p-0"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-linkedin fa-lg"></i>  Linkedin</a></li>
-                            <li class="mb-2"><a href="#" class="nav-link p-0"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
+                            <li class="mb-2"> <a href=" https://x.com/ThreatEye_25?s=08" class="nav-link p-0" target="_blank"><i class="fab fa-twitter fa-lg"></i>  Twitter</a></li>
+                            <li class="mb-2"><a href="https://www.facebook.com/share/19YnBWK1ab/" class="nav-link p-0" target="_blank"><i class="fab fa-facebook fa-lg"></i>  Facebook</a></li>
+                            <li class="mb-2"><a href="https://www.instagram.com/threateye_official?utm_source=qr&igsh=d2tjemt2eGw5aW02" class="nav-link p-0" target="_blank"><i class="fab fa-instagram fa-lg"></i>  Instagram</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <h5 class="text-white mb-4">Stay Updated</h5>
-                    <p>Subscribe to our newsletter for the latest cybersecurity updates and features.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your email address" aria-label="Your email address">
-                        <button class="btn btn-secondary" type="button">Subscribe</button>
-                    </div>
-
+                    <img src="/static/images/footer4.png" width="500px">
                 </div>
             </div>
             <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
@@ -431,6 +424,7 @@ curl -X POST https://api.cybersentry.com/v1/auth \
         </div>
     </footer>
 
+    
     <script>
         // Toggle FAQ answers
         document.querySelectorAll('.faq-question').forEach(question => {
@@ -462,5 +456,6 @@ curl -X POST https://api.cybersentry.com/v1/auth \
             });
         });
     </script>
+    
 </body>
 </html>

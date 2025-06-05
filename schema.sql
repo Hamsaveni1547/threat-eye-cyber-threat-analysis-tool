@@ -27,7 +27,6 @@ CREATE TABLE contact_submissions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
-    company TEXT,
     subject TEXT,
     message TEXT NOT NULL,
     secure_contact BOOLEAN,

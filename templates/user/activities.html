@@ -166,29 +166,24 @@ h2::after {
     }
 }
 
-/* Add Back Button */
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--secondary-color);
-    color: var(--text-primary);
-    border-radius: 5px;
-    text-decoration: none;
-    margin-bottom: 20px;
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
-}
+.back-button {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #0d6efd;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 20px;
+    }
 
-.back-btn:hover {
-    background-color: var(--accent-color);
-    transform: translateY(-2px);
-    color: white;
-}
-
-.back-btn i {
-    margin-right: 8px;
-}
+    .back-button:hover {
+      background-color: #0b5ed7;
+    }
 
 /* Empty State Styling */
 .empty-state {
@@ -214,6 +209,10 @@ h2::after {
 <body>
 
 <div class="container mt-5">
+    <button class="back-button" onclick="window.location.href='/dashboard'">
+        ← Dashboard
+    </button>
+
     <h2 class="mb-4">Your Activity History</h2>
 
     {% if activities %}

@@ -88,16 +88,6 @@
                             </div>
                             <div class="col-md-7">
                                 <div class="mt-4">
-                                    <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Detection Rate</h5>
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div class="progress flex-grow-1">
-                                            <div class="progress-bar {% if result.threat_level == 'clean' %}bg-success{% else %}bg-danger{% endif %}" 
-                                                role="progressbar" 
-                                                style="width: {{ (result.positives / result.total * 100)|round }}%">
-                                            </div>
-                                        </div>
-                                        <span class="ms-2 fw-bold">{{ result.positives }}/{{ result.total }}</span>
-                                    </div>
                                     <div class="info-item">
                                         <div class="info-label">Scan ID</div>
                                         <div class="info-value">{{ result.scan_id }}</div>

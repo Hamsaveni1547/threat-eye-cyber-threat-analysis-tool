@@ -14,48 +14,50 @@
     <link href="/static/css/footer.css" rel="stylesheet">
 
     <style>
-        #loginRequiredModal .modal-content {
-            background-color: var(--secondary);
-            color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+       .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
         }
         
-        #loginRequiredModal .modal-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
         }
         
-        #loginRequiredModal .modal-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
         }
         
-        #loginRequiredModal .btn-close {
-            color: var(--text);
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     {% include 'header.html' %}
-
-    <!-- Login Required Modal -->
-    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-lock me-2"></i>Login Required
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Please login to send us a message. This helps us provide better support and keep track of your inquiries.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="/get" class="btn btn-primary">Login Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <main>
         <div class="container">
@@ -69,27 +71,23 @@
                     <h2 class="form-title">Send Us a Message</h2>
                     <form id="contactForm">
                         <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" class="form-control" 
-                                value="{{ session.get('user_name', '') }}" 
-                                {% if session.get('user_id') %}readonly{% endif %} required>
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" 
-                                value="{{ session.get('user_email', '') }}"
-                                {% if session.get('user_id') %}readonly{% endif %} required>
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="company">Company Name</label>
+                            <label for="company">Company Name (optional)</label>
                             <input type="text" id="company" name="company" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <select id="subject" name="subject" class="form-control" required>
+                            <select id="subject" name="subject" class="form-control">
                                 <option value="">Select a subject</option>
                                 <option value="incident-response">Incident Response</option>
                                 <option value="threat-analysis">Threat Analysis</option>
@@ -100,8 +98,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" class="form-control" required></textarea>
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" class="form-control" rows="5" required placeholder="Please describe your security concern or inquiry..."></textarea>
                         </div>
 
                         <div class="form-check">
@@ -112,9 +110,22 @@
                             </label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span id="submitText">Send Message</span>
+                            <span id="submitSpinner" class="spinner" style="display: none;"></span>
+                        </button>
                     </form>
-                    <div id="formStatus" class="mt-3"></div>
+                    
+                    <div id="formStatus" class="mt-3">
+                        <div id="successMessage" class="success-message">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span id="successText"></span>
+                        </div>
+                        <div id="errorMessage" class="error-message">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span id="errorText"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="contact-info">
@@ -124,7 +135,7 @@
                             <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                             <div>
                                 <h3>Our Location</h3>
-                                <p>Vidyanagar, Hubli, Karnataka 580021</p>
+                                <p>V P Extension, Chitradurga - 577501</p>
                             </div>
                         </li>
                         <li class="info-item">
@@ -146,10 +157,9 @@
                     <div class="social-links">
                         <h3>Follow Us</h3>
                         <div class="social-icons">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href=" https://x.com/ThreatEye_25?s=08" class="nav-link p-0" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+                            <a href="https://www.facebook.com/share/19YnBWK1ab/" class="nav-link p-0" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+                            <a href="https://www.instagram.com/threateye_official?utm_source=qr&igsh=d2tjemt2eGw5aW02" class="nav-link p-0" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
                         </div>
                     </div>
 
@@ -174,83 +184,59 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const contactForm = document.getElementById('contactForm');
-            const formStatus = document.getElementById('formStatus');
-            const isLoggedIn = {{ 'true' if session.get('user_id') else 'false' }};
-            const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
-            const userEmail = "{{ session.get('user_email', '') }}";
-            const userName = "{{ session.get('user_name', '') }}";
-
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    if (!isLoggedIn) {
-                        loginModal.show();
-                        return;
-                    }
-
-                    // Validate that name and email match user's info
-                    const submittedName = document.getElementById('name').value.trim();
-                    const submittedEmail = document.getElementById('email').value.trim();
-
-                    if (submittedName !== userName || submittedEmail !== userEmail) {
-                        formStatus.innerHTML = '<div class="alert alert-danger">Please use your logged-in account information.</div>';
-                        return;
-                    }
-
-                    // Validate the form
-                    const formFields = contactForm.querySelectorAll('input[required], textarea[required]');
-                    let valid = true;
-
-                    formFields.forEach(field => {
-                        if (!field.value.trim()) {
-                            field.style.borderColor = 'var(--danger, #dc3545)';
-                            valid = false;
-                        } else {
-                            field.style.borderColor = '';
-                        }
-                    });
-
-                    if (!valid) {
-                        formStatus.innerHTML = '<div class="alert alert-danger">Please fill in all required fields.</div>';
-                        return;
-                    }
-
-                    // Show loading state
-                    formStatus.innerHTML = '<div class="alert alert-info">Sending your message...</div>';
-                    
-                    // Collect form data
-                    const formData = new FormData(contactForm);
-                    
-                    // Send data to server
-                    fetch('/api/submit-contact', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            formStatus.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
-                            contactForm.reset();
-                            // Reset the form fields with user info
-                            document.getElementById('name').value = userName;
-                            document.getElementById('email').value = userEmail;
-                        } else {
-                            if (response.status === 401) {
-                                loginModal.show();
-                            } else {
-                                formStatus.innerHTML = '<div class="alert alert-danger">' + (data.message || 'An error occurred. Please try again.') + '</div>';
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        formStatus.innerHTML = '<div class="alert alert-danger">An error occurred. Please try again later.</div>';
-                    });
-                });
-            }
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const successText = document.getElementById('successText');
+            const errorText = document.getElementById('errorText');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-block';
+            form.classList.add('loading');
+            
+            // Prepare form data
+            const formData = new FormData(form);
+            
+            // Submit form
+            fetch('/api/submit-contact', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successText.textContent = data.message;
+                    successMessage.style.display = 'block';
+                    form.reset(); // Clear the form
+                } else {
+                    errorText.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                errorText.textContent = 'An error occurred while sending your message. Please try again.';
+                errorMessage.style.display = 'block';
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Reset loading state
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline';
+                submitSpinner.style.display = 'none';
+                form.classList.remove('loading');
+            });
         });
     </script>
 </body>

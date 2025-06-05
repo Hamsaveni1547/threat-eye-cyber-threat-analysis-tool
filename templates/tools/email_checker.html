@@ -53,8 +53,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-light ms-2" href="/get">
-                            <i class="fas fa-rocket me-2"></i>Get Started
+                        <a class="btn btn-outline-light ms-2" href="/dashboard">
+                            <i class="fa-solid fa-user"></i>
                         </a>
                     </li>
                 </ul>
@@ -114,11 +114,23 @@
         </div>
     </div>
 
-    <!-- tools -->
+     <!-- tools -->
     <section class="features-section">
         <div class="container">
             <h2 class="text-center mb-5">Our Advanced Cyber Security Tools</h2>
             <div class="row g-4">
+
+                <!-- Phishing Analysis -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-link-slash"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Phishing URL Detector</h3>
+                        <p>Detect fraudulent attempts to obtain sensitive information through deceptive URLs.</p>
+                        <a href="/phishing" class="btn btn-sm btn-outline-info mt-3">Check URL</a>
+                    </div>
+                </div>
 
                 <!-- Malware Detection(File) -->
                 <div class="col-md-6 col-lg-4">
@@ -126,45 +138,21 @@
                         <div class="feature-icon">
                             <i class="fas fa-file"></i>
                         </div>
-                        <h3 class="h5 mb-3">Malware Detection (File)</h3>
-                        <p>Identify and analyze malicious software, viruses, worms, and trojans using advanced heuristic scanning.</p>
+                        <h3 class="h5 mb-3">File Virus Detector</h3>
+                        <p>Keep your device secure by scanning files for hidden viruses, malware, and threats.</p>
                         <a href="/virus" class="btn btn-sm btn-outline-info mt-3">Check Files</a>
                     </div>
                 </div>
  
-                <!-- Phishing Analysis -->
+                <!-- Email Checker -->
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-link-slash"></i>
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <h3 class="h5 mb-3">Phishing Analysis</h3>
-                        <p>Detect fraudulent attempts to obtain sensitive information through deceptive websites and emails.</p>
-                        <a href="/phishing" class="btn btn-sm btn-outline-info mt-3">Check URL</a>
-                    </div>
-                </div>
-
-                <!-- IP Risk Analyzer -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h3 class="h5 mb-3">IP Risk Analyzer</h3>
-                        <p>Stay ahead of emerging threats with real-time intelligence feeds and comprehensive threat databases.</p>
-                        <a href="/ip" class="btn btn-sm btn-outline-info mt-3">Analyze IP</a>
-                    </div>
-                </div>
-
-                <!-- Password Strength Checker -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-key"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Password Strength Checker</h3>
-                        <p>Identify security weaknesses in systems and applications before they can be exploited by attackers.</p>
-                        <a href="/password" class="btn btn-sm btn-outline-info mt-3">Analyze Password</a>
+                        <h3 class="h5 mb-3">Email Breach Checker</h3>
+                        <p>Checks if an email address has been exposed in any known data breaches using breach databases and alerts users to potential security risks.</p>
+                        <a href="/email" class="btn btn-sm btn-outline-info mt-3">Check Email</a>
                     </div>
                 </div>
 
@@ -175,8 +163,20 @@
                             <i class="fas fa-search"></i>
                         </div>
                         <h3 class="h5 mb-3">Website Scanner</h3>
-                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <p>WebScan helps identify security flaws that could be exploited by attackers — making it ideal for both developers and security analysts.</p>
                         <a href="/website" class="btn btn-sm btn-outline-info mt-3">Scan Websites</a>
+                    </div>
+                </div>
+
+                <!-- IP Risk Analyzer -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="h5 mb-3">IP Risk Analyzer</h3>
+                        <p>IP Insight helps you track down the location, provider, and threat status of any IP address, giving you the information you need to stay one step ahead of potential threats.</p>
+                        <a href="/ip" class="btn btn-sm btn-outline-info mt-3">Analyze IP</a>
                     </div>
                 </div>
 
@@ -186,26 +186,16 @@
                         <div class="feature-icon">
                             <i class="fas fa-globe"></i>
                         </div>
-                        <h3 class="h5 mb-3">Site Down Check</h3>
-                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
+                        <h3 class="h5 mb-3">Site Down or Not</h3>
+                        <p>Quickly checks if a website is offline for everyone or just for you.</p>
                         <a href="/site" class="btn btn-sm btn-outline-info mt-3">Chack Site</a>
-                    </div>
-                </div>
-
-                <!-- Email Checker -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Email Checker</h3>
-                        <p>Secure sensitive information with advanced encryption algorithms to protect data in transit and at rest.</p>
-                        <a href="/email" class="btn btn-sm btn-outline-info mt-3">Check Email</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Stats -->
 
     <section class="stats">
         <div class="container">
